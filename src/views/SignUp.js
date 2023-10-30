@@ -98,6 +98,7 @@ const SignUp = ({ navigation }) => {
                   style={styles.input}
                   placeholder="Nhập số điện thoại của bạn"
                   placeholderTextColor="#A9A9A9"
+                  keyboardType="numeric"
                 />
               </View>
               <View style={styles.inputContainer}>
