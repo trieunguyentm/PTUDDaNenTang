@@ -26,7 +26,7 @@ const SignUp = ({ navigation }) => {
   ])
 
   const handleClickSignUp = () => {
-    console.log("handleClickSignUp")
+    navigation.navigate("VerifyOTP")
   }
 
   const handleClickSignIn = () => {
