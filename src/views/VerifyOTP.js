@@ -14,7 +14,6 @@ import { Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import OTPInputView from "@twotalltotems/react-native-otp-input"
 
-
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -31,13 +30,11 @@ const VerifyOTP = ({ navigation }) => {
           <View style={styles.contentContainer}>
             <Text style={styles.text1}>Mã xác nhận</Text>
             <Text style={styles.text2}>Chúng tôi đã gửi mã xác minh tới</Text>
-            <Text style={styles.text3}>
-              thang.cq204604@sis.hust.edu.vn
-            </Text>
+            <Text style={styles.text3}>thang.cq204604@sis.hust.edu.vn</Text>
 
             <View style={styles.inputsField}>
               <OTPInputView
-              style={styles.inputField}
+                style={styles.inputField}
                 pinCount={6}
                 // code={this.state.code} //You can supply this prop or not. The component will be used as a controlled / uncontrolled component respectively.
                 // onCodeChanged = {code => { this.setState({code})}}
