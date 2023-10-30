@@ -5,19 +5,27 @@ import SignIn from "./src/views/SignIn"
 import SignUp from "./src/views/SignUp"
 import VerifyOTP from "./src/views/VerifyOTP"
 
-// Chuyển hướng trong React Native
 const Stack = createNativeStackNavigator()
 
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="SignIn"
-        screenOptions={{ headerShown: false }}
-      >
-        <Stack.Screen name="SignIn" component={SignIn} />
-        <Stack.Screen name="SignUp" component={SignUp} />
-         <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+      <Stack.Navigator initialRouteName="SignIn">
+        <Stack.Screen
+          name="SignIn"
+          component={SignIn}
+          options={{ headerShown: false }} // Ẩn header trên trang SignIn
+        />
+        <Stack.Screen
+          name="SignUp"
+          component={SignUp}
+          options={{ headerShown: false }} // Ẩn header trên trang SignUp
+        />
+        <Stack.Screen
+          name="VerifyOTP"
+          component={VerifyOTP}
+          options={{ headerShown: true }} // Hiển thị header trên trang VerifyOTP
+        />
       </Stack.Navigator>
     </NavigationContainer>
   )

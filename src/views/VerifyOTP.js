@@ -31,7 +31,10 @@ const VerifyOTP = ({ navigation }) => {
           <View style={styles.contentContainer}>
             <Text style={styles.text1}>Mã xác nhận</Text>
             <Text style={styles.text2}>Chúng tôi đã gửi mã xác minh tới</Text>
-            <Text style={styles.text3}>thang.cq204604@sis.hust.edu.vn</Text>
+            <Text style={styles.text3}>
+              thang.cq204604@sis.hust.edu.vn
+            </Text>
+
             <View style={styles.inputsField}>
               <OTPInputView
               style={styles.inputField}
