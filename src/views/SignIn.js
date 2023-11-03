@@ -27,7 +27,6 @@ const SignIn = ({ navigation }) => {
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
 
   const handleClickSignIn = async () => {
-    console.log("Đăng nhập")
     /** Kiểm tra dữ liệu người dùng nhập */
     if (!user) {
       Toast.show({
@@ -58,7 +57,6 @@ const SignIn = ({ navigation }) => {
       console.log(response.data)
       /** Xử lý response tại đây */
     } catch (error) {
-      console.log(error.response.data)
       if (error.response.data && error.response.data.code === 1) {
         Toast.show({
           type: "error",
@@ -230,29 +228,23 @@ const styles = StyleSheet.create({
     paddingRight: 0.05 * screenWidth,
     flex: 1,
     overflow: "scroll",
-    borderWidth: "1",
   },
   signInLogo: {
     width: "100%",
     height: "40%",
     justifyContent: "center",
     alignItems: "center",
-    borderWidth: "2",
-    borderColor: "yellow",
   },
   fieldSignInContainer: {
     width: "100%",
     height: "30%",
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: "2",
-    borderColor: "green",
   },
   field: {
     width: "100%",
     height: "30%",
     justifyContent: "center",
-    borderWidth: "1",
   },
   fieldContainer: {
     flexDirection: "row",
@@ -281,8 +273,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "30%",
     alignItems: "center",
-    borderWidth: "1",
-    borderColor: "red",
   },
   divider: {
     width: "100%",
