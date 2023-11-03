@@ -8,10 +8,14 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import { Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
+import Toast from "react-native-toast-message"
+import CryptoJS from "react-native-crypto-js"
+import { APISignIn } from "../api/apiSignIn"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -20,9 +24,64 @@ const screenHeight = Dimensions.get("window").height
 const SignIn = ({ navigation }) => {
   const [user, setUser] = React.useState("")
   const [password, setPassword] = React.useState("")
+  const [loadingSignIn, setLoadingSignIn] = React.useState(false)
 
-  const handleClickSignIn = () => {
-    console.log("handleClickSignIn")
+  const handleClickSignIn = async () => {
+    console.log("Đăng nhập")
+    /** Kiểm tra dữ liệu người dùng nhập */
+    if (!user) {
+      Toast.show({
+        type: "info",
+        text1: "Vui lòng điền đầy đủ thông tin !",
+        text2: "Bạn chưa điền tên đăng nhập",
+      })
+      return
+    }
+    if (!password) {
+      Toast.show({
+        type: "info",
+        text1: "Vui lòng điền đầy đủ thông tin !",
+        text2: "Bạn chưa điền mật khẩu",
+      })
+      return
+    }
+    /** Mã hóa mật khẩu */
+    const _password = CryptoJS.AES.encrypt(
+      password,
+      process.env.EXPO_PUBLIC_KEY_AES,
+    ).toString()
+    /** Gọi API */
+    setLoadingSignIn(true)
+    try {
+      const response = await APISignIn(user, _password)
+      setLoadingSignIn(false)
+      console.log(response.data)
+      /** Xử lý response tại đây */
+    } catch (error) {
+      console.log(error.response.data)
+      if (error.response.data && error.response.data.code === 1) {
+        Toast.show({
+          type: "error",
+          text1: "Tên đăng nhập không tồn tại",
+          text2: "Vui lòng kiểm tra lại tên đăng nhập ",
+        })
+      }
+      if (error.response.data && error.response.data.code === 2) {
+        Toast.show({
+          type: "error",
+          text1: "Mật khẩu không tồn tại",
+          text2: "Vui lòng kiểm tra lại mật khẩu ",
+        })
+      }
+      if (error.response.data && error.response.data.code === 3) {
+        Toast.show({
+          type: "error",
+          text1: "Xảy ra lỗi trong quá trình đăng nhập",
+          text2: "Vui lòng thử đăng nhập lại ",
+        })
+      }
+      setLoadingSignIn(false)
+    }
   }
 
   const handleClickSignUp = () => {
@@ -102,17 +161,21 @@ const SignIn = ({ navigation }) => {
                     colors={["#384CFF", "#00A3FF"]}
                     style={styles.btnSignIn}
                   >
-                    <TouchableOpacity onPress={handleClickSignIn}>
-                      <Text
-                        style={{
-                          fontSize: 18,
-                          fontWeight: 600,
-                          color: "white",
-                        }}
-                      >
-                        Đăng nhập
-                      </Text>
-                    </TouchableOpacity>
+                    {!loadingSignIn ? (
+                      <TouchableOpacity onPress={handleClickSignIn}>
+                        <Text
+                          style={{
+                            fontSize: 18,
+                            fontWeight: 600,
+                            color: "white",
+                          }}
+                        >
+                          Đăng nhập
+                        </Text>
+                      </TouchableOpacity>
+                    ) : (
+                      <ActivityIndicator size={"large"} color={"black"} />
+                    )}
                   </LinearGradient>
                 </View>
               </View>
@@ -167,23 +230,29 @@ const styles = StyleSheet.create({
     paddingRight: 0.05 * screenWidth,
     flex: 1,
     overflow: "scroll",
+    borderWidth: "1",
   },
   signInLogo: {
     width: "100%",
     height: "40%",
     justifyContent: "center",
     alignItems: "center",
+    borderWidth: "2",
+    borderColor: "yellow",
   },
   fieldSignInContainer: {
     width: "100%",
     height: "30%",
     alignItems: "center",
     justifyContent: "center",
+    borderWidth: "2",
+    borderColor: "green",
   },
   field: {
     width: "100%",
     height: "30%",
     justifyContent: "center",
+    borderWidth: "1",
   },
   fieldContainer: {
     flexDirection: "row",
@@ -212,6 +281,8 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "30%",
     alignItems: "center",
+    borderWidth: "1",
+    borderColor: "red",
   },
   divider: {
     width: "100%",

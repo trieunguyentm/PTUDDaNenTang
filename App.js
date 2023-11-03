@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import SignIn from "./src/views/SignIn"
 import SignUp from "./src/views/SignUp"
 import VerifyOTP from "./src/views/VerifyOTP"
+import Toast from "react-native-toast-message"
+import ToastConfigParams from "./src/toast/ToastConfigParams"
 
 const Stack = createNativeStackNavigator()
 
@@ -27,6 +29,7 @@ const App = () => {
           options={{ headerShown: true }} // Hiển thị header trên trang VerifyOTP
         />
       </Stack.Navigator>
+      <Toast config={ToastConfigParams} />
     </NavigationContainer>
   )
 }
