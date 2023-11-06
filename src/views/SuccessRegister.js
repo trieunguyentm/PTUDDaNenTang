@@ -20,12 +20,6 @@ const SuccessRegister = ({ navigation }) => {
         style={styles.isContainer}
       >
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.buttonBack}
-            onPress={() => navigation.goBack()}
-          >
-            <AntDesign name="arrowleft" size={36} color="black" />
-          </TouchableOpacity>
           <Text style={{ marginLeft: "10%", fontSize: 30 }}>
             Terms & Privacy
           </Text>
@@ -70,6 +64,8 @@ const styles = StyleSheet.create({
     width: screenWidth,
     alignItems: "center",
     marginTop: 0.05 * screenHeight,
+    paddingHorizontal: 0.05 * screenWidth,
+    alignItems: "center",
   },
   buttonContainer: {
     marginHorizontal: 0.05 * screenWidth,
@@ -78,6 +74,7 @@ const styles = StyleSheet.create({
     height: 0.1 * screenHeight,
     width: "100%",
     alignItems: "center",
+    justifyContent: "center",
   },
   buttonBack: {
     height: 0.05 * screenHeight,
