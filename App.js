@@ -6,31 +6,36 @@ import SignUp from "./src/views/SignUp"
 import VerifyOTP from "./src/views/VerifyOTP"
 import Toast from "react-native-toast-message"
 import ToastConfigParams from "./src/toast/ToastConfigParams"
+import { Provider } from "react-redux"
+import { PersistGate } from "redux-persist/integration/react"
+import { persistor, store } from "./src/redux/store"
+import Profile from "./src/views/Profile"
+import { LoginStack, MainStack } from "./src/navigation/StackNavigation"
+import { useSelector } from "react-redux"
 
 const Stack = createNativeStackNavigator()
 
-const App = () => {
+const Navigators = () => {
+  const user = useSelector((state) => state.user?.currentUser)
+
+
+
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SignIn">
-        <Stack.Screen
-          name="SignIn"
-          component={SignIn}
-          options={{ headerShown: false }} // Ẩn header trên trang SignIn
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUp}
-          options={{ headerShown: false }} // Ẩn header trên trang SignUp
-        />
-        <Stack.Screen
-          name="VerifyOTP"
-          component={VerifyOTP}
-          options={{ headerShown: true }} // Hiển thị header trên trang VerifyOTP
-        />
-      </Stack.Navigator>
+      {user ? <MainStack /> : <LoginStack />}
       <Toast config={ToastConfigParams} />
     </NavigationContainer>
+  )
+}
+
+
+const App = () => {
+  return (
+    <Provider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+        <Navigators />
+      </PersistGate>
+    </Provider>
   )
 }
 

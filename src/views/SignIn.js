@@ -15,7 +15,8 @@ import { Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import Toast from "react-native-toast-message"
 import CryptoJS from "react-native-crypto-js"
-import { APISignIn } from "../api/apiSignIn"
+import { APISignIn, login } from "../api/apiSignIn"
+import { useDispatch } from "react-redux"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -25,6 +26,7 @@ const SignIn = ({ navigation }) => {
   const [user, setUser] = React.useState("")
   const [password, setPassword] = React.useState("")
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
+  const dispatch = useDispatch()
 
   const handleClickSignIn = async () => {
     /** Kiểm tra dữ liệu người dùng nhập */
@@ -52,26 +54,27 @@ const SignIn = ({ navigation }) => {
     /** Gọi API */
     setLoadingSignIn(true)
     try {
-      const response = await APISignIn(user, _password)
+      const response = await login(dispatch,user,_password,)
       setLoadingSignIn(false)
       console.log(response.data)
+
       /** Xử lý response tại đây */
     } catch (error) {
-      if (error.response.data && error.response.data.code === 1) {
+      if (error.response?.data && error.response?.data.code === 1) {
         Toast.show({
           type: "error",
           text1: "Tên đăng nhập không tồn tại",
           text2: "Vui lòng kiểm tra lại tên đăng nhập ",
         })
       }
-      if (error.response.data && error.response.data.code === 2) {
+      if (error.response?.data && error.response?.data.code === 2) {
         Toast.show({
           type: "error",
           text1: "Mật khẩu không tồn tại",
           text2: "Vui lòng kiểm tra lại mật khẩu ",
         })
       }
-      if (error.response.data && error.response.data.code === 3) {
+      if (error.response?.data && error.response.data?.code === 3) {
         Toast.show({
           type: "error",
           text1: "Xảy ra lỗi trong quá trình đăng nhập",

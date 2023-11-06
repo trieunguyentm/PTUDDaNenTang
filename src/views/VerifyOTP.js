@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import {
   Text,
   StyleSheet,
@@ -8,17 +8,82 @@ import {
   TextInput,
   TouchableOpacity,
   ScrollView,
+  ActivityIndicator,
 } from "react-native"
 import { LinearGradient } from "expo-linear-gradient"
 import { Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import OTPInputView from "@twotalltotems/react-native-otp-input"
+import { useSelector } from "react-redux"
+import { checkOTP } from "../api/apiCheckOTP"
+import { useDispatch } from "react-redux"
+import { checkOtpStartSuccess } from "../redux/userRegister"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const VerifyOTP = ({ navigation }) => {
+
+  const [otp,setOTP] = useState()
+  const [loadingSignUp, setLoadingSignUp] = useState(false)
+
+
+  const userRegister = useSelector((state) => state.register?.currentUser)
+
+  const dispatch = useDispatch()
+
+
+  const data = {
+    ...userRegister,
+    otp: otp,
+  }
+
+  const handleClick = async () => {
+
+     if (!otp) {
+       Toast.show({
+         type: "info",
+         text1: "Hãy điền đầy đủ OTP",
+         text2: "Vui lòng điền đủ OTP",
+       })
+       return
+     }
+
+     
+
+     setLoadingSignUp(true)
+
+     try {
+
+      const respone = await checkOTP(dispatch,data)
+      console.log(respone);
+      setLoadingSignUp(false)
+      dispatch(checkOtpStartSuccess())
+      navigation.navigate("SuccessRegister")
+     } catch (error) {
+      if (error.response.data && error.response.data.code === 1) {
+        Toast.show({
+          type: "error",
+          text1: "OTP không chính xác",
+          text2: "Hãy nhập lại OTP",
+        })
+      }
+      if (error.response.data && error.response.data.code === 2) {
+        Toast.show({
+          type: "error",
+          text1: "OTP đã hết hạn",
+          text2: "Vui lòng chọn gửi lại OTP",
+        })
+      }
+
+      setLoadingSignUp(false)
+     }
+
+  }
+
+
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -30,7 +95,7 @@ const VerifyOTP = ({ navigation }) => {
           <View style={styles.contentContainer}>
             <Text style={styles.text1}>Mã xác nhận</Text>
             <Text style={styles.text2}>Chúng tôi đã gửi mã xác minh tới</Text>
-            <Text style={styles.text3}>thang.cq204604@sis.hust.edu.vn</Text>
+            <Text style={styles.text3}>{userRegister?.gmail || "null"}</Text>
 
             <View style={styles.inputsField}>
               <OTPInputView
@@ -41,7 +106,7 @@ const VerifyOTP = ({ navigation }) => {
                 autoFocusOnLoad
                 codeInputFieldStyle={styles.input}
                 onCodeFilled={(code) => {
-                  console.log(`Code is ${code}, you are good to go!`)
+                  setOTP(code)
                 }}
               />
             </View>
@@ -61,17 +126,21 @@ const VerifyOTP = ({ navigation }) => {
                 colors={["#384CFF", "#00A3FF"]}
                 style={styles.btnSignIn}
               >
-                <TouchableOpacity>
-                  <Text
-                    style={{
-                      fontSize: 18,
-                      fontWeight: 600,
-                      color: "white",
-                    }}
-                  >
-                    Xác nhận
-                  </Text>
-                </TouchableOpacity>
+                {!loadingSignUp ? (
+                  <TouchableOpacity onPress={handleClick}>
+                    <Text
+                      style={{
+                        fontSize: 18,
+                        fontWeight: 600,
+                        color: "white",
+                      }}
+                    >
+                      Xác nhận
+                    </Text>
+                  </TouchableOpacity>
+                ) : (
+                  <ActivityIndicator size={"large"} color={"black"} />
+                )}
               </LinearGradient>
             </View>
           </View>

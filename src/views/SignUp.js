@@ -17,7 +17,9 @@ import Toast from "react-native-toast-message"
 import { checkValidGmail } from "../utils/checkValidGmail"
 import { checkValidPhoneNumber } from "../utils/checkValidPhoneNumber"
 import CryptoJS from "react-native-crypto-js"
-import { APIRegister } from "../api/apiRegister"
+import { APIRegister, register } from "../api/apiRegister"
+import { useDispatch } from "react-redux"
+
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -36,6 +38,7 @@ const SignUp = ({ navigation }) => {
     { label: "Nữ", value: "female" },
   ])
   const [loadingSignUp, setLoadingSignUp] = React.useState(false)
+  const dispatch = useDispatch()
 
   const handleClickSignUp = async () => {
     /** Kiểm tra dữ liệu */
@@ -94,7 +97,15 @@ const SignUp = ({ navigation }) => {
     /** Gửi API đến server */
     setLoadingSignUp(true)
     try {
-      const response = await APIRegister(
+      // const response = await APIRegister(
+      //   username,
+      //   gmail,
+      //   _password,
+      //   gender,
+      //   phone,
+      // )
+      const response = await register(
+        dispatch,
         username,
         gmail,
         _password,
@@ -102,7 +113,7 @@ const SignUp = ({ navigation }) => {
         phone,
       )
       setLoadingSignUp(false)
-      console.log(response.data)
+      navigation.navigate("VerifyOTP")
       /** Xử lý response tại đây */
     } catch (error) {
       if (error.response.data && error.response.data.code === 1) {
@@ -122,7 +133,7 @@ const SignUp = ({ navigation }) => {
       setLoadingSignUp(false)
     }
 
-    // navigation.navigate("VerifyOTP")
+    
   }
 
   const handleClickSignIn = () => {
