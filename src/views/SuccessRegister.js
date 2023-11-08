@@ -20,7 +20,7 @@ const SuccessRegister = ({ navigation }) => {
         style={styles.isContainer}
       >
         <View style={styles.buttonContainer}>
-          <Text style={{ marginLeft: "10%", fontSize: 30 }}>
+          <Text style={{fontSize: 30 }}>
             Terms & Privacy
           </Text>
         </View>
@@ -88,19 +88,23 @@ const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: "bold",
     marginTop: 0.05 * screenHeight,
+    textAlign: "center",
   },
   text2: {
     height: 0.05 * screenHeight,
     color: "#A9A9A9",
-
+    width: "75%",
+    textAlign: "center",
     fontWeight: "bold",
     marginTop: 0.01 * screenHeight,
   },
   text3: {
     color: "#384CFF",
-
+    alignItems: "center",
     fontWeight: "bold",
+    textAlign: "center",
     marginTop: 0.001 * screenHeight,
+    width: "75%",
   },
   image: {
     marginTop: 0.05 * screenHeight,
