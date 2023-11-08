@@ -7,6 +7,7 @@ import {
   Alert,
   TouchableOpacity,
   Button,
+  SafeAreaView,
   Dimensions,
 } from "react-native"
 import React, { useState } from "react"
@@ -17,7 +18,6 @@ import { MaterialIcons } from "@expo/vector-icons"
 import { AntDesign } from "@expo/vector-icons"
 import { useDispatch } from "react-redux"
 import { logoutUser } from "../redux/user"
-
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -59,65 +59,68 @@ export default function Profile({ navigation }) {
       }
     }
   }
+
   const handleLogOut = () => {
     dispatch(logoutUser())
   }
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Profiles</Text>
-      <View style={styles.imageContainer}>
-        {file ? (
-          <Image
-            style={styles.image}
-            accessibilityLabel="User Image"
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/128/1752/1752572.png",
-            }}
-            resizeMode="contain"
-          />
-        ) : (
-          <Image
-            style={styles.image}
-            accessibilityLabel="User Image"
-            source={{
-              uri: "https://cdn-icons-png.flaticon.com/128/5415/5415232.png",
-            }}
-            resizeMode="contain"
-          />
-        )}
-        <TouchableOpacity style={styles.button} onPress={pickImage}>
-          <Feather name="camera" size={24} color="#CA4D64" />
-        </TouchableOpacity>
+    <SafeAreaView style={{ flex: 1 }}>
+      <View style={styles.container}>
+        <Text style={styles.text}>Profiles</Text>
+        <View style={styles.imageContainer}>
+          {file ? (
+            <Image
+              style={styles.image}
+              accessibilityLabel="User Image"
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/128/1752/1752572.png",
+              }}
+              resizeMode="contain"
+            />
+          ) : (
+            <Image
+              style={styles.image}
+              accessibilityLabel="User Image"
+              source={{
+                uri: "https://cdn-icons-png.flaticon.com/128/5415/5415232.png",
+              }}
+              resizeMode="contain"
+            />
+          )}
+          <TouchableOpacity style={styles.button} onPress={pickImage}>
+            <Feather name="camera" size={24} color="#CA4D64" />
+          </TouchableOpacity>
+        </View>
+        <View style={styles.bottom}>
+          <Text style={styles.textName}>Crocodile</Text>
+          <Text style={styles.textEmail}>Crocodile@test.com</Text>
+          <TouchableOpacity style={styles.infomationContainer}>
+            <View style={styles.information}>
+              <FontAwesome5 name="user" size={32} color="gray" />
+              <Text style={styles.textUser}>My Proflie</Text>
+            </View>
+            <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.infomationContainer}>
+            <View style={styles.information}>
+              <FontAwesome5 name="donate" size={32} color="gray" />
+              <Text style={styles.textUser}>Donation</Text>
+            </View>
+            <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.infomationContainer}>
+            <View style={styles.information}>
+              <AntDesign name="folder1" size={32} color="gray" />
+              <Text style={styles.textUser}>My Charity Project</Text>
+            </View>
+            <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.logout} onPress={handleLogOut}>
+            <Text style={styles.textLogout}>Logout</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.bottom}>
-        <Text style={styles.textName}>Crocodile</Text>
-        <Text style={styles.textEmail}>Crocodile@test.com</Text>
-        <TouchableOpacity style={styles.infomationContainer}>
-          <View style={styles.information}>
-            <FontAwesome5 name="user" size={32} color="gray" />
-            <Text style={styles.textUser}>My Proflie</Text>
-          </View>
-          <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.infomationContainer}>
-          <View style={styles.information}>
-            <FontAwesome5 name="donate" size={32} color="gray" />
-            <Text style={styles.textUser}>Donation</Text>
-          </View>
-          <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.infomationContainer}>
-          <View style={styles.information}>
-            <AntDesign name="folder1" size={32} color="gray" />
-            <Text style={styles.textUser}>My Charity Project</Text>
-          </View>
-          <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.logout} onPress={handleLogOut}>
-          <Text style={styles.textLogout}>Logout</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
+    </SafeAreaView>
   )
 }
 const styles = StyleSheet.create({
