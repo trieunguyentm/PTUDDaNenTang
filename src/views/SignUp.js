@@ -129,7 +129,14 @@ const SignUp = ({ navigation }) => {
           text1: "Xảy ra lỗi khi gửi OTP đến gmail của bạn",
           text2: "Vui lòng thử đăng ký lại",
         })
+      }else {
+        Toast.show({
+          type: "error",
+          text1: "Có lỗi xảy ra",
+          text2: error.response.data.msg,
+        })
       }
+
       setLoadingSignUp(false)
     }
 
