@@ -13,7 +13,7 @@ export const uploadImage = async (dispatch, formData,token) => {
     const res = await userRequest.post("file/uploadAvatar", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
-        "Authorization" : "Bearer " + token,
+        // "Authorization" : "Bearer " + token,
       },
     })
     dispatch(uploadSuccess(res.data.userData))
