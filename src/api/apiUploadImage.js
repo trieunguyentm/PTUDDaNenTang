@@ -3,7 +3,7 @@ import axios from "axios"
 import { userRequest } from "./requestMethod"
 import { uploadFailure, uploadStart, uploadSuccess } from "../redux/user"
 
-export const uploadImage = async (dispatch, formData) => {
+export const uploadImage = async (dispatch, formData,token) => {
   console.log(formData)
   console.log("success")
 
@@ -13,6 +13,7 @@ export const uploadImage = async (dispatch, formData) => {
     const res = await userRequest.post("file/uploadAvatar", formData, {
       headers: {
         "Content-Type": "multipart/form-data",
+        "Authorization" : "Bearer " + token,
       },
     })
     dispatch(uploadSuccess(res.data.userData))

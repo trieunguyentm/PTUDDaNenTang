@@ -30,6 +30,7 @@ const screenHeight = Dimensions.get("window").height
 
 export default function Profile({ navigation }) {
   const user = useSelector((state) => state.user?.currentUser)
+console.log(user)
 
   const dispatch = useDispatch()
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
@@ -79,7 +80,7 @@ export default function Profile({ navigation }) {
     })
     setLoadingSignIn(true)
     try {
-      const response = await uploadImage(dispatch, formData)
+      const response = await uploadImage(dispatch, formData,user.token)
       // console.log(respone.data)
 
       setLoadingSignIn(false)

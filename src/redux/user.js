@@ -28,7 +28,10 @@ const userSlice = createSlice({
       state.isLoading = true
     },
     uploadSuccess: (state, action) => {
-      state.currentUser = action.payload
+      state.currentUser = {
+        ...action.payload,
+        token: state.currentUser.token,
+      }
       state.isLoading = false
     },
     uploadFailure : (state) =>{
