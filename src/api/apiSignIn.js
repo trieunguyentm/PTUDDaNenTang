@@ -28,8 +28,8 @@ export const login = async (dispatch, username, password) => {
     console.log("chạy đến đây")
     const res = await publicRequest.post("auth/signin", dataSend)
     const payload = {
-      username : res.data.user.username,
-      token : res.data.token
+      ...res.data.user,
+      token: res.data.token,
     }
     dispatch(loginSuccess(payload))
     return res

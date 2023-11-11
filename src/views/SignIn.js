@@ -56,7 +56,7 @@ const SignIn = ({ navigation }) => {
     try {
       const response = await login(dispatch,user,_password,)
       setLoadingSignIn(false)
-      console.log(response.data)
+
 
       /** Xử lý response tại đây */
     } catch (error) {

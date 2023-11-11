@@ -9,6 +9,7 @@ import {
   Button,
   SafeAreaView,
   Dimensions,
+  ActivityIndicator,
 } from "react-native"
 import React, { useState } from "react"
 import * as ImagePicker from "expo-image-picker"
@@ -18,13 +19,20 @@ import { MaterialIcons } from "@expo/vector-icons"
 import { AntDesign } from "@expo/vector-icons"
 import { useDispatch } from "react-redux"
 import { logoutUser } from "../redux/user"
+import FormData from "form-data"
+import { uploadImage } from "../api/apiUploadImage"
+import { useSelector } from "react-redux"
+import Toast from "react-native-toast-message"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 export default function Profile({ navigation }) {
+  const user = useSelector((state) => state.user?.currentUser)
+
   const dispatch = useDispatch()
+  const [loadingSignIn, setLoadingSignIn] = React.useState(false)
   // Stores the selected image URI
   const [file, setFile] = useState(null)
 
@@ -60,6 +68,48 @@ export default function Profile({ navigation }) {
     }
   }
 
+  const handleUploadFile = async () => {
+    const formData = new FormData()
+    const uriParts = file.split(".")
+    const fileType = uriParts[uriParts.length - 1]
+    formData.append("file", {
+      uri: file,
+      name: `file.${fileType}`,
+      type: `image/${fileType}`,
+    })
+    setLoadingSignIn(true)
+    try {
+      const response = await uploadImage(dispatch, formData)
+      // console.log(respone.data)
+
+      setLoadingSignIn(false)
+      if (response?.data && response?.data.code === 0) {
+        Toast.show({
+          type: "success",
+          text1: "Chỉnh sửa ảnh đại diện thành công",
+        })
+      }
+      setFile(null)
+    } catch (error) {
+      if (error.response?.data && error.response?.data.code === 4) {
+        Toast.show({
+          type: "error",
+          text1: "Lỗi khi tải ảnh lên ",
+          text2: "Vui lòng thử lại ",
+        })
+      }
+      if (error.response?.data && error.response.data?.code === 6) {
+        Toast.show({
+          type: "error",
+          text1: "Xảy ra lỗi khi cập nhật avatar người dùng",
+          text2: "Vui lòng thử lại ",
+        })
+      }
+      console.error("Error uploading file:", error)
+      setLoadingSignIn(false)
+    }
+  }
+
   const handleLogOut = () => {
     dispatch(logoutUser())
   }
@@ -73,7 +123,7 @@ export default function Profile({ navigation }) {
               style={styles.image}
               accessibilityLabel="User Image"
               source={{
-                uri: "https://cdn-icons-png.flaticon.com/128/1752/1752572.png",
+                uri: file,
               }}
               resizeMode="contain"
             />
@@ -82,7 +132,9 @@ export default function Profile({ navigation }) {
               style={styles.image}
               accessibilityLabel="User Image"
               source={{
-                uri: "https://cdn-icons-png.flaticon.com/128/5415/5415232.png",
+                uri: user.urlAvatar
+                  ? `${user.urlAvatar}`
+                  : "https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.pngz",
               }}
               resizeMode="contain"
             />
@@ -92,8 +144,8 @@ export default function Profile({ navigation }) {
           </TouchableOpacity>
         </View>
         <View style={styles.bottom}>
-          <Text style={styles.textName}>Crocodile</Text>
-          <Text style={styles.textEmail}>Crocodile@test.com</Text>
+          <Text style={styles.textName}>{user.username}</Text>
+          <Text style={styles.textEmail}>{user.gmail}</Text>
           <TouchableOpacity style={styles.infomationContainer}>
             <View style={styles.information}>
               <FontAwesome5 name="user" size={32} color="gray" />
@@ -115,6 +167,18 @@ export default function Profile({ navigation }) {
             </View>
             <MaterialIcons name="keyboard-arrow-right" size={32} color="gray" />
           </TouchableOpacity>
+          {file && (
+            <TouchableOpacity
+              style={styles.changeImage}
+              onPress={handleUploadFile}
+            >
+              {!loadingSignIn ? (
+                <Text style={styles.textLogout}>Save Change</Text>
+              ) : (
+                <ActivityIndicator size={"large"} color={"black"} />
+              )}
+            </TouchableOpacity>
+          )}
           <TouchableOpacity style={styles.logout} onPress={handleLogOut}>
             <Text style={styles.textLogout}>Logout</Text>
           </TouchableOpacity>
@@ -143,20 +207,20 @@ const styles = StyleSheet.create({
     height: "23.5%",
     borderRadius: 50,
     alignItems: "center",
-    padding: 10,
+    padding: 5,
     zIndex: 9,
   },
   image: {
-    padding: 10,
+    padding: 0,
     width: "100%",
-    height: "95%",
+    height: "100%",
     borderRadius: 50,
   },
   button: {
     backgroundColor: "white",
     padding: 10,
     borderRadius: 8,
-    marginTop: 0,
+    marginTop: -10,
     shadowColor: "#000000",
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.4,
@@ -206,6 +270,16 @@ const styles = StyleSheet.create({
     color: "gray",
 
     fontWeight: "bold",
+  },
+  changeImage: {
+    width: "90%",
+    backgroundColor: "#3bb077",
+    justifyContent: "center",
+    alignItems: "center",
+    height: 50,
+    borderRadius: 50,
+    marginBottom: "5%",
+    marginTop: "5%",
   },
   logout: {
     width: "90%",
