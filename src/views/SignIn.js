@@ -57,9 +57,9 @@ const SignIn = ({ navigation }) => {
       const response = await login(dispatch,user,_password,)
       setLoadingSignIn(false)
 
-
       /** Xử lý response tại đây */
     } catch (error) {
+      console.log(error.response.data)
       if (error.response?.data && error.response?.data.code === 1) {
         Toast.show({
           type: "error",

@@ -21,5 +21,6 @@ export const uploadImage = async (dispatch, formData,token) => {
   } catch (err) {
     console.error(err)
     dispatch(uploadFailure())
+    throw err
   }
 }

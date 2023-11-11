@@ -34,7 +34,9 @@ export const login = async (dispatch, username, password) => {
     dispatch(loginSuccess(payload))
     return res
   } catch (err) {
-    console.error(err)
     dispatch(loginFailure())
+    throw err
+    
+    
   }
 }
