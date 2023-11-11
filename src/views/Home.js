@@ -1,6 +1,10 @@
 import React from 'react';
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, StatusBar, SafeAreaView } from "react-native"
+import { Dimensions } from "react-native"
 
+
+const screenWidth = Dimensions.get("window").width
+const screenHeight = Dimensions.get("window").height
 const Home = () => {
     return (
       <View style={styles.container}>
