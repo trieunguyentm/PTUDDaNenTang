@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Text, StyleSheet, StatusBar, SafeAreaView } from "react-native"
 import { Dimensions } from "react-native"
+import Feed from './Feed';
+import TopBar from './TopBar';
 
 
 const screenWidth = Dimensions.get("window").width
@@ -11,7 +13,8 @@ const Home = () => {
         <StatusBar barStyle="light-content" />
           <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.contentContainer}>
-              {/* Nội dung của screen */}
+              <TopBar/>
+              <Feed/>
 
             </View>
           </SafeAreaView>
