@@ -5,6 +5,8 @@ import SuccessRegister from "../views/SuccessRegister"
 import SignIn from "../views/SignIn"
 import SignUp from "../views/SignUp"
 import VerifyOTP from "../views/VerifyOTP"
+import ProfileDetail from "../views/ProfileDetail"
+import Profile from "../views/Profile"
 
 
 const Stack = createNativeStackNavigator()
@@ -45,4 +47,20 @@ const LoginStack = () => {
     </Stack.Navigator>
   )
 }
-export { MainStack, LoginStack }
+const ProfileStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Profile">
+      <Stack.Screen
+        name="Profile"
+        component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ProfileDetail"
+        component={ProfileDetail}
+        options={{ headerShown: false }}
+      />
+    </Stack.Navigator>
+  )
+}
+export { MainStack, LoginStack, ProfileStack }

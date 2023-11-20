@@ -3,6 +3,7 @@ import Home from "../views/Home"
 import Search from "../views/Search"
 import Profile from "../views/Profile"
 import { Ionicons } from "@expo/vector-icons"
+import { ProfileStack } from "./StackNavigation"
 
 
 export default function TabNavigation() {
@@ -40,8 +41,8 @@ export default function TabNavigation() {
         })}
       />
       <Tab.Screen
-        name="Profile"
-        component={Profile}
+        name="ProfileStack"
+        component={ProfileStack}
         options={({ route }) => ({
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (

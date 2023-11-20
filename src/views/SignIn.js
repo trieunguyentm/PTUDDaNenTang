@@ -15,8 +15,8 @@ import { Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import Toast from "react-native-toast-message"
 import CryptoJS from "react-native-crypto-js"
-import { APISignIn, login } from "../api/apiSignIn"
 import { useDispatch } from "react-redux"
+import { login } from "../api/apiSignIn"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -56,10 +56,10 @@ const SignIn = ({ navigation }) => {
     try {
       const response = await login(dispatch,user,_password,)
       setLoadingSignIn(false)
-
+      
       /** Xử lý response tại đây */
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error)
       if (error.response?.data && error.response?.data.code === 1) {
         Toast.show({
           type: "error",
