@@ -34,14 +34,40 @@ const userSlice = createSlice({
       }
       state.isLoading = false
     },
-    uploadFailure : (state) =>{
+    uploadFailure: (state) => {
       state.isLoading = false
       state.error = true
-    }
-
+    },
+    uploadProfileStart: (state) => {
+      state.isLoading = true
+    },
+    uploadProfileSuccess: (state, action) => {
+      state.currentUser = {
+        ...state.currentUser,
+        displayName : action.payload.displayName,
+        phone : action.payload.phone,
+        gender : action.payload.gender
+      }
+      state.isLoading = false
+    },
+    uploadProfileFailure: (state) => {
+      state.isLoading = false
+      state.error = true
+    },
   },
 })
 
-export const {loginStart,loginSuccess,loginFailure,logoutUser,uploadFailure,uploadStart,uploadSuccess} = userSlice.actions
+export const {
+  loginStart,
+  loginSuccess,
+  loginFailure,
+  logoutUser,
+  uploadFailure,
+  uploadStart,
+  uploadSuccess,
+  uploadProfileStart,
+  uploadProfileSuccess,
+  uploadProfileFailure,
+} = userSlice.actions
 
 export default userSlice.reducer

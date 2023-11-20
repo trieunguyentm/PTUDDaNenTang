@@ -28,6 +28,9 @@ import Toast from "react-native-toast-message"
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
+
+
+
 export default function Profile({ navigation }) {
   const user = useSelector((state) => state.user?.currentUser)
 console.log(user)
@@ -145,9 +148,14 @@ console.log(user)
           </TouchableOpacity>
         </View>
         <View style={styles.bottom}>
-          <Text style={styles.textName}>{user.username}</Text>
+          <Text style={styles.textName}>
+            {user.displayName ? user.displayName : user.username}
+          </Text>
           <Text style={styles.textEmail}>{user.gmail}</Text>
-          <TouchableOpacity style={styles.infomationContainer}>
+          <TouchableOpacity
+            style={styles.infomationContainer}
+            onPress={() => navigation.navigate("ProfileDetail")}
+          >
             <View style={styles.information}>
               <FontAwesome5 name="user" size={32} color="gray" />
               <Text style={styles.textUser}>My Proflie</Text>
