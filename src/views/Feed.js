@@ -1,12 +1,15 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, ImageBackground, ScrollView } from 'react-native';
+import { StyleSheet, ScrollView } from 'react-native';
 import styled from 'styled-components/native';
-import Post from './Post';
+import CardNav from './CardNav';
+import { Dimensions } from 'react-native';
+const screenHeight = Dimensions.get('window').height
+
 
 const Feed = ({Events}) => {
     
     return (
-        <ScrollView>
+        <ScrollView style={styles.Feed}>
             {Events.map(env => (
                 <Post key={env._id} Event ={env}></Post>
 
@@ -15,6 +18,13 @@ const Feed = ({Events}) => {
     
     )
 }
+
+const styles = StyleSheet.create({
+    Feed : {
+        backgroundColor:'#A8A3A3',
+        gap:0.01*screenHeight
+    }
+})
 
 
 
