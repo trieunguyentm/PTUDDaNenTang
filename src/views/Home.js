@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar, SafeAreaView } from "react-native"
+import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native"
 import { Dimensions } from "react-native"
-import Topbar from '../utils/TopBar';
-import Feed from '../utils/Feed';
-
+import Feed from './Feed';
+import Topbar from './TopBar';
 
 
 const screenWidth = Dimensions.get("window").width
