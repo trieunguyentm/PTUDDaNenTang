@@ -18,9 +18,8 @@ userRequest.interceptors.request.use(
   async function (request) {
     const data = await AsyncStorage.getItem("persist:root") // Thay 'khóa_lưu_trữ' bằng khóa bạn đã sử dụng khi lưu trữ dữ liệu.
     if (data !== null) {
-      request.headers.Authorization = 'Bearer ' + JSON.parse(
-        JSON.parse(data).currentUser,
-      ).token
+      request.headers.Authorization =
+        "Bearer " + JSON.parse(JSON.parse(data).currentUser).token
       console.log(request.headers.Authorization)
     } else {
       // Không tìm thấy dữ liệu trong AsyncStorage
@@ -33,4 +32,4 @@ userRequest.interceptors.request.use(
     return Promise.reject(error)
   },
 )
-export {userRequest}
+export { userRequest }

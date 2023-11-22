@@ -20,9 +20,7 @@ const SuccessRegister = ({ navigation }) => {
         style={styles.isContainer}
       >
         <View style={styles.buttonContainer}>
-          <Text style={{fontSize: 30 }}>
-            Terms & Privacy
-          </Text>
+          <Text style={{ fontSize: 30 }}>Terms & Privacy</Text>
         </View>
         <Text style={styles.text1}>Chúc mừng bạn hoàn tất việc đăng ký</Text>
         <Text style={styles.text2}>

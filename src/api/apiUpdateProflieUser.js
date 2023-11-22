@@ -1,8 +1,11 @@
-
 import { userRequest } from "./requestMethod"
-import { uploadProfileFailure, uploadProfileStart, uploadProfileSuccess } from "../redux/user"
+import {
+  uploadProfileFailure,
+  uploadProfileStart,
+  uploadProfileSuccess,
+} from "../redux/user"
 
-export const upateProfileUser = async (dispatch, formData,username) => {
+export const upateProfileUser = async (dispatch, formData, username) => {
   console.log(formData)
   console.log("success")
 
