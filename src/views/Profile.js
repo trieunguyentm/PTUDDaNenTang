@@ -28,12 +28,9 @@ import Toast from "react-native-toast-message"
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
-
-
-
 export default function Profile({ navigation }) {
   const user = useSelector((state) => state.user?.currentUser)
-console.log(user)
+  console.log(user)
 
   const dispatch = useDispatch()
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
@@ -83,7 +80,7 @@ console.log(user)
     })
     setLoadingSignIn(true)
     try {
-      const response = await uploadImage(dispatch, formData,user.token)
+      const response = await uploadImage(dispatch, formData, user.token)
       // console.log(respone.data)
 
       setLoadingSignIn(false)

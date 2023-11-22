@@ -43,7 +43,7 @@ export const register = async (
   dispatch(registerStart())
 
   try {
-    const res = await publicRequest .post("auth/register", dataSend)
+    const res = await publicRequest.post("auth/register", dataSend)
     dispatch(registerSuccess(dataSend))
     return res
   } catch (err) {

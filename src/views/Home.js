@@ -1,25 +1,23 @@
-import React from 'react';
+import React from "react"
 import { View, Text, StyleSheet, StatusBar, SafeAreaView } from "react-native"
 import { Dimensions } from "react-native"
-import Feed from './Feed';
-import TopBar from './TopBar';
-
+import Feed from "./Feed"
+import TopBar from "./TopBar"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 const Home = () => {
-    return (
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-          <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.contentContainer}>
-              <TopBar/>
-              <Feed/>
-
-            </View>
-          </SafeAreaView>
-      </View>
-    )
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.contentContainer}>
+          <TopBar />
+          <Feed />
+        </View>
+      </SafeAreaView>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -34,4 +32,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default Home;
+export default Home

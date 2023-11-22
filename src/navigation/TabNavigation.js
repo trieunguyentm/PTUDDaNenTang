@@ -5,7 +5,6 @@ import Profile from "../views/Profile"
 import { Ionicons } from "@expo/vector-icons"
 import { ProfileStack } from "./StackNavigation"
 
-
 export default function TabNavigation() {
   const Tab = createBottomTabNavigator()
 

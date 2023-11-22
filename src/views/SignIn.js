@@ -54,9 +54,9 @@ const SignIn = ({ navigation }) => {
     /** Gọi API */
     setLoadingSignIn(true)
     try {
-      const response = await login(dispatch,user,_password,)
+      const response = await login(dispatch, user, _password)
       setLoadingSignIn(false)
-      
+
       /** Xử lý response tại đây */
     } catch (error) {
       console.log(error)

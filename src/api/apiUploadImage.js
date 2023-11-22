@@ -3,7 +3,7 @@ import axios from "axios"
 import { userRequest } from "./requestMethod"
 import { uploadFailure, uploadStart, uploadSuccess } from "../redux/user"
 
-export const uploadImage = async (dispatch, formData,token) => {
+export const uploadImage = async (dispatch, formData, token) => {
   console.log(formData)
   console.log("success")
 

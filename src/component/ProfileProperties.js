@@ -34,18 +34,17 @@ const ProfileProperties = () => {
     { label: "Nữ", value: "female" },
   ])
 
-  
-  const [change,setChange] = useState(false)
+  const [change, setChange] = useState(false)
   const dispatch = useDispatch()
 
   const handleChange = async () => {
-    if(!displayName){
+    if (!displayName) {
       setDisplayName(user.displayName)
     }
-    if(!phone){
+    if (!phone) {
       setPhone(user.phone)
     }
-    if(!gender){
+    if (!gender) {
       setGender(user.gender)
     }
     if (!checkValidPhoneNumber(phone)) {
@@ -57,9 +56,9 @@ const ProfileProperties = () => {
       return
     }
     const input = {
-      displayName : displayName,
-      phone : phone,
-      gender : gender,
+      displayName: displayName,
+      phone: phone,
+      gender: gender,
     }
     setLoadingSignIn(true)
     try {
@@ -79,7 +78,7 @@ const ProfileProperties = () => {
           text1: "Lỗi khi update thông tin người dùng",
           text2: "Vui lòng thử lại ",
         })
-      }else{
+      } else {
         Toast.show({
           type: "error",
           text1: "Lỗi khi sever mong các bạn thông cảm",
@@ -88,10 +87,7 @@ const ProfileProperties = () => {
       }
       setLoadingSignIn(false)
     }
-
-
   }
-
 
   return (
     <View style={styles.container}>
@@ -180,7 +176,7 @@ const styles = StyleSheet.create({
     paddingRight: 0.05 * screenWidth,
     flex: 1,
     overflow: "scroll",
-    paddingTop : 0.045 * screenHeight,
+    paddingTop: 0.045 * screenHeight,
   },
   inputContainer: {
     marginTop: 0.03 * screenHeight,

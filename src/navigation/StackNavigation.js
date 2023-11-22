@@ -8,7 +8,6 @@ import VerifyOTP from "../views/VerifyOTP"
 import ProfileDetail from "../views/ProfileDetail"
 import Profile from "../views/Profile"
 
-
 const Stack = createNativeStackNavigator()
 
 const MainStack = () => {

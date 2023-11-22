@@ -1,10 +1,7 @@
-import React from 'react';
+import React from "react"
 
 const TopBar = () => {
-    return (
-        <>
-        </>
-    )
+  return <></>
 }
 
 export default TopBar

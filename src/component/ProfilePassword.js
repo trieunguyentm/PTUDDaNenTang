@@ -21,7 +21,6 @@ const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const ProfilePassword = () => {
-
   const user = useSelector((state) => state.user?.currentUser)
   const [oldpassword, setOldPassword] = React.useState("")
   const [newpassword, setNewPassword] = React.useState("")
@@ -57,11 +56,14 @@ const ProfilePassword = () => {
     ).toString()
     const input = {
       currentPassword: hashOldPassword,
-      newPassword : hashPassword
+      newPassword: hashPassword,
     }
     setLoadingSignIn(true)
     try {
-      const res = await userRequest.put(`user/changePassword/`+user.username,input)
+      const res = await userRequest.put(
+        `user/changePassword/` + user.username,
+        input,
+      )
       setLoadingSignIn(false)
       if (res?.data && res?.data.code === 0) {
         Toast.show({
@@ -135,7 +137,7 @@ const ProfilePassword = () => {
               secureTextEntry={true}
             />
           </View>
-          <TouchableOpacity style={styles.changeImage} onPress={handleChange} >
+          <TouchableOpacity style={styles.changeImage} onPress={handleChange}>
             {!loadingSignIn ? (
               <Text style={styles.textLogout}>Save Change</Text>
             ) : (

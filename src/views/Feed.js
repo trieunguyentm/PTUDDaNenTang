@@ -7,7 +7,7 @@ const Feed = ({Events}) => {
     
     return (
         <ScrollView>
-            {Events.map(env => (
+            {Events?.map(env => (
                 <Post key={env._id} Event ={env}></Post>
 
             ))}

@@ -20,7 +20,6 @@ import CryptoJS from "react-native-crypto-js"
 import { APIRegister, register } from "../api/apiRegister"
 import { useDispatch } from "react-redux"
 
-
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -129,7 +128,7 @@ const SignUp = ({ navigation }) => {
           text1: "Xảy ra lỗi khi gửi OTP đến gmail của bạn",
           text2: "Vui lòng thử đăng ký lại",
         })
-      }else {
+      } else {
         Toast.show({
           type: "error",
           text1: "Có lỗi xảy ra",
@@ -139,8 +138,6 @@ const SignUp = ({ navigation }) => {
 
       setLoadingSignUp(false)
     }
-
-    
   }
 
   const handleClickSignIn = () => {

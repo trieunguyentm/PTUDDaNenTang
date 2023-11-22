@@ -24,15 +24,12 @@ const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const VerifyOTP = ({ navigation }) => {
-
-  const [otp,setOTP] = useState()
+  const [otp, setOTP] = useState()
   const [loadingSignUp, setLoadingSignUp] = useState(false)
-
 
   const userRegister = useSelector((state) => state.register?.currentUser)
 
   const dispatch = useDispatch()
-
 
   const data = {
     ...userRegister,
@@ -40,28 +37,24 @@ const VerifyOTP = ({ navigation }) => {
   }
 
   const handleClick = async () => {
+    if (!otp) {
+      Toast.show({
+        type: "info",
+        text1: "Hãy điền đầy đủ OTP",
+        text2: "Vui lòng điền đủ OTP",
+      })
+      return
+    }
 
-     if (!otp) {
-       Toast.show({
-         type: "info",
-         text1: "Hãy điền đầy đủ OTP",
-         text2: "Vui lòng điền đủ OTP",
-       })
-       return
-     }
+    setLoadingSignUp(true)
 
-     
-
-     setLoadingSignUp(true)
-
-     try {
-
-      const respone = await checkOTP(dispatch,data)
-      console.log(respone);
+    try {
+      const respone = await checkOTP(dispatch, data)
+      console.log(respone)
       setLoadingSignUp(false)
       dispatch(checkOtpStartSuccess())
       navigation.navigate("SuccessRegister")
-     } catch (error) {
+    } catch (error) {
       if (error.response.data && error.response.data.code === 1) {
         Toast.show({
           type: "error",
@@ -78,11 +71,8 @@ const VerifyOTP = ({ navigation }) => {
       }
 
       setLoadingSignUp(false)
-     }
-
+    }
   }
-
-
 
   return (
     <View style={styles.container}>

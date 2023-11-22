@@ -36,7 +36,5 @@ export const login = async (dispatch, username, password) => {
   } catch (err) {
     dispatch(loginFailure())
     throw err
-    
-    
   }
 }

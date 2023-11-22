@@ -44,9 +44,9 @@ const userSlice = createSlice({
     uploadProfileSuccess: (state, action) => {
       state.currentUser = {
         ...state.currentUser,
-        displayName : action.payload.displayName,
-        phone : action.payload.phone,
-        gender : action.payload.gender
+        displayName: action.payload.displayName,
+        phone: action.payload.phone,
+        gender: action.payload.gender,
       }
       state.isLoading = false
     },
