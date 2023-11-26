@@ -1,6 +1,6 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import Home from "../views/Home"
-import Search from "../views/Search"
+import Group from "../views/Group"
 import Profile from "../views/Profile"
 import { Ionicons } from "@expo/vector-icons"
 import { ProfileStack } from "./StackNavigation"
@@ -29,10 +29,10 @@ export default function TabNavigation() {
         })}
       />
       <Tab.Screen
-        name="Search"
-        component={Search}
+        name="Group"
+        component={Group}
         options={({ route }) => ({
-          tabBarLabel: "Search",
+          tabBarLabel: "Group",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="search" size={24} color={color} />
           ),

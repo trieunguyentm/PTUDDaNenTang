@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   changeImage: {
+    zIndex: -1,
     width: "100%",
     backgroundColor: "#3bb077",
     justifyContent: "center",
