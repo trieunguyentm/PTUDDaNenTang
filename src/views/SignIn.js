@@ -70,7 +70,7 @@ const SignIn = ({ navigation }) => {
       if (error.response?.data && error.response?.data.code === 2) {
         Toast.show({
           type: "error",
-          text1: "Mật khẩu không tồn tại",
+          text1: "Mật khẩu không chính xác",
           text2: "Vui lòng kiểm tra lại mật khẩu ",
         })
       }
