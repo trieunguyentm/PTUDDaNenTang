@@ -1,9 +1,9 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
-import Home from "../views/Home"
 import Group from "../views/Group"
 import Profile from "../views/Profile"
 import { Ionicons } from "@expo/vector-icons"
-import { ProfileStack } from "./StackNavigation"
+import { FunctionStack, HomeStack, HomeTab, ProfileStack } from "./StackNavigation"
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 
 export default function TabNavigation() {
   const Tab = createBottomTabNavigator()
@@ -18,8 +18,8 @@ export default function TabNavigation() {
       }}
     >
       <Tab.Screen
-        name="Home"
-        component={Home}
+        name="HomeTab"
+        component={FunctionStack}
         options={({ route }) => ({
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (

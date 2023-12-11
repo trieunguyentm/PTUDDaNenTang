@@ -7,8 +7,14 @@ import SignUp from "../views/SignUp"
 import VerifyOTP from "../views/VerifyOTP"
 import ProfileDetail from "../views/ProfileDetail"
 import Profile from "../views/Profile"
+import Home from "../views/Home"
+import Posting from "../views/Posting"
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 
 const Stack = createNativeStackNavigator()
+const TopTab = createMaterialTopTabNavigator()
+
 
 const MainStack = () => {
   return (
@@ -62,4 +68,25 @@ const ProfileStack = () => {
     </Stack.Navigator>
   )
 }
-export { MainStack, LoginStack, ProfileStack }
+
+const FunctionStack = ({navigation,route}) => {
+  return (
+    <Stack.Navigator initialRouteName="Home">
+      <Stack.Screen name="Home" component={HomeTab} options={{headerShown:false}} ></Stack.Screen>
+      <Stack.Screen name="Posting" component={Posting}
+      options={{title:'Create Post'}}/>
+    </Stack.Navigator>
+  )
+}
+
+const HomeTab = ({route}) => {
+  return (
+    <TopTab.Navigator initialRouteName="News">
+      <TopTab.Screen name="News" component={Home}/>
+      <TopTab.Screen name="Events" component={Home}/>
+    </TopTab.Navigator>
+
+  )
+
+}
+export { MainStack, LoginStack, ProfileStack, HomeTab, FunctionStack }

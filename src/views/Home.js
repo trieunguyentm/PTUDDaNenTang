@@ -2,20 +2,17 @@ import React from 'react';
 import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native"
 import { Dimensions } from "react-native"
 import Feed from './Feed';
-import Topbar from './TopBar';
-
-
+import { useRoute } from '@react-navigation/native';
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 const Home = () => {
-  const Events = [{_id:1},{_id:2}]
+  console.log(useRoute())
+  const Events = [{_id:1},{_id:2}, {_id:3}]
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
           <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.contentContainer}>
-              <Topbar/>
-              <View style={styles.Spacer}/>
               <Feed Events = {Events}/>
             </View>
           </SafeAreaView>
@@ -37,7 +34,7 @@ const styles = StyleSheet.create({
   Spacer : {
     backgroundColor:'#A8A3A3',
     width:screenWidth,
-    height:screenHeight*0.01
+    height:screenHeight*0.007
   }
 })
 
