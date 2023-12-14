@@ -11,6 +11,14 @@ import Home from "../views/Home"
 import Posting from "../views/Posting"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
+import Group from "../views/Group"
+import CreateGroup from "../component/CreateGroup"
+import PageGroup from "../views/PageGroup"
+import PageGroupManage from "../views/PageGroupManage"
+import GroupViewPage from "../views/GroupViewPage"
+import ManagePage from './../views/ManagePage';
+import Browserss from "../component/Browserss"
+
 
 const Stack = createNativeStackNavigator()
 const TopTab = createMaterialTopTabNavigator()
@@ -22,7 +30,10 @@ const MainStack = () => {
       screenOptions={{ headerShown: false }}
       initialRouteName="TabNavigation"
     >
-      <Stack.Screen name="TabNavigation" component={TabNavigation} />
+      <Stack.Screen
+        name="TabNavigation"
+        component={TabNavigation}
+      />
     </Stack.Navigator>
   )
 }
@@ -68,6 +79,71 @@ const ProfileStack = () => {
     </Stack.Navigator>
   )
 }
+const GroupStack = () => {
+  return (
+    <Stack.Navigator initialRouteName="Group">
+      <Stack.Screen
+        name="Group"
+        component={Group}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="CreateGroup"
+        component={CreateGroup}
+        options={{
+          headerShown: true,
+          headerTitle: "Create Group", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="PageGroup"
+        component={PageGroup}
+        options={{
+          headerShown: false,
+          headerTitle: "", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="PageGroupManage"
+        component={PageGroupManage}
+        options={{
+          headerShown: false,
+          headerTitle: "", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="GroupViewPage"
+        component={GroupViewPage}
+        options={{
+          headerShown: false,
+          headerTitle: "", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="ManagePage"
+        component={ManagePage}
+        options={{
+          headerShown: true,
+          headerTitle: "Quản lý nhóm", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="Browser"
+        component={Browserss}
+        options={{
+          headerShown: true,
+          headerTitle: "Cần xét duyệt", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+    </Stack.Navigator>
+  )
+}
 
 const FunctionStack = ({navigation,route}) => {
   return (
@@ -89,4 +165,4 @@ const HomeTab = ({route}) => {
   )
 
 }
-export { MainStack, LoginStack, ProfileStack, HomeTab, FunctionStack }
+export { MainStack, LoginStack, ProfileStack, HomeTab, FunctionStack ,GroupStack}

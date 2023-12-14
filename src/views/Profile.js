@@ -23,6 +23,8 @@ import FormData from "form-data"
 import { uploadImage } from "../api/apiUploadImage"
 import { useSelector } from "react-redux"
 import Toast from "react-native-toast-message"
+import AsyncStorage from "@react-native-async-storage/async-storage"
+import { addRequest } from "../redux/group"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -30,7 +32,6 @@ const screenHeight = Dimensions.get("window").height
 
 export default function Profile({ navigation }) {
   const user = useSelector((state) => state.user?.currentUser)
-  console.log(user)
 
   const dispatch = useDispatch()
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
@@ -57,7 +58,7 @@ export default function Profile({ navigation }) {
       // the selected image
       const result = await ImagePicker.launchImageLibraryAsync()
 
-      if (!result.cancelled) {
+      if (!result.canceled) {
         // If an image is selected (not cancelled),
         // update the file state variable
         console.log(result.assets[0].uri)
@@ -73,9 +74,12 @@ export default function Profile({ navigation }) {
     const formData = new FormData()
     const uriParts = file.split(".")
     const fileType = uriParts[uriParts.length - 1]
+    const uriName = file.split("/")
+    const fileName = uriName[uriName.length - 1]
+
     formData.append("file", {
       uri: file,
-      name: `file.${fileType}`,
+      name: `file.${fileName}`,
       type: `image/${fileType}`,
     })
     setLoadingSignIn(true)
@@ -112,6 +116,18 @@ export default function Profile({ navigation }) {
   }
 
   const handleLogOut = () => {
+    // Hàm để xóa toàn bộ dữ liệu từ AsyncStorage
+    // const clearAsyncStorage = async () => {
+    //   try {
+    //     await AsyncStorage.clear()
+    //     console.log("Async Storage đã được xóa thành công.")
+    //   } catch (error) {
+    //     console.error("Lỗi khi xóa dữ liệu từ Async Storage:", error.message)
+    //   }
+    // }
+
+    // // Gọi hàm để xóa dữ liệu
+    // clearAsyncStorage()
     dispatch(logoutUser())
   }
   return (

@@ -13,6 +13,7 @@ import {
 } from "redux-persist"
 import userRegister from "./userRegister"
 import user from "./user"
+import group from "./group"
 
 const persistConfig = {
   key: "root",
@@ -25,6 +26,12 @@ const userRegisterConfig = {
   version: 1,
   storage: AsyncStorage,
 }
+const groupConfig = {
+  key: "groups",
+  version: 1,
+  storage: AsyncStorage,
+}
+
 
 const userRegisterConfigPersisted = persistReducer(
   userRegisterConfig,
@@ -32,8 +39,10 @@ const userRegisterConfigPersisted = persistReducer(
 )
 const persistedReducer = persistReducer(persistConfig, user)
 
+const groupConfigPersisted = persistReducer(groupConfig,group)
+
 export const store = configureStore({
-  reducer: { user: persistedReducer, register: userRegisterConfigPersisted },
+  reducer: { user: persistedReducer, register: userRegisterConfigPersisted , group: groupConfigPersisted},
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

@@ -20,7 +20,6 @@ userRequest.interceptors.request.use(
     if (data !== null) {
       request.headers.Authorization =
         "Bearer " + JSON.parse(JSON.parse(data).currentUser).token
-      console.log(request.headers.Authorization)
     } else {
       // Không tìm thấy dữ liệu trong AsyncStorage
       console.log("Không có dữ liệu trong AsyncStorage")

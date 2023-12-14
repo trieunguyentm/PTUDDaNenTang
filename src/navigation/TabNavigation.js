@@ -2,9 +2,9 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import Group from "../views/Group"
 import Profile from "../views/Profile"
 import { Ionicons } from "@expo/vector-icons"
-import { FunctionStack, HomeStack, HomeTab, ProfileStack } from "./StackNavigation"
+import { FunctionStack, GroupStack, HomeStack, HomeTab, ProfileStack } from "./StackNavigation"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
-
+import { FontAwesome } from "@expo/vector-icons"
 export default function TabNavigation() {
   const Tab = createBottomTabNavigator()
 
@@ -14,6 +14,7 @@ export default function TabNavigation() {
         headerShown: false,
         tabBarLabelStyle: {
           fontSize: 16,
+          marginTop: 0,
         },
       }}
     >
@@ -23,18 +24,18 @@ export default function TabNavigation() {
         options={({ route }) => ({
           tabBarLabel: "Home",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="home" size={24} color={color} />
+            <Ionicons name="home" size={22} color={color} />
           ),
           // tabBarStyle: { display: getTabBarVisibility(route) },
         })}
       />
       <Tab.Screen
-        name="Group"
-        component={Group}
+        name="GroupStack"
+        component={GroupStack}
         options={({ route }) => ({
           tabBarLabel: "Group",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="search" size={24} color={color} />
+            <FontAwesome name="group" size={22} color={color} />
           ),
           // tabBarStyle: { display: getTabBarVisibility(route) },
         })}
@@ -45,7 +46,7 @@ export default function TabNavigation() {
         options={({ route }) => ({
           tabBarLabel: "Profile",
           tabBarIcon: ({ color, size }) => (
-            <Ionicons name="person" size={24} color={color} />
+            <Ionicons name="person" size={22} color={color} />
           ),
           // tabBarStyle: { display: getTabBarVisibility(route) },
         })}
