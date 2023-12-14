@@ -30,11 +30,19 @@ const groupSlide = createSlice({
       state.groupManage[
         state.groupManage.findIndex((item) => item.id == action.payload.id)
       ] = action.payload
+      state.groupAll[
+        state.groupAll.findIndex((item) => item.id == action.payload.id)
+      ] = action.payload
     },
     updateImg: (state, action) => {
       state.groupAll[
         state.groupAll.findIndex((item) => item.id == action.payload.id)
       ] = action.payload
+    },
+    addGroup : (state, action) => {
+      state.groupAll.push(action.payload)
+      state.GroupsHasJoin.push(action.payload)
+      state.groupManage.push(action.payload)
     },
     addRequest: (state, action) => {
       state.requestJoinGroup.push(action.payload)
@@ -60,6 +68,7 @@ export const {
   getRequestJoinGroup,
   deleteRequest,
   addRequest,
+  addGroup,
 } = groupSlide.actions
 
 export default groupSlide.reducer

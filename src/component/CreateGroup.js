@@ -14,6 +14,9 @@ import {
 } from "react-native"
 import Toast from "react-native-toast-message"
 import { createGroup } from "../api/apiCreateGroup"
+import { useDispatch } from 'react-redux';
+import { addGroup } from "../redux/group";
+import { useNavigation } from '@react-navigation/native';
 
 
 const screenWidth = Dimensions.get("window").width
@@ -28,6 +31,8 @@ const CreateGroup = () => {
   const handlePressOutside = () => {
     Keyboard.dismiss() // Ẩn bàn phím khi chạm ra ngoài TextInput
   }
+  const dispatch = useDispatch()
+  const navigation = useNavigation()
   const handleClick = async () => {
     if(!name||!description || !contact){
         Toast.show({
@@ -46,13 +51,14 @@ const CreateGroup = () => {
     try {
         const res = await createGroup(dataSend)
          setLoadingSignIn(false)
-          
+         dispatch(addGroup(res.data.data))
           if (res?.data && res?.data.code === 0) {
             Toast.show({
               type: "success",
               text1: "Tạo nhóm thành công",
             })
           }
+          navigation.navigate("GroupViewPage", { groupId: res?.data?.data?.id })  
     } catch (error) {
          setLoadingSignIn(false)
          if (error.response.data && error.response.data.code === 1) {
