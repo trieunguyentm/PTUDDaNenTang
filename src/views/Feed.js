@@ -5,7 +5,6 @@ import { Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 
-
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
@@ -43,10 +42,11 @@ const Feed = ({Events}) => {
             </View>
             
             <View style={styles.Spacer}/>
-            {Events.map(env => (
-                <Post key={env._id} Event ={env}></Post>
+            {Events?.map(data => (
+                <Post key={data.id} Event ={data}/>
 
             ))}
+           
         </ScrollView>
     
     )

@@ -1,4 +1,5 @@
 import React from "react"
+import { Button } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import TabNavigation from "./TabNavigation"
 import SuccessRegister from "../views/SuccessRegister"
@@ -8,17 +9,16 @@ import VerifyOTP from "../views/VerifyOTP"
 import ProfileDetail from "../views/ProfileDetail"
 import Profile from "../views/Profile"
 import Home from "../views/Home"
-import Posting from "../views/Posting"
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs"
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native"
 import Group from "../views/Group"
 import CreateGroup from "../component/CreateGroup"
-import PageGroup from "../views/PageGroup"
-import PageGroupManage from "../views/PageGroupManage"
+import PageGroup from './../views/PageGroup';
+import PageGroupManage from './../views/PageGroupManage';
 import GroupViewPage from "../views/GroupViewPage"
 import ManagePage from './../views/ManagePage';
 import Browserss from "../component/Browserss"
-
+import CreatePost from './../views/CreatePost';
 
 const Stack = createNativeStackNavigator()
 const TopTab = createMaterialTopTabNavigator()
@@ -148,9 +148,19 @@ const GroupStack = () => {
 const FunctionStack = ({navigation,route}) => {
   return (
     <Stack.Navigator initialRouteName="Home">
-      <Stack.Screen name="Home" component={HomeTab} options={{headerShown:false}} ></Stack.Screen>
-      <Stack.Screen name="Posting" component={Posting}
-      options={{title:'Create Post'}}/>
+      <Stack.Screen
+         name="Home"
+         component={HomeTab}
+         options={{headerShown:false}}/>
+      <Stack.Screen
+         name="Posting"
+         component={CreatePost}
+         options={({navigation,route})=>({
+          headerRight: () => (
+            <Button title="Upload"/>
+          )
+         })}
+      />
     </Stack.Navigator>
   )
 }

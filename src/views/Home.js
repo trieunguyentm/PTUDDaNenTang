@@ -1,19 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native"
 import { Dimensions } from "react-native"
 import Feed from './Feed';
-import { useRoute } from '@react-navigation/native';
+import { publicRequest } from '../api/requestMethod';
+
+
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
-const Home = () => {
-  console.log(useRoute())
-  const Events = [{_id:1},{_id:2}, {_id:3}]
+
+
+const Home = ({route,navigation}) => {
+  const [helpRQ,setHelpRQ] = useState([])
+  const [events,setEvents] =useState([])
+
+  useEffect(()=> {
+    const getData = async () => {
+      const res = await publicRequest.get('helpRequest/getAllHelpRequest')
+      setHelpRQ(res.data.data)
+    }
+    getData()
+  },[])
+  const check = (route.name==="News")
+
+  
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
           <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.contentContainer}>
-              <Feed Events = {Events}/>
+              <Feed Events={check?(helpRQ):(events)}/> 
             </View>
           </SafeAreaView>
       </View>
@@ -38,4 +53,5 @@ const styles = StyleSheet.create({
   }
 })
 
-export default Home;
+module.exports =Home
+

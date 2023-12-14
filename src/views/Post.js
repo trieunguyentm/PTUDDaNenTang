@@ -8,7 +8,7 @@ const screenWidth = Dimensions.get('window').width
 
 
 
-const Post = () => {
+const Post = ({Event}) => {
     const route = useRoute()
     const manageButton = () => {
         console.log(route)
@@ -22,8 +22,8 @@ const Post = () => {
                 <Image style={styles.userAvatar} source={{uri:'https://p7.hiclipart.com/preview/344/344/59/google-logo-g-suite-google.jpg'}} ></Image>
                 
                 <View style={flexDirection='column'}>
-                    <Text style={styles.userName}>Username</Text>
-                    <Text style={styles.time}>Time</Text>
+                    <Text style={styles.userName}>{Event.createdBy}</Text>
+                    <Text style={styles.time}>{Event.createdAt}</Text>
                 </View>
              
              </TouchableOpacity>
@@ -39,14 +39,18 @@ const Post = () => {
 
             <TouchableOpacity>
                 <View>
-                    <Text style={styles.description}>This is description</Text>
+                    <Text style={styles.description}>{Event.description}</Text>
                 </View>
             </TouchableOpacity>
 
-            <TouchableOpacity>
-                <Image style={styles.PostImage} source={{uri:'https://secureservercdn.net/198.71.233.33/k4y.f04.myftpupload.com/wp-content/uploads/2017/03/shutterstock_199419065.jpeg?time=1649858503'}}></Image>
-            </TouchableOpacity>
-            
+
+            <View style={styles.PostImgContainer}>
+                {Event?.images?.map((img,index) => (      
+                       <TouchableOpacity style={{flex:1}} key={index}>
+                           <Image style={styles.PostImage} source={{uri:img}} key={index}></Image>
+                       </TouchableOpacity>         
+                ))}
+            </View>
             
             <View style={styles.Navigator}>
 
@@ -92,17 +96,23 @@ const styles = StyleSheet.create({
        paddingLeft:5,
        fontSize:12
     },
+    PostImgContainer : {
+        flex:1,
+        flexDirection:'row',
+        height:300
+    },
 
     PostImage : {
-        width:screenWidth,
         height:300,
-        marginTop:10
+        width:screenWidth*0.5,
+        marginTop:10,
+        resizeMode:'cover'
     },
 
     Navigator : {
         width:screenWidth,
         height:screenHeight*0.05,
-        flexDirection:'column'
+        flexDirection:'column',
     },
     Spacer : { 
         width:screenWidth,
@@ -110,6 +120,7 @@ const styles = StyleSheet.create({
         height:screenHeight*0.007
     },
     description: {
+        flex:1,
         paddingTop:screenHeight*0.01,
         paddingLeft:screenWidth*0.025,
         paddingRight:screenWidth*0.025,
