@@ -21,8 +21,8 @@ const BtnJoinGroup = ({ dataSend }) => {
   const user = useSelector((state) => state.user?.currentUser)
 
   const request = useSelector((state) =>
-    state.group.requestJoinGroup.find(
-      (item) => item.organizationId === dataSend.organizationId,
+    state?.group?.requestJoinGroup?.find(
+      (item) => item.organizationId === dataSend?.organizationId,
     ),
   )
   //  const request = useSelector((state) =>
@@ -46,7 +46,7 @@ const BtnJoinGroup = ({ dataSend }) => {
       }
     }
     checkJoin()
-    if (request && request.username === user.username) {
+    if (request && request?.username === user?.username) {
       setIsRequest(true)
     }
 
@@ -55,7 +55,7 @@ const BtnJoinGroup = ({ dataSend }) => {
   const handleJoin = async () => {
     try {
       const res = await apiRequestJoinGroup({
-        organizationId: dataSend.organizationId,
+        organizationId: dataSend?.organizationId,
       })
       if (res?.data && res?.data.code === 0) {
         Toast.show({
