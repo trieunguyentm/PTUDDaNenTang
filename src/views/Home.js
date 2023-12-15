@@ -3,6 +3,10 @@ import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native"
 import { Dimensions } from "react-native"
 import Feed from './Feed';
 import { publicRequest } from '../api/requestMethod';
+import { useDispatch } from 'react-redux';
+import { postFetching, fetchFailed,getAllRequest,getAllEvents } from '../redux/posts';
+import { useSelector } from 'react-redux';
+
 
 
 const screenWidth = Dimensions.get("window").width
@@ -10,25 +14,29 @@ const screenHeight = Dimensions.get("window").height
 
 
 const Home = ({route,navigation}) => {
-  const [helpRQ,setHelpRQ] = useState([])
-  const [events,setEvents] =useState([])
-
+  const dispatch = useDispatch()
+  const check = (route.name==="News")
+  const posts = (check) ? (useSelector((state)=> {state.posts.requests})) : (useSelector((state)=>{state.posts.events}))
+  const [data,setData] = useState([])
   useEffect(()=> {
     const getData = async () => {
-      const res = await publicRequest.get('helpRequest/getAllHelpRequest')
-      setHelpRQ(res.data.data)
+      dispatch(postFetching())
+      try{ 
+        const res = await publicRequest.get('helpRequest/getAllHelpRequest')
+        setData(res.data.data)
+        check?(dispatch(getAllRequest(res.data.data))) : (dispatch(getAllEvents(res.data.data)))
+      } catch (error) {
+        dispatch(fetchFailed())
+      }
     }
     getData()
   },[])
-  const check = (route.name==="News")
-
-  
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
           <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.contentContainer}>
-              <Feed Events={check?(helpRQ):(events)}/> 
+              <Feed Events={(posts)? posts: data}/> 
             </View>
           </SafeAreaView>
       </View>

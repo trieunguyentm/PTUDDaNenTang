@@ -14,7 +14,7 @@ import {
 import userRegister from "./userRegister"
 import user from "./user"
 import group from "./group"
-
+import posts from "./posts"
 const persistConfig = {
   key: "root",
   version: 1,
@@ -32,6 +32,12 @@ const groupConfig = {
   storage: AsyncStorage,
 }
 
+const postConfig = {
+  key :"posts",
+  version:1,
+  storage:AsyncStorage
+}
+
 
 const userRegisterConfigPersisted = persistReducer(
   userRegisterConfig,
@@ -41,8 +47,10 @@ const persistedReducer = persistReducer(persistConfig, user)
 
 const groupConfigPersisted = persistReducer(groupConfig,group)
 
+const postsConfigPersisted = persistReducer(postConfig, posts)
+
 export const store = configureStore({
-  reducer: { user: persistedReducer, register: userRegisterConfigPersisted , group: groupConfigPersisted},
+  reducer: { user: persistedReducer, register: userRegisterConfigPersisted , group: groupConfigPersisted , posts:postsConfigPersisted},
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

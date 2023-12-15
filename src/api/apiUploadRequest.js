@@ -1,6 +1,5 @@
 import { userRequest } from "./requestMethod";
 import { uploadFailure,uploadStart,uploadSuccess } from "../redux/user";
-import { useSelector } from "react-redux";
 
 export const uploadRequest = async(dispatch, formData,token) => {
     console.log(formData)

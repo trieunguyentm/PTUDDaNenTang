@@ -76,6 +76,7 @@ export default function CreatePost({navigation,route}){
 
 
     return (
+    <View style={{flex:1,alignContent:'center'}}>
         <SafeAreaView style={{flex:1}}>
             <View style={styles.contentContainer}>
                 <View style={styles.userInfoDisplay}>
@@ -119,8 +120,10 @@ export default function CreatePost({navigation,route}){
 
                 
             </View>
+            
 
         </SafeAreaView>
+    </View>
     )
 }
 
