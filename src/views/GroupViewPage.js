@@ -32,13 +32,13 @@ const GroupViewPage = ({ route, navigation }) => {
   const [isAdmin,setIsAdmin] = useState(false)
 
   const group = useSelector((state) =>
-    state.group.groupAll.find((item) => item.id == groupId),
+    state?.group?.groupAll?.find((item) => item.id == groupId),
   )
   const user = useSelector((state) => state.user?.currentUser)
 
   const request = useSelector((state) =>
-    state.group.requestJoinGroup.find(
-      (item) => item.organizationId === groupId,
+    state?.group?.requestJoinGroup?.find(
+      (item) => item?.organizationId === groupId,
     ),
   )
 
@@ -50,13 +50,13 @@ const GroupViewPage = ({ route, navigation }) => {
 
    useEffect(() => {
      // Move the logic to set isAdmin into useEffect
-     if (user.username === group?.creator) {
+     if (user?.username === group?.creator) {
        setIsAdmin(true)
      }
-     if (request && request.username === user.username) {
+     if (request && request?.username === user?.username) {
            setIsRequest(true)
       }
-   }, [user.username, group?.creator])
+   }, [user?.username, group?.creator])
 
 
 
