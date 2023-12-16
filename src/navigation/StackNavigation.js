@@ -19,6 +19,8 @@ import GroupViewPage from "../views/GroupViewPage"
 import ManagePage from './../views/ManagePage';
 import Browserss from "../component/Browserss"
 import CreatePost from './../views/CreatePost';
+import UpdateGroup from "../component/UpdateGroup"
+import CreatePostGroup from "../component/CreatePostGroup"
 
 const Stack = createNativeStackNavigator()
 const TopTab = createMaterialTopTabNavigator()
@@ -93,6 +95,24 @@ const GroupStack = () => {
         options={{
           headerShown: true,
           headerTitle: "Create Group", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="UpdateGroup"
+        component={UpdateGroup}
+        options={{
+          headerShown: true,
+          headerTitle: "Update Group", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="CreatePostGroup"
+        component={CreatePostGroup}
+        options={{
+          headerShown: true,
+          headerTitle: "Create Post", // Đặt tiêu đề bạn muốn hiển thị
           headerTitleAlign: "center",
         }}
       />

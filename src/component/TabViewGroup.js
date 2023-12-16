@@ -87,6 +87,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
     borderBottomColor: "#E8E9EB",
     borderBottomWidth: 1,
+    marginHorizontal: 0.025 * screenWidth,
   },
   tabItem: {
     backgroundColor: "#E8E9EB",

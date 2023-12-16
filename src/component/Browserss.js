@@ -77,7 +77,7 @@ const Browserss = () => {
         <View style={styles.contentContainer}>
           {request?.map((item) => (
             <View style={styles.dataContainer}>
-              <Text style={styles.text}>{item.username}</Text>
+              <Text style={styles.text2}>{item.username}</Text>
               <TouchableOpacity
                 style={styles.btnAccept}
                 onPress={() => handleAccept(item.id)}
@@ -126,7 +126,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: 0.35 * screenWidth,
+    width: 0.3 * screenWidth,
+    marginRight : 5,
   },
   btnDecline: {
     backgroundColor: "#E8E9EB",
@@ -136,16 +137,22 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: 0.35 * screenWidth,
+    width: 0.3* screenWidth,
   },
   text: {
     fontSize: 18,
     fontWeight: "bold",
+    width: "30%",
   },
   text1: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#327fd2",
+  },
+  text2: {
+    fontSize: 18,
+    fontWeight: "bold",
+    width: "30%",
   },
 })
 

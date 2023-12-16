@@ -15,7 +15,7 @@ import { Dimensions } from "react-native"
 import { StatusBar } from "expo-status-bar"
 import Toast from "react-native-toast-message"
 import CryptoJS from "react-native-crypto-js"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { login } from "../api/apiSignIn"
 
 // Lấy kích thước màn hình
@@ -27,6 +27,9 @@ const SignIn = ({ navigation }) => {
   const [password, setPassword] = React.useState("")
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
   const dispatch = useDispatch()
+
+  // const state = useSelector((state)=>state)
+  // console.log(state)
 
   const handleClickSignIn = async () => {
     /** Kiểm tra dữ liệu người dùng nhập */

@@ -4,7 +4,7 @@ import { userRequest } from './requestMethod'
 export const createGroup =  async (dataSend) => {
     console.log("chạy đến đây")
     try {
-        const res = await userRequest.post('/organization/create',dataSend)
+        const res = await userRequest.post('organization/create',dataSend)
         console.log("thành công")
         return res
     } catch (error) {

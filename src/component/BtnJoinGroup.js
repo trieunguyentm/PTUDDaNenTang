@@ -9,28 +9,26 @@ import {
 import { userRequest } from "../api/requestMethod"
 import { apiRequestJoinGroup } from "../api/apiRequestJoinGroup"
 import Toast from "react-native-toast-message"
-import { useDispatch, useSelector } from 'react-redux';
-import { addRequest } from "../redux/group"
+import { useDispatch, useSelector } from "react-redux"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const BtnJoinGroup = ({ dataSend }) => {
   const [join, setJoin] = useState(false)
-
+  
   const user = useSelector((state) => state.user?.currentUser)
 
-  const request = useSelector((state) =>
-    state?.group?.requestJoinGroup?.find(
-      (item) => item.organizationId === dataSend?.organizationId,
-    ),
-  )
+  const [request, setRequest] = useState(false)
+
+  // const request = useSelector((state) =>
+  //   state?.group?.requestJoinGroup?.find(
+  //     (item) => item.organizationId === dataSend?.organizationId,
+  //   ),
+  // )
   //  const request = useSelector((state) =>
   //    state.group.requestJoinGroup
   //  )
-
-  const [isRequest,setIsRequest] = useState(false)
-
   const dispatch = useDispatch()
 
   useEffect(() => {
@@ -40,17 +38,27 @@ const BtnJoinGroup = ({ dataSend }) => {
           "organization/checkUserJoinOrganization",
           dataSend,
         )
+
         setJoin(res.data.check)
       } catch (error) {
         console.log(error)
       }
     }
     checkJoin()
-    if (request && request?.username === user?.username) {
-      setIsRequest(true)
-    }
+    // if (typeof isRequest !== "undefined") {
+    //     setRequest(isRequest)
+    //     console.log(request)
+    //     console.log("haha", isRequest)
+    //   } else {
+    //     setRequest(false)
+    //   }
+   
 
   }, [])
+
+  useEffect(() => {
+    setRequest(dataSend.request)
+  }, [dataSend.request])
 
   const handleJoin = async () => {
     try {
@@ -63,9 +71,7 @@ const BtnJoinGroup = ({ dataSend }) => {
           text1: "Gửi yêu cầu thành công",
         })
       }
-      dispatch(addRequest(res.data.data))
-      setIsRequest(true)
-
+      setRequest(true)
     } catch (error) {
       if (error?.response.data && error?.response.data.code === 5) {
         Toast.show({
@@ -86,7 +92,7 @@ const BtnJoinGroup = ({ dataSend }) => {
   return (
     <>
       {!join ? (
-        isRequest ? (
+        request ? (
           <TouchableOpacity style={styles.container1}>
             <Text style={styles.text1}>Hủy yêu cầu</Text>
           </TouchableOpacity>

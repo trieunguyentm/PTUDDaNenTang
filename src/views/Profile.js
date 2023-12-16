@@ -23,8 +23,7 @@ import FormData from "form-data"
 import { uploadImage } from "../api/apiUploadImage"
 import { useSelector } from "react-redux"
 import Toast from "react-native-toast-message"
-import AsyncStorage from "@react-native-async-storage/async-storage"
-import { addRequest } from "../redux/group"
+import { addRequest, reset } from "../redux/group"
 
 // Lấy kích thước màn hình
 const screenWidth = Dimensions.get("window").width
@@ -32,6 +31,8 @@ const screenHeight = Dimensions.get("window").height
 
 export default function Profile({ navigation }) {
   const user = useSelector((state) => state.user?.currentUser)
+
+  console.log(user)
 
   const dispatch = useDispatch()
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
@@ -128,6 +129,7 @@ export default function Profile({ navigation }) {
 
     // // Gọi hàm để xóa dữ liệu
     // clearAsyncStorage()
+    dispatch(reset())
     dispatch(logoutUser())
   }
   return (

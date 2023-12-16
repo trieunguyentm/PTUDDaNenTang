@@ -12,6 +12,8 @@ import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { userRequest } from "../api/requestMethod"
 import { useDispatch, useSelector } from 'react-redux';
 import { getRequestJoinGroup } from "../redux/group";
+import { Ionicons } from "@expo/vector-icons"
+import { MaterialIcons } from "@expo/vector-icons"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -50,7 +52,10 @@ const ManagePage = ({ route, navigation }) => {
           <View style={styles.browsContainer}>
             <Text style={styles.textTitle}>Cần xét duyệt</Text>
             <View style={styles.detailContainer}>
-              <TouchableOpacity style={styles.containerDetail} onPress={()=>navigation.navigate("Browser")}>
+              <TouchableOpacity
+                style={styles.containerDetail}
+                onPress={() => navigation.navigate("Browser")}
+              >
                 <MaterialCommunityIcons
                   name="account-arrow-right"
                   size={34}
@@ -65,6 +70,44 @@ const ManagePage = ({ route, navigation }) => {
                   </View>
                   <View>
                     <Text style={styles.num}>{data?.length}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.detailContainer}>
+              <TouchableOpacity
+                style={styles.containerDetail}
+                onPress={() => navigation.navigate("Browser")}
+              >
+                <MaterialIcons name="post-add" size={38} color="black" />
+                <View style={styles.infomationContainer}>
+                  <View>
+                    <Text style={styles.titleInfo}>Bài viết muốn đăng tải</Text>
+                    <Text style={styles.numInfo}>
+                      {data?.length} mục mới hôm nay
+                    </Text>
+                  </View>
+                  <View>
+                    <Text style={styles.num}>{data?.length}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+          </View>
+          <View style={styles.browsContainer}>
+            <Text style={styles.textTitle}>Cài đặt nhóm</Text>
+            <View style={styles.detailContainer}>
+              <TouchableOpacity
+                style={styles.containerDetail}
+                onPress={() =>
+                  navigation.navigate("UpdateGroup", { groupId: groupId })
+                }
+              >
+                <Ionicons name="ios-settings" size={38} color="black" />
+                <View style={styles.infomationContainer}>
+                  <View>
+                    <Text style={styles.titleInfo}>Cài đặt nhóm</Text>
+                    <Text style={styles.numInfo}>Thay đổi thông tin nhóm</Text>
                   </View>
                 </View>
               </TouchableOpacity>

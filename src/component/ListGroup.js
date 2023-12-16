@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react"
 import {
   View,
   StyleSheet,
@@ -9,31 +9,26 @@ import {
   Image,
   FlatList,
   TouchableOpacity,
+  RefreshControl,
 } from "react-native"
 import backgroundForNone from "../../assets/groups-default-cover-photo-2x.png"
-import BtnJoinGroup from './BtnJoinGroup';
-import { publicRequest, userRequest } from '../api/requestMethod';
-import { useDispatch, useSelector } from 'react-redux';
-import { useNavigation } from '@react-navigation/native';
-import { getAllGroups } from '../redux/group';
+import BtnJoinGroup from "./BtnJoinGroup"
+import { publicRequest, userRequest } from "../api/requestMethod"
+import { useDispatch, useSelector } from "react-redux"
+import { useNavigation } from "@react-navigation/native"
+import { getAllGroups } from "../redux/group"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
-
-const Item = ({ data }) => {
-
+const Item = ({ data, request }) => {
   const navigation = useNavigation()
-
   const user = useSelector((state) => state.user?.currentUser)
-
   const dataSend = {
     username: user.username,
     organizationId: data.id,
+    request : request,
   }
-
-
-
   return (
     <TouchableOpacity
       style={styles.itemContainer}
@@ -61,44 +56,85 @@ const Item = ({ data }) => {
 }
 
 const ListGroup = () => {
+  const [data, setData] = useState()
+  let group = useSelector((state) => state?.group?.groupAll)
 
-    const [data,setData] = useState()
+  const [request, setResquest] = useState()
 
-    const group = useSelector((state) => state.group.groupAll)
+  const dispatch = useDispatch()
 
-    const dispatch = useDispatch()
-
-   useEffect(()=>{
-    const getAllGroup = async () =>{
-        try {
-            const res = await publicRequest("organization/getAllOrganization")
-            setData(res.data.data)
-            dispatch(getAllGroups(res.data.data))
-        } catch (error) {
-            console.log(error)
-        }
+  useEffect(() => {
+    const getAllGroup = async () => {
+      try {
+        const res = await publicRequest("organization/getAllOrganization")
+        setData(res.data.data)
+        dispatch(getAllGroups(res.data.data))
+      } catch (error) {
+        console.log(error)
+      }
     }
     getAllGroup()
-   },[])
+  }, [])
 
-    return (
-      <View style={styles.container}>
-        <StatusBar barStyle="light-content" />
-        <SafeAreaView style={{ flex: 1 }}>
-          <View style={styles.contentContainer}>
-            <FlatList
-              data={group}
-              renderItem={({ item }) => <Item data={item} />}
-              keyExtractor={(item) => item.id}
-              style={styles.flatList}
-              contentContainerStyle={styles.flatListContentContainer}
-              showsVerticalScrollIndicator={false}
-              numColumns={2}
-            />
-          </View>
-        </SafeAreaView>
-      </View>
-    )
+  useEffect(() => {
+    const getAllReq = async () => {
+      try {
+        const requests = await userRequest.get(
+          "organization/getRequestJoinOrganizationByUser",
+        )
+        setResquest(requests.data.data)
+      } catch (error) {
+        console.log("error", error)
+      }
+    }
+    getAllReq()
+  }, [])
+
+  const [refreshing, setRefreshing] = React.useState(false)
+
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true)
+    const getAllReq = async () => {
+      try {
+        const requests = await userRequest.get(
+          "organization/getRequestJoinOrganizationByUser",
+        )
+        setResquest(requests.data.data)
+        setRefreshing(false)
+      } catch (error) {
+        console.log("error", error)
+        setRefreshing(false)
+      }
+    }
+    getAllReq()
+  }, [])
+
+  return (
+    <View style={styles.container}>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={{ flex: 1 }}>
+        <View style={styles.contentContainer}>
+          <FlatList
+            data={group}
+            renderItem={({ item }) => (
+              <Item
+                data={item}
+                request={request?.find((req) => req.organizationId === item.id) ? true : false}
+              />
+            )}
+            keyExtractor={(item) => item.id}
+            style={styles.flatList}
+            contentContainerStyle={styles.flatListContentContainer}
+            showsVerticalScrollIndicator={false}
+            numColumns={2}
+            refreshControl={
+              <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            }
+          />
+        </View>
+      </SafeAreaView>
+    </View>
+  )
 }
 
 const styles = StyleSheet.create({
@@ -147,4 +183,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ListGroup;
+export default ListGroup

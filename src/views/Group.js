@@ -178,7 +178,6 @@ const styles = StyleSheet.create({
     color: "grey",
   },
   cardContainer: {
-    marginHorizontal: 0.025 * screenWidth,
     flex : 1,
   },
 })
