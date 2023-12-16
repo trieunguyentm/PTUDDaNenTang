@@ -1,11 +1,13 @@
 import React, {useState,useEffect} from "react";
-import {Text, View, TouchableOpacity,TextInput, Alert, StyleSheet, Image, SafeAreaView,Button} from 'react-native'
-import { Dimensions } from "react-native";
+import {View, StyleSheet, StatusBar, SafeAreaView, Text, Image, TouchableOpacity, Dimensions, TextInput, TouchableWithoutFeedback,ScrollView, Keyboard, ActivityIndicator} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
 import { useSelector,useDispatch } from "react-redux"
 import { uploadRequest } from "../api/apiUploadRequest";
 import Toast from "react-native-toast-message";
 import FormData from "form-data"
+import { AntDesign } from "@expo/vector-icons"
+import { Feather } from "@expo/vector-icons"
+
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
@@ -13,8 +15,9 @@ export default function CreatePost({navigation,route}){
     const user = useSelector((state)=> state.user?.currentUser)
     const [description, setDescription] = useState("")
     const [title,setTitle] = useState("")
-    const [file,setFile] = useState([]) 
+    const [file,setFile] = useState(null) 
     const dispatch = useDispatch()
+    const [loadingSignIn, setLoadingSignIn] = useState(false)
     const [error,setError] = useState(null)
 
     const chooseImage = async () => {
@@ -25,173 +28,248 @@ export default function CreatePost({navigation,route}){
             Alert("No permission")
         }
         else {
-            const response = await ImagePicker.launchImageLibraryAsync({allowsMultipleSelection:true})
+            const response = await ImagePicker.launchImageLibraryAsync()
             if (!response.canceled) {
-                setFile(response.assets)
+                setFile(response.assets[0].uri)
                 console.log(file)
                 setError(null)
             }
         }
     }
+    const handlePressOutside = () => {
+        Keyboard.dismiss() // Ẩn bàn phím khi chạm ra ngoài TextInput
+      }
+      const handleDeleteImg = () => {
+        setFile()
+      }
     
     const postRequest = async(e) => {
         e.preventDefault()  
-        const formData = new FormData()
-        formData.append("title", title)
-        formData.append("description",description)
-        file.map(item=>{
-            const uriParts = item.uri.split(".")
-            const fileType = uriParts[uriParts.length - 1]
-            formData.append("images",{
-                uri:item.uri,
-                name:`file.${item.uri}`,
-                type:`image/${fileType}`
+
+        if(!title || !description) {
+            Toast.show({
+                type:'error',
+                text1:'Title and Description are required'
             })
-        })
-        try {
-            const response = await uploadRequest(dispatch,formData,user.token)
-            if(response?.data&& response?.data.code===0) {
-                Toast.show({
-                    type:"success",
-                    text1:'Upload thành công'
-                })
-            }
-            setFile(null)
-            navigation.navigate('News')
-        } catch(error) {
-            console.log(error)
+            return 
 
         }
+        if(file) {
+            const formData = new FormData()
+            formData.append("title", title)
+            formData.append("description",description)
+            const uriParts = file.split(".")
+            const fileType = uriParts[uriParts.length - 1]
+            const uriName = file.split("/")
+            const fileName = uriName[uriName.length - 1]
+            setLoadingSignIn(true)
+            formData.append("images", {
+                uri: file,
+                name: `file.${fileName}`,
+                type: `image/${fileType}`,
+            })
+            try {
+                const response = await uploadRequest(dispatch,formData,user.token)
+                if(response?.data&& response?.data.code===0) {
+                    Toast.show({
+                        type:"success",
+                        text1:'Upload thành công'
+                    })
+                }
+                setFile(null)
+                setLoadingSignIn(false)
+                navigation.navigate('News')
+            } catch(error) {
+                console.log(error)
+                setLoadingSignIn(false)
+            }
+ 
+        } else {
+            const formData = new FormData()
+            formData.append("title", title)
+            formData.append("description",description)
+            setLoadingSignIn(true)
+            try {
+                const response = await uploadRequest(dispatch,formData,user.token)
+                if(response?.data&& response?.data.code===0) {
+                    Toast.show({
+                        type:"success",
+                        text1:'Upload thành công'
+                    })
+                }
+                navigation.navigate('News')
+                setLoadingSignIn(false)
+            } catch (error) {
+                console.log(error)
+                setLoadingSignIn(false)
+            }
+        }
     }
-    useEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <Button title="Upload" onPress={postRequest}></Button>
-            )
-        })
-    })
-
-
-    
-
-
-
     return (
-    <View style={{flex:1,alignContent:'center'}}>
-        <SafeAreaView style={{flex:1}}>
-            <View style={styles.contentContainer}>
-                <View style={styles.userInfoDisplay}>
-                    <Image style={styles.userAvatar} source={{uri:user.urlAvatar ? user.urlAvatar : "https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.pngz"}}/>
-                    <Text style={styles.displayName}>{user.displayName}</Text>
-                </View>
-                <View style={styles.Title}>
-                    <TextInput
-                    multiline
-                    placeholder="Enter Title"
-                    value={title}
-                    onChangeText={setTitle}
-                    />
-
-                </View>
-                <View style={styles.descriptionContainer}>
-                    <TextInput 
-                    multiline
-                    placeholder="Enter description"
-                    value= {description}
-                    onChangeText={setDescription}
-                    />
-                </View>
-
-                <View style={styles.previewContainer}>
-                    {file?(file.map(item => (
-                        <Image style={{height:'auto',resizeMode:'cover', width:screenWidth/(file.length)}} 
-                        source={{uri:item.uri}}
-                        key={item.uri}/>
-
-                    ))) : (console.log("No Image"))}
-                </View>
-                
-                <View style={styles.fileOptions}>
-                    <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}}
-                    onPress={chooseImage}
-                    >
-                    <Image style={styles.photoImage}  source={require('../../assets/photos.png')}></Image>
-                    <Text style={{paddingLeft:screenWidth*.02}}>Photo/Videos</Text>
-                </TouchableOpacity>
-                </View>
-                
-
-                
+        <View style={styles.container}>
+        <StatusBar barStyle="light-content" />
+        <SafeAreaView style={{ flex: 1 }}>
+          <ScrollView
+            style={styles.contentContainer}
+            showsVerticalScrollIndicator={false}
+          >
+            <View style={styles.headerContainer}>
+              <Image
+                source={{ uri: `${user.urlAvatar}` }}
+                style={styles.imgContainer}
+              />
+              <View style={styles.nameContainer}>
+                <Text style={styles.name}>{user.displayName}</Text>
+              </View>
+              <TouchableOpacity style={styles.addImg} onPress={chooseImage}>
+                <Feather name="image" size={32} color="green" />
+                <Text style={styles.text3}>Ảnh</Text>
+              </TouchableOpacity>
             </View>
-            
-
+            <View style={styles.bodyContainer}>
+            <TouchableWithoutFeedback onPress={handlePressOutside}>
+                <TextInput
+                  accessibilityLabel="input"
+                  multiline={true}
+                  numberOfLines={2}
+                  accessibilityLabelledBy="title"
+                  style={styles.inputTitle}
+                  placeholder="Title"
+                  onChangeText={setTitle}
+                />
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback onPress={handlePressOutside}>
+                <TextInput
+                  accessibilityLabel="input"
+                  multiline={true}
+                  numberOfLines={3}
+                  accessibilityLabelledBy="description"
+                  style={styles.input}
+                  placeholder="Description"
+                  onChangeText={setDescription}
+                />
+              </TouchableWithoutFeedback>
+              {file ? (
+                <View>
+                  <Image style={styles.imgPick} source={{ uri: file }} />
+                  <TouchableOpacity
+                    style={styles.btnDeleteImg}
+                    onPress={handleDeleteImg}
+                  >
+                    <AntDesign
+                      name="closecircleo"
+                      size={32}
+                      color="white"
+                      style={styles.iconDelete}
+                    />
+                  </TouchableOpacity>
+                </View>
+              ) : null}
+              <TouchableOpacity
+                style={styles.btnContainer}
+                onPress={postRequest}
+              >
+                {!loadingSignIn ? (
+                  <Text style={styles.text2}>Đăng Bài</Text>
+                ) : (
+                  <ActivityIndicator size={"large"} color={"black"} />
+                )}
+              </TouchableOpacity>
+            </View>
+          </ScrollView>
         </SafeAreaView>
-    </View>
+      </View>
     )
 }
 
 const styles = StyleSheet.create({
-    contentContainer : {
-        flex:1,
-        flexDirection:'column',       
+    container: {
+      flex: 1,
+      backgroundColor: "white",
     },
-    userInfoDisplay : {
-        height:screenHeight*0.1,
-        flexDirection:'row',
-        paddingLeft:screenWidth*0.025,
-        borderBottomColor:'#cccccc',
-        borderBottomWidth:1
+    contentContainer: {
+      flex: 1,
     },
-    userAvatar : {
-        resizeMode:'center',
-        width:screenHeight*0.08,
-        height:screenHeight*0.08,
-        borderRadius:screenHeight*0.04,
-        alignSelf:'center'
+    headerContainer: {
+      display: "flex",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      alignItems: "center",
+      marginHorizontal: 0.025 * screenWidth,
+      height: 0.1 * screenHeight,
+      padding: 10,
+      width: "90%",
     },
-    displayName : {
-        fontSize:20,
-        paddingLeft:screenWidth*0.02,
-        paddingTop:screenHeight*0.01
+    imgContainer: {
+      width: 0.17 * screenWidth,
+      height: 0.17 * screenWidth,
+      borderRadius: 0.085 * screenWidth,
     },
-    descriptionContainer : {
-        flex:1,
-        paddingTop:screenHeight*0.01,
-        maxHeight:screenHeight*0.6,
-        borderTopWidth:1,
-        borderTopColor:'#cccccc',
-        
+    addImg: {
+      display: "flex",
+      flexDirection: "row",
+      alignItems: "center",
     },
-    fileOptions : {
-        flexDirection:'row',
-        paddingLeft:screenWidth*0.02,
-        borderBottomWidth:1,
-        borderBottomColor:'#cccccc',
-        borderTopColor:'#cccccc',
-        borderTopWidth:1,
+    nameContainer: {
+      alignSelf: "flex-start",
     },
-    photoImage : {
-        height:screenHeight*0.06,
-        width:screenHeight*0.06,
+    name: {
+      fontSize: 20,
+      fontWeight: "bold",
     },
-    previewContainer : {
-        flex:1,
-        flexDirection:'row',
-        height:'auto',
-        borderBottomWidth:1,
-        borderBottomColor:'#cccccc',  
+    description: {
+      fontSize: 16,
     },
-    previewImage : {
-        resizeMode:'cover',
-        height:'auto',
+    text3: {
+      fontSize: 18,
+      marginLeft: 10,
     },
-    Title : {
-        borderTopColor:'#cccccc',
-        borderBottomColor:'#cccccc',
-        borderTopWidth:1,
-        borderBottomWidth:1,
-        height:screenHeight*0.06
-    }
-    
-    
-})
+    bodyContainer: {},
+    input: {
+      fontSize: 24,
+      textAlignVertical: "top",
+      marginTop: 10,
+      marginHorizontal: 0.025 * screenWidth,
+      height : "auto"
+    },
+    inputTitle: {
+        fontSize: 24,
+        fontStyle:'italic',
+        fontWeight:'bold',
+        textAlignVertical: "top",
+        marginTop: 10,
+        marginHorizontal: 0.025 * screenWidth,
+        height : "auto"
+    },
+    imgPick: {
+      width: "100%",
+      height: 0.5 * screenHeight,
+      marginBottom: 10,
+      objectFit : "cover"
+    },
+    btnContainer: {
+      backgroundColor: "teal",
+      height: 0.05 * screenHeight,
+      borderRadius: 10,
+      alignItems: "center",
+      justifyContent: "center",
+      marginHorizontal: 0.025 * screenWidth,
+      marginBottom : 10,
+    },
+    text2: {
+      fontSize: 18,
+      color: "white",
+      fontWeight: "bold",
+    },
+    iconDelete: {
+      top: 0.07 * screenHeight,
+      right: 0,
+      backgroundColor: "rgba(0, 0, 0, 0.6)",
+      borderRadius: 50,
+    },
+    btnDeleteImg: {
+      position: "absolute",
+      top: -0.085 * screenHeight,
+      right: 0,
+    },
+  })

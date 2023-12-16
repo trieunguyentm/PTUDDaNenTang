@@ -1,11 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, StatusBar, SafeAreaView } from "react-native"
+import React, { useState, useEffect,useRef } from 'react';
+import { RefreshControl, View, StyleSheet, StatusBar, SafeAreaView, Alert, ScrollView } from "react-native"
 import { Dimensions } from "react-native"
 import Feed from './Feed';
 import { publicRequest } from '../api/requestMethod';
 import { useDispatch } from 'react-redux';
 import { postFetching, fetchFailed,getAllRequest,getAllEvents, postFetched } from '../redux/posts';
-import { useSelector } from 'react-redux';
+import { FontAwesome } from '@expo/vector-icons';
+import { Feather } from '@expo/vector-icons';
+
 
 
 
@@ -14,12 +16,25 @@ const screenHeight = Dimensions.get("window").height
 
 
 const Home = ({route,navigation}) => {
+  const [refreshing, setRefreshing] = React.useState(false);
   const dispatch = useDispatch()
   const check = (route.name==="News")
-  const posts = (check) ? (useSelector((state)=> {state.posts.requests})) : (useSelector((state)=>{state.posts.events}))
   const [request,setRequest] = useState([])
-  const [events,setEvents] = useState([])
-  
+  const [events,setEvents] = useState([]) 
+  const scrollRef = useRef()
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    setTimeout(() => {
+      setRefreshing(false);
+    }, 2000);
+  }, []);
+
+  const goesToTop =()=> {
+    scrollRef.current?.scrollTo({
+      y: 0,
+      animated: true,
+    });
+  }
   useEffect(()=> {
     const getData = async () => {
       dispatch(postFetching())
@@ -39,26 +54,24 @@ const Home = ({route,navigation}) => {
         console.log(error)
         dispatch(fetchFailed())
       }
-
-
-      /*try{ 
-        const res = await publicRequest.get('helpRequest/getAllHelpRequest')
-        setRequest(res.data.data)
-        check?(dispatch(getAllRequest(res.data.data))) : (dispatch(getAllEvents(res.data.data)))
-      } catch (error) {
-        dispatch(fetchFailed())
-      } */
     }
     getData()
-  },[])
+  },[refreshing])
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
           <SafeAreaView style={{ flex: 1 }}>
+            
             <View style={styles.contentContainer}>
-              <Feed Events={(check)? ((posts)?posts:request):((posts)?posts:events)}/> 
+              <ScrollView
+                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+                ref={scrollRef}
+                >
+                <Feed Events={(check)? request:events}/> 
+              </ScrollView>
             </View>
           </SafeAreaView>
+          
       </View>
     )
 }
@@ -67,6 +80,8 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignContent:'center',
+    maxHeight:screenHeight,
+    maxWidth:screenWidth
   },
   contentContainer: {
     flex: 1,
@@ -78,6 +93,8 @@ const styles = StyleSheet.create({
     backgroundColor:'#A8A3A3',
     width:screenWidth,
     height:screenHeight*0.007
+  },
+  goesToTopButton : {
   }
 })
 

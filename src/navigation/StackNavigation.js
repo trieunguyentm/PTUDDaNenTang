@@ -175,11 +175,6 @@ const FunctionStack = ({navigation,route}) => {
       <Stack.Screen
          name="Posting"
          component={CreatePost}
-         options={({navigation,route})=>({
-          headerRight: () => (
-            <Button title="Upload"/>
-          )
-         })}
       />
     </Stack.Navigator>
   )

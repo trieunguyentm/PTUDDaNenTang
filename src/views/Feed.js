@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, ScrollView,View, Image,TouchableOpacity,Text } from 'react-native';
+import { RefreshControl,StyleSheet, ScrollView,View, Image,TouchableOpacity,Text } from 'react-native';
 import Post from './Post';
 import { Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -15,10 +15,10 @@ const Feed = ({Events}) => {
     const createPost = () => {
         navigation.navigate('Posting',route.name)
     }
-    
 
+ 
     return (
-        <ScrollView style={styles.Feed}>
+        <View>
             <View style={styles.Spacer}/>
             <View style={styles.PostCreator}>
                 <TouchableOpacity onPress={createPost}>
@@ -36,7 +36,7 @@ const Feed = ({Events}) => {
                 </TouchableOpacity>
 
                 <TouchableOpacity style={styles.addPostIcon} onPress={createPost}>
-                    <MaterialIcons name="post-add" size={30} color="black" />
+                    <MaterialIcons name="post-add" size={50} color="black" />
                 </TouchableOpacity>
                 
             </View>
@@ -45,8 +45,8 @@ const Feed = ({Events}) => {
             {Events?.map(data => (
                 <Post key={data.id} Event ={data}/>
             ))}
-           
-        </ScrollView>
+        </View>
+        
     
     )
 }
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#A8A3A3',
     },
     PostCreator: {
-        height:screenHeight*0.05,
+        height:screenHeight*0.08,
         backgroundColor:'#FFFFFF',
         flexDirection:'row',
         paddingLeft:screenWidth*0.03,
@@ -65,16 +65,16 @@ const styles = StyleSheet.create({
     },
     userAvatar : {
         resizeMode:'center',
-        width:screenHeight*0.05,
-        height:screenHeight*0.05,
-        borderRadius:screenHeight*0.025,
+        width:screenHeight*0.07,
+        height:screenHeight*0.07,
+        borderRadius:screenHeight*0.035,
         borderColor:'#000000',
         borderWidth:1,
         
     },
     TextContainer: {
-        width:screenWidth*0.7,
-        height:screenHeight*0.04,
+        width:screenWidth*0.6,
+        height:screenHeight*0.05,
         borderCurve:'circular',
         borderRadius:screenWidth*0.45,
         borderWidth:1,

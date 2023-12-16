@@ -50,7 +50,7 @@ const Post = ({Event}) => {
             
             </View>
             <View>
-                <Text style={styles.title}>{Event.title}</Text>
+                <Text style={styles.title}>"{Event.title}"</Text>
             </View>
             <View>
                 <Text style={styles.description}>{Event.description}</Text>
@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
 
     PostImage : {
         height:300,
-        width:screenWidth*0.5,
         resizeMode:'cover'
     },
 
@@ -149,10 +148,8 @@ const styles = StyleSheet.create({
     },
     title : {
         fontSize:24,
-        borderTopWidth:0.1,
-        borderBottomWidth:1,
-        borderTopColor:'#cccccc',
-        borderBottomColor:'#cccccc',
+        fontStyle:'italic',
+        fontWeight:'bold',
         paddingLeft:screenWidth*0.025,
         marginTop:2
     },
