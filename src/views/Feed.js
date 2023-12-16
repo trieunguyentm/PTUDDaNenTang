@@ -44,7 +44,6 @@ const Feed = ({Events}) => {
             <View style={styles.Spacer}/>
             {Events?.map(data => (
                 <Post key={data.id} Event ={data}/>
-
             ))}
            
         </ScrollView>

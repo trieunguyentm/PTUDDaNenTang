@@ -26,11 +26,17 @@ const Post = ({Event}) => {
             <View style={styles.topNavigation}>
              
              <TouchableOpacity style={styles.displayInfo}>
-                <Image style={styles.userAvatar} source={{uri:'https://p7.hiclipart.com/preview/344/344/59/google-logo-g-suite-google.jpg'}} ></Image>
+                <Image style={styles.userAvatar} source={{
+                    uri:Event.urlAvatar
+                    ? Event.urlAvatar
+                    : "https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.pngz" }} ></Image>
                 
                 <View style={flexDirection='column'}>
-                    <Text style={styles.userName}>{Event.createdBy}</Text>
-                    <Text style={styles.time}>{Event.createdAt}</Text>
+                    <Text style={styles.userName}>
+                        {Event.displayName 
+                        ?Event.displayName
+                        : Event.createdBy}</Text>
+                    <Text style={styles.time}>{Event.createAt}</Text>
                 </View>
              
              </TouchableOpacity>
@@ -43,12 +49,13 @@ const Post = ({Event}) => {
             
             
             </View>
-
-            <TouchableOpacity>
-                <View>
-                    <Text style={styles.description}>{Event.description}</Text>
-                </View>
-            </TouchableOpacity>
+            <View>
+                <Text style={styles.title}>{Event.title}</Text>
+            </View>
+            <View>
+                <Text style={styles.description}>{Event.description}</Text>
+            </View>
+            
 
 
             <View style={styles.PostImgContainer}>
@@ -76,27 +83,26 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         width:screenWidth,
         backgroundColor:'#FFFFFF',
-        paddingBottom:5,
-        paddingTop:5,
         justifyContent:'center'
     }, 
     displayInfo : {
+        marginTop:5,
         flexDirection:'row',
         resizeMode:'contain',
         height:screenHeight*0.05,
         maxWidth:screenWidth*0.6,
         paddingLeft:screenWidth*0.025,
-        
+        marginBottom:10   
     },
     userAvatar : {
         resizeMode:'center',
-        width:screenHeight*0.05,
-        height:screenHeight*0.05,
-        borderRadius:screenHeight*0.025
+        width:screenHeight*0.06,
+        height:screenHeight*0.06,
+        borderRadius:screenHeight*0.03,
     },
     userName : {
         paddingLeft:5,
-        fontSize:17,
+        fontSize:20,
     },
     time : {
        paddingLeft:5,
@@ -139,7 +145,16 @@ const styles = StyleSheet.create({
         paddingTop:screenHeight*0.01,
         paddingLeft:screenWidth*0.025,
         paddingRight:screenWidth*0.025,
-        fontSize:20
+        fontSize:20,
+    },
+    title : {
+        fontSize:24,
+        borderTopWidth:0.1,
+        borderBottomWidth:1,
+        borderTopColor:'#cccccc',
+        borderBottomColor:'#cccccc',
+        paddingLeft:screenWidth*0.025,
+        marginTop:2
     },
     topNavigation : {
         flexDirection:'row',

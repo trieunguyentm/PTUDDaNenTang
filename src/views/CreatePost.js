@@ -81,7 +81,7 @@ export default function CreatePost({navigation,route}){
         <SafeAreaView style={{flex:1}}>
             <View style={styles.contentContainer}>
                 <View style={styles.userInfoDisplay}>
-                    <Image style={styles.userAvatar} source={{uri:user.urlAvatar}}/>
+                    <Image style={styles.userAvatar} source={{uri:user.urlAvatar ? user.urlAvatar : "https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.pngz"}}/>
                     <Text style={styles.displayName}>{user.displayName}</Text>
                 </View>
                 <View style={styles.Title}>
@@ -152,10 +152,10 @@ const styles = StyleSheet.create({
     displayName : {
         fontSize:20,
         paddingLeft:screenWidth*0.02,
+        paddingTop:screenHeight*0.01
     },
     descriptionContainer : {
         flex:1,
-        flexWrap:'wrap',
         paddingTop:screenHeight*0.01,
         maxHeight:screenHeight*0.6,
         borderTopWidth:1,
