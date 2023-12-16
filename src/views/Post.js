@@ -2,7 +2,8 @@ import React from 'react';
 import { View,Text,TouchableOpacity,ImageBackground, Image,StyleSheet, Button} from 'react-native';
 import { Dimensions } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import {  useRoute } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import { FontAwesome } from "@expo/vector-icons"
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
@@ -10,10 +11,16 @@ const screenWidth = Dimensions.get('window').width
 
 const Post = ({Event}) => {
     const route = useRoute()
+    const check =(route.name === 'News')
     const manageButton = () => {
         console.log(route)
     }
-    
+    const message = () => {
+
+    }
+    const mark = () => {
+
+    }
     return (
         <View style={styles.container}>
             <View style={styles.topNavigation}>
@@ -53,11 +60,12 @@ const Post = ({Event}) => {
             </View>
             
             <View style={styles.Navigator}>
-
+                <FontAwesome.Button name="bookmark-o" style={styles.iconStyles} size={24} color="black" onPress={mark}>Bookmark</FontAwesome.Button>
+                <FontAwesome.Button name="comments-o" style ={styles.iconStyles} size={24}  color="black" onPress={message}>Message</FontAwesome.Button>
             </View>
+            <View style={styles.Spacer}/>
 
             
-            <View style={styles.Spacer}/>
         </View>
 
     )
@@ -71,8 +79,6 @@ const styles = StyleSheet.create({
         paddingBottom:5,
         paddingTop:5,
         justifyContent:'center'
-        
-    
     }, 
     displayInfo : {
         flexDirection:'row',
@@ -99,25 +105,34 @@ const styles = StyleSheet.create({
     PostImgContainer : {
         flex:1,
         flexDirection:'row',
-        height:300
+        height:'auto',
+        borderTopWidth:0.5,
+        borderBottomWidth:0.5,
+        borderTopColor:'#cccccc',
+        borderBottomColor:'#cccccc',
+        marginTop:5,
+        marginBottom:3
     },
 
     PostImage : {
         height:300,
         width:screenWidth*0.5,
-        marginTop:10,
         resizeMode:'cover'
     },
 
     Navigator : {
-        width:screenWidth,
-        height:screenHeight*0.05,
-        flexDirection:'column',
+        flex:1,
+        flexDirection:'row',
+        justifyContent:'space-around',
+        alignContent:'space-between',
+        alignItems:'center',
+        marginTop:3,
+        marginBottom:3
     },
     Spacer : { 
         width:screenWidth,
         backgroundColor:'#A8A3A3',
-        height:screenHeight*0.007
+        height:screenHeight*0.003
     },
     description: {
         flex:1,
@@ -136,6 +151,11 @@ const styles = StyleSheet.create({
         paddingRight:screenWidth*0.02
 
     },
+    iconStyles : {
+        backgroundColor:"#ffffff",
+        resizeMode:'contain',
+        backfaceVisibility:'visible'
+    }
     
     
     

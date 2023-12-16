@@ -6,6 +6,7 @@ export const postsSlice = createSlice({
     initialState : {
         requests:[],
         events:[],
+        liked :[],
         postsLoading:false,
         error:false
 
@@ -20,11 +21,14 @@ export const postsSlice = createSlice({
         postFetching : (state,action) => {
             state.postsLoading= true
         },
+        postFetched : (state,action) => {
+            state.postsLoading=false
+        },
         fetchFailed : (state,action) => {
             state.error= true
         }
     },
 })
 
-export const {getAllRequest, getAllEvents,postFetching,fetchFailed} = postsSlice.actions
+export const {getAllRequest, getAllEvents,postFetching,fetchFailed, postFetched} = postsSlice.actions
 export default postsSlice.reducer

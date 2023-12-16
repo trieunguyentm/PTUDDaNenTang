@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     Spacer : { 
         width:screenWidth,
         backgroundColor:'#A8A3A3',
-        height:screenHeight*0.005
+        height:screenHeight*0.003
     },
     
 })

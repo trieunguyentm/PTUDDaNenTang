@@ -18,6 +18,7 @@ export default function CreatePost({navigation,route}){
     const [error,setError] = useState(null)
 
     const chooseImage = async () => {
+        setFile(null)
         const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
         
         if(!permission.granted) {
@@ -43,7 +44,7 @@ export default function CreatePost({navigation,route}){
             const fileType = uriParts[uriParts.length - 1]
             formData.append("images",{
                 uri:item.uri,
-                name:`file.${fileType}`,
+                name:`file.${item.uri}`,
                 type:`image/${fileType}`
             })
         })
@@ -85,6 +86,7 @@ export default function CreatePost({navigation,route}){
                 </View>
                 <View style={styles.Title}>
                     <TextInput
+                    multiline
                     placeholder="Enter Title"
                     value={title}
                     onChangeText={setTitle}
@@ -93,6 +95,7 @@ export default function CreatePost({navigation,route}){
                 </View>
                 <View style={styles.descriptionContainer}>
                     <TextInput 
+                    multiline
                     placeholder="Enter description"
                     value= {description}
                     onChangeText={setDescription}
@@ -101,7 +104,7 @@ export default function CreatePost({navigation,route}){
 
                 <View style={styles.previewContainer}>
                     {file?(file.map(item => (
-                        <Image style={styles.previewImage} 
+                        <Image style={{height:'auto',resizeMode:'cover', width:screenWidth/(file.length)}} 
                         source={{uri:item.uri}}
                         key={item.uri}/>
 
@@ -112,7 +115,7 @@ export default function CreatePost({navigation,route}){
                     <TouchableOpacity style={{flexDirection:'row', alignItems:'center'}}
                     onPress={chooseImage}
                     >
-                    <Image style={styles.photoImage} source={require('../../assets/photos.png')}></Image>
+                    <Image style={styles.photoImage}  source={require('../../assets/photos.png')}></Image>
                     <Text style={{paddingLeft:screenWidth*.02}}>Photo/Videos</Text>
                 </TouchableOpacity>
                 </View>
@@ -130,15 +133,14 @@ export default function CreatePost({navigation,route}){
 const styles = StyleSheet.create({
     contentContainer : {
         flex:1,
-        flexDirection:'column',
-        gap:1
-        
+        flexDirection:'column',       
     },
     userInfoDisplay : {
         height:screenHeight*0.1,
         flexDirection:'row',
         paddingLeft:screenWidth*0.025,
-        backgroundColor:'#A8A3A3',
+        borderBottomColor:'#cccccc',
+        borderBottomWidth:1
     },
     userAvatar : {
         resizeMode:'center',
@@ -152,12 +154,12 @@ const styles = StyleSheet.create({
         paddingLeft:screenWidth*0.02,
     },
     descriptionContainer : {
+        flex:1,
+        flexWrap:'wrap',
         paddingTop:screenHeight*0.01,
-        height:screenHeight*0.3,
         maxHeight:screenHeight*0.6,
-        borderBottomWidth:1,
-        borderBottomColor:'#cccccc',
-        backgroundColor:'#FFF111',
+        borderTopWidth:1,
+        borderTopColor:'#cccccc',
         
     },
     fileOptions : {
@@ -167,25 +169,27 @@ const styles = StyleSheet.create({
         borderBottomColor:'#cccccc',
         borderTopColor:'#cccccc',
         borderTopWidth:1,
-        marginTop:'auto'
     },
     photoImage : {
         height:screenHeight*0.06,
         width:screenHeight*0.06,
-        marginTop:'auto'
     },
     previewContainer : {
         flex:1,
         flexDirection:'row',
         height:'auto',
-        backgroundColor:'#000000'
+        borderBottomWidth:1,
+        borderBottomColor:'#cccccc',  
     },
     previewImage : {
         resizeMode:'cover',
         height:'auto',
-        width:screenWidth*0.5  
     },
     Title : {
+        borderTopColor:'#cccccc',
+        borderBottomColor:'#cccccc',
+        borderTopWidth:1,
+        borderBottomWidth:1,
         height:screenHeight*0.06
     }
     
