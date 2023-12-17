@@ -15,6 +15,7 @@ import {
   ActivityIndicator,
 } from "react-native"
 import { userRequest } from "../api/requestMethod"
+import { useSelector } from 'react-redux';
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -37,6 +38,11 @@ const PostGroup = (data) => {
     getUser()
   }, [])
 
+  const group = useSelector((state) =>
+    state.group.groupAll.find((item) => item.id === data.data.organizationId),
+  )
+
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -45,10 +51,23 @@ const PostGroup = (data) => {
           <View style={styles.headerContainer}>
             <Image source={{ uri: user?.urlAvatar }} style={styles.imgUser} />
             <View>
-              <Text style={styles.nameUser}>
-                {user?.displayName ? user?.displayName : user?.username}
-              </Text>
-              <Text style={styles.text1}>Thành viên</Text>
+              {data.route ? (
+                <>
+                  <Text style={styles.nameUser}>
+                    {group.name}
+                  </Text>
+                  <Text style={styles.text1}>
+                    {user?.displayName ? user?.displayName : user?.username}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.nameUser}>
+                    {user?.displayName ? user?.displayName : user?.username}
+                  </Text>
+                  <Text style={styles.text1}>Thành viên</Text>
+                </>
+              )}
             </View>
           </View>
           <Text style={styles.text2}>{data?.data?.description}</Text>
@@ -88,6 +107,10 @@ const styles = StyleSheet.create({
     width: 0.15 * screenWidth,
     height: 0.15 * screenWidth,
     borderRadius: 50,
+  },
+  headerTitleContainer:{
+    display : "flex",
+    flexDirection : "row"
   },
   nameUser: {
     fontSize: 24,

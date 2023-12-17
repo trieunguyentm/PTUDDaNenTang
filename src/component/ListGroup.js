@@ -16,18 +16,19 @@ import BtnJoinGroup from "./BtnJoinGroup"
 import { publicRequest, userRequest } from "../api/requestMethod"
 import { useDispatch, useSelector } from "react-redux"
 import { useNavigation } from "@react-navigation/native"
-import { getAllGroups } from "../redux/group"
+import { getAllGroups, getRequestJoinGroupByUser } from "../redux/group"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
-const Item = ({ data, request }) => {
+const Item = ({ data, request ,req}) => {
   const navigation = useNavigation()
   const user = useSelector((state) => state.user?.currentUser)
   const dataSend = {
     username: user.username,
     organizationId: data.id,
     request : request,
+    requestId : req?.id,
   }
   return (
     <TouchableOpacity
@@ -83,6 +84,7 @@ const ListGroup = () => {
           "organization/getRequestJoinOrganizationByUser",
         )
         setResquest(requests.data.data)
+        dispatch(getRequestJoinGroupByUser(requests.data.data))
       } catch (error) {
         console.log("error", error)
       }
@@ -100,6 +102,7 @@ const ListGroup = () => {
           "organization/getRequestJoinOrganizationByUser",
         )
         setResquest(requests.data.data)
+        dispatch(getRequestJoinGroupByUser(requests.data.data))
         setRefreshing(false)
       } catch (error) {
         console.log("error", error)
@@ -108,6 +111,10 @@ const ListGroup = () => {
     }
     getAllReq()
   }, [])
+
+  const requestByUser = useSelector(
+    (state) => state?.group?.requestJoinGroupByUser
+  )
 
   return (
     <View style={styles.container}>
@@ -119,7 +126,14 @@ const ListGroup = () => {
             renderItem={({ item }) => (
               <Item
                 data={item}
-                request={request?.find((req) => req.organizationId === item.id) ? true : false}
+                request={
+                  requestByUser?.find((req) => req.organizationId === item.id)
+                    ? true
+                    : false
+                }
+                req={requestByUser?.find(
+                  (req) => req.organizationId === item.id,
+                )}
               />
             )}
             keyExtractor={(item) => item.id}
