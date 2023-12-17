@@ -7,7 +7,8 @@ const groupSlide = createSlice({
     GroupsHasJoin: [],
     groupManage: [],
     requestJoinGroup: null,
-    postGroup : null,
+    requestJoinGroupByUser: null,
+    postGroup: null,
     isLoading: false,
     error: false,
   },
@@ -23,6 +24,9 @@ const groupSlide = createSlice({
     },
     getRequestJoinGroup: (state, action) => {
       state.requestJoinGroup = action.payload
+    },
+    getRequestJoinGroupByUser: (state, action) => {
+      state.requestJoinGroupByUser = action.payload
     },
     updateImgGroupHasJoin: (state, action) => {
       state.GroupsHasJoin[
@@ -44,6 +48,17 @@ const groupSlide = createSlice({
       state.groupAll.push(action.payload)
       state.GroupsHasJoin.push(action.payload)
       state.groupManage.push(action.payload)
+    },
+    addRequestByUser: (state, action) => {
+      state.requestJoinGroupByUser.push(action.payload)
+    },
+    deleteRequestByUser: (state, action) => {
+      state.requestJoinGroupByUser.splice(
+        state.requestJoinGroupByUser.findIndex(
+          (item) => item.id == action.payload,
+        ),
+        1,
+      )
     },
     updateGroupss: (state, action) => {
       state.GroupsHasJoin[
@@ -89,6 +104,9 @@ export const {
   addRequest,
   addGroup,
   updateGroupss,
+  getRequestJoinGroupByUser,
+  addRequestByUser,
+  deleteRequestByUser,
 } = groupSlide.actions
 
 export default groupSlide.reducer

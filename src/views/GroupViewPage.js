@@ -227,6 +227,19 @@ const GroupViewPage = ({ route, navigation }) => {
 
   const onRefresh = React.useCallback(() => {
     setRefreshing(true)
+    const getPostAll = async () => {
+      try {
+        const res = await userRequest(
+          `organization/getPostInOrganization/${groupId}`,
+        )
+        setPosts(res.data.data)
+        setRefreshing(false)
+      } catch (error) {
+        console.log(error)
+        setRefreshing(false)
+      }
+    }
+    getPostAll()
   }, [])
 
   return (
@@ -390,9 +403,13 @@ const GroupViewPage = ({ route, navigation }) => {
                 </TouchableOpacity>
               </View>
             ) : null}
-            {join ? <View style={styles.postContainer}>
-              {posts?.map((item, index) =><PostGroup key={index} data={item}/>)}
-            </View> : null}
+            {join ? (
+              <View style={styles.postContainer}>
+                {posts?.map((item, index) => (
+                  <PostGroup key={index} data={item} />
+                ))}
+              </View>
+            ) : null}
           </ScrollView>
         </View>
       </SafeAreaView>
@@ -614,10 +631,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 24,
   },
-  postContainer:{
-    flex : 1,
-    backgroundColor : "#E8E9EB",
-    paddingVertical : 5,
+  postContainer: {
+    flex: 1,
+    backgroundColor: "#E8E9EB",
+    paddingVertical: 5,
   },
 })
 

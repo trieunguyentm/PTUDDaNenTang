@@ -10,16 +10,19 @@ import { userRequest } from "../api/requestMethod"
 import { apiRequestJoinGroup } from "../api/apiRequestJoinGroup"
 import Toast from "react-native-toast-message"
 import { useDispatch, useSelector } from "react-redux"
+import { apiDeleteRequest } from "../api/apiDeleteRequest"
+import { addRequestByUser, deleteRequestByUser } from "../redux/group"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const BtnJoinGroup = ({ dataSend }) => {
   const [join, setJoin] = useState(false)
-  
+
   const user = useSelector((state) => state.user?.currentUser)
 
   const [request, setRequest] = useState(false)
+
 
   // const request = useSelector((state) =>
   //   state?.group?.requestJoinGroup?.find(
@@ -52,8 +55,6 @@ const BtnJoinGroup = ({ dataSend }) => {
     //   } else {
     //     setRequest(false)
     //   }
-   
-
   }, [])
 
   useEffect(() => {
@@ -65,6 +66,8 @@ const BtnJoinGroup = ({ dataSend }) => {
       const res = await apiRequestJoinGroup({
         organizationId: dataSend?.organizationId,
       })
+      console.log(res.data)
+      dispatch(addRequestByUser(res.data.data))
       if (res?.data && res?.data.code === 0) {
         Toast.show({
           type: "success",
@@ -88,12 +91,33 @@ const BtnJoinGroup = ({ dataSend }) => {
       }
     }
   }
+  const handleDelete = async () => {
+    try {
+      const res = await apiDeleteRequest({
+        requestId: dataSend?.requestId,
+      })
+      dispatch(deleteRequestByUser(dataSend.requestId))
+      if (res?.data && res?.data.code === 0) {
+        Toast.show({
+          type: "success",
+          text1: "Xóa yêu cầu thành công",
+        })
+      }
+      setRequest(false)
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Có lỗi xảy ra",
+        text2: "Vui lòng thử lại",
+      })
+    }
+  }
 
   return (
     <>
       {!join ? (
         request ? (
-          <TouchableOpacity style={styles.container1}>
+          <TouchableOpacity style={styles.container1} onPress={handleDelete}>
             <Text style={styles.text1}>Hủy yêu cầu</Text>
           </TouchableOpacity>
         ) : (
