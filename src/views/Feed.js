@@ -1,15 +1,17 @@
 import React from 'react';
-import { RefreshControl,StyleSheet, ScrollView,View, Image,TouchableOpacity,Text } from 'react-native';
+import {StyleSheet,View, Image,TouchableOpacity,Text } from 'react-native';
 import Post from './Post';
 import { Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
 
 const Feed = ({Events}) => {
+    const user = useSelector((state)=> state.user?.currentUser)
     const navigation = useNavigation()
     const route = useRoute();
     const createPost = () => {
@@ -20,12 +22,10 @@ const Feed = ({Events}) => {
     return (
         <View>
             <View style={styles.Spacer}/>
-            <View style={styles.PostCreator}>
-                <TouchableOpacity onPress={createPost}>
-                    <View>
-                        <Image style={styles.userAvatar} source={{uri:'https://p7.hiclipart.com/preview/344/344/59/google-logo-g-suite-google.jpg'}}/>
-                    </View>
-                </TouchableOpacity>
+            <View style={styles.PostCreator}>  
+                <View>
+                    <Image style={styles.userAvatar} source={{uri:`${user.urlAvatar}`}}/>
+                </View>
 
                 <TouchableOpacity onPress={createPost}>
                     <View style={styles.TextContainer}>
@@ -34,11 +34,7 @@ const Feed = ({Events}) => {
                        </Text>
                     </View>           
                 </TouchableOpacity>
-
-                <TouchableOpacity style={styles.addPostIcon} onPress={createPost}>
-                    <MaterialIcons name="post-add" size={50} color="black" />
-                </TouchableOpacity>
-                
+                <MaterialIcons style={styles.addPostIcon} name="post-add" size={50} color="black" />
             </View>
             
             <View style={styles.Spacer}/>

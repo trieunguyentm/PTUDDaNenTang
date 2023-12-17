@@ -5,8 +5,7 @@ import Feed from './Feed';
 import { publicRequest } from '../api/requestMethod';
 import { useDispatch } from 'react-redux';
 import { postFetching, fetchFailed,getAllRequest,getAllEvents, postFetched } from '../redux/posts';
-import { FontAwesome } from '@expo/vector-icons';
-import { Feather } from '@expo/vector-icons';
+import { useScrollToTop } from '@react-navigation/native'
 
 
 
@@ -28,13 +27,7 @@ const Home = ({route,navigation}) => {
       setRefreshing(false);
     }, 2000);
   }, []);
-
-  const goesToTop =()=> {
-    scrollRef.current?.scrollTo({
-      y: 0,
-      animated: true,
-    });
-  }
+  useScrollToTop(scrollRef)
   useEffect(()=> {
     const getData = async () => {
       dispatch(postFetching())
