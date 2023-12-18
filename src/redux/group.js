@@ -60,6 +60,20 @@ const groupSlide = createSlice({
         1,
       )
     },
+    deleteGroup: (state, action) => {
+      state.groupAll.splice(
+        state.groupAll.findIndex((item) => item.id == action.payload),
+        1,
+      )
+      state.GroupsHasJoin.splice(
+        state.GroupsHasJoin.findIndex((item) => item.id == action.payload),
+        1,
+      )
+      state.groupManage.splice(
+        state.groupManage.findIndex((item) => item.id == action.payload),
+        1,
+      )
+    },
     updateGroupss: (state, action) => {
       state.GroupsHasJoin[
         state.GroupsHasJoin.findIndex((item) => item.id == action.payload.id)
@@ -107,6 +121,7 @@ export const {
   getRequestJoinGroupByUser,
   addRequestByUser,
   deleteRequestByUser,
+  deleteGroup,
 } = groupSlide.actions
 
 export default groupSlide.reducer

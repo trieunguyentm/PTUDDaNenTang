@@ -75,8 +75,8 @@ const Browserss = () => {
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.contentContainer}>
-          {request?.map((item) => (
-            <View style={styles.dataContainer}>
+          {request?.map((item,index) => (
+            <View style={styles.dataContainer} key={index}>
               <Text style={styles.text2}>{item.username}</Text>
               <TouchableOpacity
                 style={styles.btnAccept}
