@@ -3,7 +3,7 @@ import {View, Text,StyleSheet, SafeAreaView, Image, Dimensions, ScrollView} from
 import { userRequest } from "../api/requestMethod";
 import { postFetched, postFetching, fetchFailed } from "../redux/posts";
 import { useDispatch, useSelector } from "react-redux";
-import Post from "./Post";
+import Post from "../component/homeComponent/Post";
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
@@ -32,17 +32,10 @@ const UserView = () => {
     return (
         <View style={styles.screenContainer}>
             <SafeAreaView style={{flex:1}}>
-                <View style = {styles.userInfomation}>
-                    <Image style={styles.userImage} source={{uri:user.urlAvatar}}></Image>
-                    <View style={styles.nameContainer}>
-                        <Text style={styles.displayName}>{user.displayName}</Text>
-                        <Text style={styles.username}>@{user.username}</Text>
-                        <Text style = {styles.username}>SDT: {user.phone}</Text>
-                    </View>
-                </View>
+               
                 <ScrollView>
                    {data? 
-                   (data.map(item => (<Post key={item.id} Event ={item}/>))) 
+                   (data.map(item => (<Post key={item.id} Event ={item} id = {item.id}/>))) 
                    : 
                    (<Text>You have not created any request</Text>)
                    }

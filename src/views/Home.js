@@ -1,67 +1,23 @@
-import React, { useState, useEffect,useRef } from 'react';
-import { RefreshControl, View, StyleSheet, StatusBar, SafeAreaView, Alert, ScrollView } from "react-native"
+import React from 'react';
+import {  View, StyleSheet, StatusBar, SafeAreaView, Text } from "react-native"
 import { Dimensions } from "react-native"
-import Feed from './Feed';
-import { publicRequest } from '../api/requestMethod';
-import { useDispatch } from 'react-redux';
-import { postFetching, fetchFailed,getAllRequest,getAllEvents, postFetched } from '../redux/posts';
-import { useScrollToTop } from '@react-navigation/native'
-
-
-
+import HomeTopTab from '../component/homeComponent/HomeTopTab';
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
-
-
-const Home = ({route,navigation}) => {
-  const [refreshing, setRefreshing] = React.useState(false);
-  const dispatch = useDispatch()
-  const check = (route.name==="News")
-  const [request,setRequest] = useState([])
-  const [events,setEvents] = useState([]) 
-  const scrollRef = useRef()
-  const onRefresh = React.useCallback(() => {
-    setRefreshing(true);
-    setTimeout(() => {
-      setRefreshing(false);
-    }, 2000);
-  }, []);
-  useScrollToTop(scrollRef)
-  useEffect(()=> {
-    const getData = async () => {
-      dispatch(postFetching())
-
-      try {
-        if(check) {
-          const res = await publicRequest.get('helpRequest/getAllHelpRequest')
-          setRequest(res.data.data)
-          dispatch(getAllRequest(res.data.data))
-        } else {
-          //const res = await publicRequest.get('helpRequest/getAllEvents')
-          //setEvents(res.data.data)
-          //dispatch(getAllEvents(res.data.data))
-        }
-        dispatch(postFetched())
-      } catch (error) {
-        console.log(error)
-        dispatch(fetchFailed())
-      }
-    }
-    getData()
-  },[refreshing])
+const Home = () => { 
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
           <SafeAreaView style={{ flex: 1 }}>
-            
             <View style={styles.contentContainer}>
-              <ScrollView
-                refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
-                ref={scrollRef}
-                >
-                <Feed Events={(check)? request:events}/> 
-              </ScrollView>
+              <View style={styles.headerContainer}>
+                <Text style={styles.titleHeader}>Tên app</Text>
+              </View>
+              <View style={{flex:1}}>
+                <HomeTopTab/>
+              </View>
+              
             </View>
           </SafeAreaView>
           
@@ -81,14 +37,34 @@ const styles = StyleSheet.create({
     overflow: "scroll",
    
   },
-  Spacer : {
-    backgroundColor:'#A8A3A3',
-    width:screenWidth,
-    height:screenHeight*0.007
+  headerContainer: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    height: 0.07 * screenHeight,
+    marginHorizontal: 0.025 * screenWidth,
   },
-  goesToTopButton : {
-  }
+  titleHeader: {
+    fontSize: 34,
+    fontWeight: "bold",
+  },
+  btnHeaderContainer: {
+    display: "flex",
+    flexDirection: "row",
+  },
+  btnHeader: {
+    borderRadius: 100,
+    backgroundColor: "#E8E9EB",
+    height: 0.11 * screenWidth,
+    width: 0.11 * screenWidth,
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: 10,
+  },
+
 })
 
-module.exports =Home
+export default Home
 

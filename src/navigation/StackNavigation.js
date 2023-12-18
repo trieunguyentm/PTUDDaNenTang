@@ -21,10 +21,9 @@ import Browserss from "../component/Browserss"
 import CreatePost from './../views/CreatePost';
 import UpdateGroup from "../component/UpdateGroup"
 import CreatePostGroup from "../component/CreatePostGroup"
-import UserView from "../views/UserView"
 
 const Stack = createNativeStackNavigator()
-const TopTab = createMaterialTopTabNavigator()
+
 
 
 const MainStack = () => {
@@ -166,33 +165,18 @@ const GroupStack = () => {
   )
 }
 
-const FunctionStack = ({navigation,route}) => {
+const HomeStack = ({navigation,route}) => {
   return (
     <Stack.Navigator initialRouteName="Home">
       <Stack.Screen
          name="Home"
-         component={HomeTab}
+         component={Home}
          options={{headerShown:false}}/>
       <Stack.Screen
          name="Posting"
          component={CreatePost}
       />
-      <Stack.Screen
-         name="Your help request"
-         component={UserView}
-      />
     </Stack.Navigator>
   )
 }
-
-const HomeTab = ({route}) => {
-  return (
-    <TopTab.Navigator initialRouteName="News">
-      <TopTab.Screen name="News" component={Home}/>
-      <TopTab.Screen name="Events" component={Home}/>
-    </TopTab.Navigator>
-
-  )
-
-}
-export { MainStack, LoginStack, ProfileStack, HomeTab, FunctionStack ,GroupStack}
+export { MainStack, LoginStack, ProfileStack,HomeStack,GroupStack}

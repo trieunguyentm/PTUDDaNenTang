@@ -9,18 +9,12 @@ const screenWidth = Dimensions.get('window').width
 
 
 
-const Post = ({Event}) => {
-    const route = useRoute()
-    const check =(route.name === 'Your help request')
-    const manageButton = () => {
-        console.log(route)
-    }
-    const message = () => {
+const Post = ({Event,id}) => {
 
-    }
     const mark = () => {
 
     }
+    console.log(id)
     return (
         <View style={styles.container}>
             <View style={styles.topNavigation}>
@@ -40,17 +34,9 @@ const Post = ({Event}) => {
                 </View>
              
              </TouchableOpacity>
-             
-             <TouchableOpacity style={styles.manageButton} 
-               onPress={manageButton}
-             >
-                <AntDesign name="ellipsis1" size={30} color="black" />
-             </TouchableOpacity>
-            
-            
             </View>
             <View>
-                <Text style={styles.title}>"{Event.title}"</Text>
+                <Text style={styles.title}>{Event.title}</Text>
             </View>
             <View>
                 <Text style={styles.description}>{Event.description}</Text>
@@ -66,12 +52,10 @@ const Post = ({Event}) => {
                 ))}
             </View>
             
-            {!check? 
-            (<View style={styles.Navigator}>
+            
+            <View style={styles.Navigator}>
                 <FontAwesome.Button name="bookmark-o" style={styles.iconStyles} size={24} color="black" onPress={mark}>Bookmark</FontAwesome.Button>
-                <FontAwesome.Button name="comments-o" style ={styles.iconStyles} size={24}  color="black" onPress={message}>Message</FontAwesome.Button>
-            </View>) :
-            (null)}
+            </View>
             <View style={styles.Spacer}/>
 
             
@@ -82,6 +66,7 @@ const Post = ({Event}) => {
 
 const styles = StyleSheet.create({
     container: {
+        display:'flex',
         flexDirection:'column',
         width:screenWidth,
         backgroundColor:'#FFFFFF',
@@ -94,31 +79,29 @@ const styles = StyleSheet.create({
         height:screenHeight*0.05,
         maxWidth:screenWidth*0.6,
         paddingLeft:screenWidth*0.025,
-        marginBottom:10   
+        marginBottom:screenHeight*0.03
     },
     userAvatar : {
         resizeMode:'center',
-        width:screenHeight*0.06,
-        height:screenHeight*0.06,
-        borderRadius:screenHeight*0.03,
+        width:screenHeight*0.08,
+        height:screenHeight*0.08,
+        borderRadius:screenHeight*0.04,
     },
     userName : {
         paddingLeft:5,
-        fontSize:20,
+        fontSize:24,
     },
     time : {
        paddingLeft:5,
-       fontSize:12
+       fontSize:15
     },
     PostImgContainer : {
         flex:1,
         flexDirection:'row',
-        height:'auto',
         borderTopWidth:0.5,
         borderBottomWidth:0.5,
         borderTopColor:'#cccccc',
         borderBottomColor:'#cccccc',
-        marginTop:5,
         marginBottom:3
     },
 
@@ -143,17 +126,15 @@ const styles = StyleSheet.create({
     },
     description: {
         flex:1,
-        paddingTop:screenHeight*0.01,
         paddingLeft:screenWidth*0.025,
         paddingRight:screenWidth*0.025,
-        fontSize:20,
+        fontSize:18,
     },
     title : {
         fontSize:24,
         fontStyle:'italic',
         fontWeight:'bold',
         paddingLeft:screenWidth*0.025,
-        marginTop:2
     },
     topNavigation : {
         flexDirection:'row',

@@ -1,11 +1,16 @@
-import React from 'react';
-import {StyleSheet,View, Image,TouchableOpacity,Text, Modal, TextInput, Pressable } from 'react-native';
+import {useState,useRef, useEffect} from 'react';
+import React from 'react'
+import {RefreshControl, StyleSheet,View, Image,TouchableOpacity,Text, Modal, TextInput, Pressable, ScrollView, SafeAreaView } from 'react-native';
 import Post from './Post';
 import { Dimensions } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useScrollToTop } from '@react-navigation/native'
+import { useDispatch } from 'react-redux';
+import { postFetching, fetchFailed,getAllRequest,getAllEvents, postFetched } from '../../redux/posts'
+import { publicRequest } from '../../api/requestMethod';
+
 
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
@@ -13,61 +18,64 @@ const screenWidth = Dimensions.get('window').width
 
 
 
-const Feed = ({Events}) => {
+const Feed = () => {
     const user = useSelector((state)=> state.user?.currentUser)
+    const [refreshing, setRefreshing] = React.useState(false);
     const navigation = useNavigation()
-    const route = useRoute();
-    const check = (route.name==="News")
-    const [modalVisible, setModalVisible] = useState(false)
+    const [request,setRequest] = useState([])
+    const dispatch = useDispatch()
     const createPost = () => {
-        navigation.navigate('Posting',route.name)
+        navigation.navigate('Posting')
     }
     const userPosts = () => {
         navigation.navigate('Your help request')
     }
 
-    const open = () => {
-        setModalVisible(true)
-    }
-    const close = () => {
-        setModalVisible(false)
-    }
+    const scrollRef = useRef()
+    const onRefresh = React.useCallback(() => {
+      setRefreshing(true);
+      setTimeout(() => {
+        setRefreshing(false);
+      }, 2000);
+    }, []);
+    useScrollToTop(scrollRef)
 
+    useEffect(()=> {
+        const getData = async () => {
+          dispatch(postFetching())
+    
+          try {
+              const res = await publicRequest.get('helpRequest/getAllHelpRequest')
+              if(res) {
+                setRequest(res.data.data)
+                dispatch(getAllRequest(res.data.data))
+              }
+            dispatch(postFetched())
+          } catch (error) {
+            console.log(error)
+            dispatch(fetchFailed())
+          }
+        }
+        getData()
+      },[refreshing])
    
             
       
  
     return (
-        <View style={styles.Feed}>
-            <Modal
-            animationType='slide'
-            visible={modalVisible}
-            onTouchCancel={close}
-            >
-                <View style={search.container}>
-                    <View style={search.searchBar}>
-                        <TextInput
-                        placeholder='Find request'/>
-
-                    </View>
-                    <TouchableOpacity onPress={close}>
-                        <Text>Cancel</Text>
-                    </TouchableOpacity>
-                </View>
-
-            </Modal>     
-            <TouchableOpacity onPress={open}>
-                    <View style={styles.searchBar}>
-                       <Text style={{flex:1,fontSize:14}}>
-                        Tìm kiếm request...
-                       </Text>
-                    </View>           
-            </TouchableOpacity>
-
+<View style={styles.Feed}>
+    <SafeAreaView style={styles.Feed}>
+               
+        <ScrollView
+         style={styles.Feed}
+         refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
+         ref={scrollRef}
+         >
+                
+              
             <View style={styles.Spacer}/>
             
-            {check? 
-            (
+           
             <View style={styles.PostCreator}>  
                 <TouchableOpacity onPress={userPosts}>
                     <View>
@@ -84,15 +92,13 @@ const Feed = ({Events}) => {
                 </TouchableOpacity>
                 <MaterialIcons style={styles.addPostIcon} name="post-add" size={50} color="black" />
             </View>
-            ) 
-            : 
-            (null)
-            }
             <View style={styles.Spacer}/>
-            {Events?.map(data => (
-                <Post key={data.id} Event ={data}/>
+            {request?.map(data => (
+                <Post key={data.id} Event ={data} id={data.id}/>
             ))}
-        </View>
+        </ScrollView>
+    </SafeAreaView>
+</View>
         
     
     )
@@ -101,7 +107,7 @@ const Feed = ({Events}) => {
 const styles = StyleSheet.create({
     Feed : {
         flex:1,
-        backgroundColor:'#FFFFFF'
+      
     },
     PostCreator: {
         height:screenHeight*0.08,
@@ -154,27 +160,5 @@ const styles = StyleSheet.create({
     }
     
 })
-
-const search = StyleSheet.create( {
-    container : {
-        flex:1,
-        alignItems:'center',
-    },
-    searchBar : {
-        width:screenWidth,
-        height:screenHeight*0.05,
-        borderRadius:screenWidth*0.45,
-        borderWidth:1,
-        borderColor:'#000000',
-        alignItems:'center',
-        margin:10
-        
-    },
-    cancleButton : {
-        backgroundColor:'#E94724 '
-    }
-})
-
-
 
 export default Feed
