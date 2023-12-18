@@ -21,6 +21,7 @@ import Browserss from "../component/Browserss"
 import CreatePost from './../views/CreatePost';
 import UpdateGroup from "../component/UpdateGroup"
 import CreatePostGroup from "../component/CreatePostGroup"
+import UserView from "../views/UserView"
 
 const Stack = createNativeStackNavigator()
 const TopTab = createMaterialTopTabNavigator()
@@ -175,6 +176,10 @@ const FunctionStack = ({navigation,route}) => {
       <Stack.Screen
          name="Posting"
          component={CreatePost}
+      />
+      <Stack.Screen
+         name="Your help request"
+         component={UserView}
       />
     </Stack.Navigator>
   )

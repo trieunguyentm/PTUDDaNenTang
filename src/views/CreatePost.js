@@ -120,6 +120,7 @@ export default function CreatePost({navigation,route}){
               />
               <View style={styles.nameContainer}>
                 <Text style={styles.name}>{user.displayName}</Text>
+                <Text style={styles.username}>@{user.username}</Text>
               </View>
               <TouchableOpacity style={styles.addImg} onPress={chooseImage}>
                 <Feather name="image" size={32} color="green" />
@@ -127,7 +128,7 @@ export default function CreatePost({navigation,route}){
               </TouchableOpacity>
             </View>
             <View style={styles.bodyContainer}>
-            <TouchableWithoutFeedback onPress={handlePressOutside}>
+              <TouchableWithoutFeedback onPress={handlePressOutside}>
                 <TextInput
                   accessibilityLabel="input"
                   multiline={true}
@@ -193,8 +194,8 @@ const styles = StyleSheet.create({
     headerContainer: {
       display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
-      alignItems: "center",
+      justifyContent:'space-between',
+      alignContent:'center',
       marginHorizontal: 0.025 * screenWidth,
       height: 0.1 * screenHeight,
       padding: 10,
@@ -211,11 +212,18 @@ const styles = StyleSheet.create({
       alignItems: "center",
     },
     nameContainer: {
+      marginLeft:screenWidth*0.02,
+      marginRight:'auto',
       alignSelf: "flex-start",
+      flexDirection:'column'
     },
     name: {
       fontSize: 20,
       fontWeight: "bold",
+    },
+    username: {
+      fontSize:18,
+      fontStyle:'italic'
     },
     description: {
       fontSize: 16,
