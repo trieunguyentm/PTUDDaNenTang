@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit";
 export const postsSlice = createSlice({
     name:'Posts',
     initialState : {
+        ownPost : [],
         requests:[],
         events:[],
         liked :[],

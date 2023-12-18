@@ -11,7 +11,7 @@ const screenWidth = Dimensions.get('window').width
 
 const Post = ({Event}) => {
     const route = useRoute()
-    const check =(route.name === 'News')
+    const check =(route.name === 'Your help request')
     const manageButton = () => {
         console.log(route)
     }
@@ -66,10 +66,12 @@ const Post = ({Event}) => {
                 ))}
             </View>
             
-            <View style={styles.Navigator}>
+            {!check? 
+            (<View style={styles.Navigator}>
                 <FontAwesome.Button name="bookmark-o" style={styles.iconStyles} size={24} color="black" onPress={mark}>Bookmark</FontAwesome.Button>
                 <FontAwesome.Button name="comments-o" style ={styles.iconStyles} size={24}  color="black" onPress={message}>Message</FontAwesome.Button>
-            </View>
+            </View>) :
+            (null)}
             <View style={styles.Spacer}/>
 
             

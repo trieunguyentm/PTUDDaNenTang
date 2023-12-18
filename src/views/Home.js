@@ -79,7 +79,6 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     overflow: "scroll",
-    backgroundColor:'#A8A3A3',
    
   },
   Spacer : {
