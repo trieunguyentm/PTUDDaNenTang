@@ -55,7 +55,7 @@ const BtnJoinGroup = ({ dataSend }) => {
     //   } else {
     //     setRequest(false)
     //   }
-  }, [])
+  })
 
   useEffect(() => {
     setRequest(dataSend.request)

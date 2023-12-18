@@ -147,6 +147,7 @@ const styles = StyleSheet.create({
     paddingRight: 0.03 * screenWidth,
     paddingBottom: 0.03 * screenWidth,
     paddingTop: 0.03 * screenWidth,
+    marginTop : 10,
   },
   containerDetail: {
     display: "flex",

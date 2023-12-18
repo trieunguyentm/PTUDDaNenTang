@@ -22,10 +22,18 @@ import * as ImagePicker from "expo-image-picker"
 import Toast from "react-native-toast-message"
 import { userRequest } from "../api/requestMethod"
 import { useDispatch, useSelector } from "react-redux"
-import { updateImgGroupHasJoin } from "../redux/group"
+import {
+  addRequestByUser,
+  deleteGroup,
+  deleteRequestByUser,
+  updateImgGroupHasJoin,
+} from "../redux/group"
 import { uploadImageGroup } from "../api/apiUploadImageGroup"
 import { apiRequestJoinGroup } from "../api/apiRequestJoinGroup"
 import PostGroup from "../component/PostGroup"
+import { apiDeleteRequest } from "../api/apiDeleteRequest"
+import { apiLeaveGroup } from "../api/apiLeaveGroup"
+import { apiDeleteGroup } from "../api/apiDeleteGroup"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -186,6 +194,7 @@ const GroupViewPage = ({ route, navigation }) => {
         organizationId: groupId,
       })
       console.log("success")
+      dispatch(addRequestByUser(res.data.data))
       setIsRequest(true)
       if (res?.data && res?.data.code === 0) {
         Toast.show({
@@ -209,6 +218,72 @@ const GroupViewPage = ({ route, navigation }) => {
       }
     }
   }
+  const handleDelete = async () => {
+    try {
+      const res = await apiDeleteRequest({
+        requestId: request?.find((item) => item.organizationId === groupId).id,
+      })
+      dispatch(
+        deleteRequestByUser(
+          request?.find((item) => item.organizationId === groupId).id,
+        ),
+      )
+      if (res?.data && res?.data.code === 0) {
+        Toast.show({
+          type: "success",
+          text1: "Xóa yêu cầu thành công",
+        })
+      }
+      setIsRequest(false)
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Có lỗi xảy ra",
+        text2: "Vui lòng thử lại",
+      })
+    }
+  }
+
+  const handleLeave = async () => {
+    try {
+      const res = await apiLeaveGroup(groupId)
+      if (res?.data && res?.data.code === 0) {
+        Toast.show({
+          type: "success",
+          text1: "Rời khỏi nhóm thành công",
+        })
+      }
+      setJoin(false)
+    } catch (error) {
+      Toast.show({
+        type: "error",
+        text1: "Có lỗi xảy ra",
+        text2: "Vui lòng thử lại",
+      })
+    }
+  }
+
+  const handleDeleteGroup = async () => {
+    try {
+      const res = await apiDeleteGroup(groupId)
+      if (res?.data && res?.data.code === 0) {
+        Toast.show({
+          type: "success",
+          text1: "Xóa nhóm thành công",
+        })
+      }
+      dispatch(deleteGroup(groupId))
+      navigation.navigate("Group")
+    } catch (error) {
+      console.log(error)
+      Toast.show({
+        type: "error",
+        text1: "Có lỗi xảy ra",
+        text2: "Vui lòng thử lại",
+      })
+    }
+  }
+
   useEffect(() => {
     const getPostAll = async () => {
       try {
@@ -329,7 +404,7 @@ const GroupViewPage = ({ route, navigation }) => {
             <View style={styles.detailContainer}>
               <FontAwesome name="lock" size={24} color="gray" />
               <Text style={styles.text3}>Nhóm Riêng Tư :</Text>
-              {member ? (
+              {join ? (
                 <>
                   <Text style={styles.text4}>{member?.length}</Text>
                   <Text style={styles.text5}>thành viên</Text>
@@ -354,7 +429,10 @@ const GroupViewPage = ({ route, navigation }) => {
                     />
                     <Text style={styles.text6}>Quản lý</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnDelete}>
+                  <TouchableOpacity
+                    style={styles.btnDelete}
+                    onPress={handleDeleteGroup}
+                  >
                     <FontAwesome5 name="door-open" size={24} color="white" />
                     <Text style={styles.text7}>Xóa Nhóm</Text>
                   </TouchableOpacity>
@@ -369,7 +447,10 @@ const GroupViewPage = ({ route, navigation }) => {
                     />
                     <Text style={styles.text8}>Đã tham gia nhóm</Text>
                   </TouchableOpacity>
-                  <TouchableOpacity style={styles.btnLeave}>
+                  <TouchableOpacity
+                    style={styles.btnLeave}
+                    onPress={handleLeave}
+                  >
                     <FontAwesome5 name="door-open" size={22} color="white" />
                     <Text style={styles.text9}>Rời Khỏi Nhóm</Text>
                   </TouchableOpacity>
@@ -377,7 +458,7 @@ const GroupViewPage = ({ route, navigation }) => {
               )
             ) : request?.find((item) => item.organizationId === groupId) ? (
               <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnJoin} onPress={handleJoin}>
+                <TouchableOpacity style={styles.btnJoin} onPress={handleDelete}>
                   <Text style={styles.text10}>Hủy yêu cầu đã gửi</Text>
                 </TouchableOpacity>
               </View>
