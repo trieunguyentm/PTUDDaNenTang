@@ -1,24 +1,17 @@
-import React from 'react';
-import { View,Text,TouchableOpacity,ImageBackground, Image,StyleSheet, Button} from 'react-native';
+import {useEffect, useState} from 'react';
+import { View,Text,TouchableOpacity,Image,StyleSheet, Modal} from 'react-native';
 import { Dimensions } from 'react-native';
-import { AntDesign } from '@expo/vector-icons';
-import { useRoute } from '@react-navigation/native';
-import { FontAwesome } from "@expo/vector-icons"
+
+
 const screenHeight = Dimensions.get('window').height
 const screenWidth = Dimensions.get('window').width
 
-
-
 const Post = ({Event,id}) => {
-
-    const mark = () => {
-
-    }
-    console.log(id)
+    
     return (
         <View style={styles.container}>
+            
             <View style={styles.topNavigation}>
-             
              <TouchableOpacity style={styles.displayInfo}>
                 <Image style={styles.userAvatar} source={{
                     uri:Event.urlAvatar
@@ -51,14 +44,6 @@ const Post = ({Event,id}) => {
                        </TouchableOpacity>         
                 ))}
             </View>
-            
-            
-            <View style={styles.Navigator}>
-                <FontAwesome.Button name="bookmark-o" style={styles.iconStyles} size={24} color="black" onPress={mark}>Bookmark</FontAwesome.Button>
-            </View>
-            <View style={styles.Spacer}/>
-
-            
         </View>
 
     )
@@ -70,7 +55,7 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         width:screenWidth,
         backgroundColor:'#FFFFFF',
-        justifyContent:'center'
+        justifyContent:'center',
     }, 
     displayInfo : {
         marginTop:5,
@@ -109,16 +94,6 @@ const styles = StyleSheet.create({
         height:300,
         resizeMode:'cover'
     },
-
-    Navigator : {
-        flex:1,
-        flexDirection:'row',
-        justifyContent:'space-around',
-        alignContent:'space-between',
-        alignItems:'center',
-        marginTop:3,
-        marginBottom:3
-    },
     Spacer : { 
         width:screenWidth,
         backgroundColor:'#A8A3A3',
@@ -146,11 +121,7 @@ const styles = StyleSheet.create({
         paddingRight:screenWidth*0.02
 
     },
-    iconStyles : {
-        backgroundColor:"#ffffff",
-        resizeMode:'contain',
-        backfaceVisibility:'visible'
-    }
+    
     
     
     
@@ -158,4 +129,5 @@ const styles = StyleSheet.create({
 
 }
 )
+
 export default Post

@@ -22,6 +22,7 @@
     "axios": "^1.6.0",
     "escape-string-regexp": "^5.0.0",
     "expo": "~49.0.15",
+    "expo-checkbox": "~2.4.0",
     "expo-document-picker": "~11.5.4",
     "expo-image-picker": "~14.3.2",
     "expo-image-picker-multiple": "^1.4.1",
