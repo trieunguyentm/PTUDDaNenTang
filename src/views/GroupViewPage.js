@@ -74,7 +74,7 @@ const GroupViewPage = ({ route, navigation }) => {
       }
     }
     getMember()
-  }, [groupId])
+  }, [])
   useEffect(() => {
     const getAllReq = async () => {
       try {

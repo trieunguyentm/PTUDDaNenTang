@@ -21,6 +21,8 @@ import Browserss from "../component/Browserss"
 import CreatePost from './../views/CreatePost';
 import UpdateGroup from "../component/UpdateGroup"
 import CreatePostGroup from "../component/CreatePostGroup"
+import ManageUser from "../component/ManageUser"
+import UserDetail from "../views/UserDetail"
 
 const Stack = createNativeStackNavigator()
 
@@ -158,6 +160,24 @@ const GroupStack = () => {
         options={{
           headerShown: true,
           headerTitle: "Cần xét duyệt", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="ManageUser"
+        component={ManageUser}
+        options={{
+          headerShown: true,
+          headerTitle: "Người đã tham gia nhóm", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="UserDetail"
+        component={UserDetail}
+        options={{
+          headerShown: true,
+          headerTitle: "Profile", // Đặt tiêu đề bạn muốn hiển thị
           headerTitleAlign: "center",
         }}
       />

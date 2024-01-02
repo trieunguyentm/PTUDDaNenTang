@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { getRequestJoinGroup } from "../redux/group";
 import { Ionicons } from "@expo/vector-icons"
 import { MaterialIcons } from "@expo/vector-icons"
+import { FontAwesome } from "@expo/vector-icons" 
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -108,6 +109,22 @@ const ManagePage = ({ route, navigation }) => {
                   <View>
                     <Text style={styles.titleInfo}>Cài đặt nhóm</Text>
                     <Text style={styles.numInfo}>Thay đổi thông tin nhóm</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.detailContainer}>
+              <TouchableOpacity
+                style={styles.containerDetail}
+                onPress={() =>
+                  navigation.navigate("ManageUser", { groupId: groupId })
+                }
+              >
+                <FontAwesome name="users" size={38} color="black" />
+                <View style={styles.infomationContainer}>
+                  <View>
+                    <Text style={styles.titleInfo}>Người đã tham gia nhóm</Text>
+                    <Text style={styles.numInfo}>Quản lý người dùng</Text>
                   </View>
                 </View>
               </TouchableOpacity>

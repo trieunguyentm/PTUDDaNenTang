@@ -24,11 +24,17 @@ const screenHeight = Dimensions.get("window").height
 
 const ProfileProperties = () => {
   const user = useSelector((state) => state.user?.currentUser)
+  console.log(user)
   const [openDropDown, setOpenDropDown] = React.useState(false)
   const [displayName, setDisplayName] = React.useState(user.displayName)
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
   const [phone, setPhone] = React.useState(user.phone)
   const [gender, setGender] = React.useState(user.gender)
+  const [address, setAddress] = useState(user.address)
+  const [freeTime, setFreeTime] = useState(user.fundTime)
+  const [detail, setDetail] = useState(user.personalDesc)
+  const [support, setSupport] = useState(user.abilitySupport)
+
   const [itemsGender, setItemsGender] = React.useState([
     { label: "Nam", value: "male" },
     { label: "Nữ", value: "female" },
@@ -47,6 +53,18 @@ const ProfileProperties = () => {
     if (!gender) {
       setGender(user.gender)
     }
+    if (!address) {
+      setAddress(user.address)
+    }
+    if (!freeTime) {
+      setFreeTime(user.freeTime)
+    }
+    if (!detail) {
+      setDetail(user.detail)
+    }
+    if (!support) {
+      setSupport(user.support)
+    }
     if (!checkValidPhoneNumber(phone)) {
       Toast.show({
         type: "info",
@@ -59,6 +77,10 @@ const ProfileProperties = () => {
       displayName: displayName,
       phone: phone,
       gender: gender,
+      fundTime : freeTime,
+      personalDesc : detail,
+      abilitySupport : support,
+      address : address,
     }
     setLoadingSignIn(true)
     try {
@@ -90,7 +112,7 @@ const ProfileProperties = () => {
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.contentContainer}>
@@ -123,6 +145,54 @@ const ProfileProperties = () => {
               value={phone}
               editable={change}
               onChangeText={setPhone}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.labelInput}>Quỹ thời gian</Text>
+            <TextInput
+              autoCapitalize="none"
+              style={styles.input}
+              placeholder="Quỹ thời gian của bạn là"
+              placeholderTextColor="#39395D"
+              value={freeTime}
+              editable={change}
+              onChangeText={setFreeTime}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.labelInput}>Mô tả cá nhân</Text>
+            <TextInput
+              autoCapitalize="none"
+              style={styles.input}
+              placeholder="Mô tả cá nhân"
+              placeholderTextColor="#39395D"
+              value={detail}
+              editable={change}
+              onChangeText={setDetail}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.labelInput}>Khả năng hỗ trợ</Text>
+            <TextInput
+              autoCapitalize="none"
+              style={styles.input}
+              placeholder="Khả năng hỗ trợ của bạn"
+              placeholderTextColor="#39395D"
+              value={support}
+              editable={change}
+              onChangeText={setSupport}
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.labelInput}>Địa chỉ</Text>
+            <TextInput
+              autoCapitalize="none"
+              style={styles.input}
+              placeholder="Địa chỉ"
+              placeholderTextColor="#39395D"
+              value={address}
+              editable={change}
+              onChangeText={setAddress}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -160,7 +230,7 @@ const ProfileProperties = () => {
           )}
         </View>
       </SafeAreaView>
-    </View>
+    </ScrollView>
   )
 }
 
@@ -170,6 +240,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#FFFFFF	",
+    marginBottom: 40,
   },
   contentContainer: {
     paddingLeft: 0.05 * screenWidth,

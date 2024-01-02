@@ -59,6 +59,7 @@ const PageGroup = ({ route, navigation }) => {
     getMember()
   }, [groupId])
 
+
   const [img,setImg] = useState()
 
   const dispatch = useDispatch()

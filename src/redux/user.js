@@ -47,6 +47,9 @@ const userSlice = createSlice({
         displayName: action.payload.displayName,
         phone: action.payload.phone,
         gender: action.payload.gender,
+        personalDesc: action.payload.personalDesc,
+        abilitySupport: action.payload.abilitySupport,
+        address: action.payload.address,
       }
       state.isLoading = false
     },
