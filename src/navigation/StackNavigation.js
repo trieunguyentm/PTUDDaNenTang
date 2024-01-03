@@ -23,6 +23,9 @@ import UpdateGroup from "../component/UpdateGroup"
 import CreatePostGroup from "../component/CreatePostGroup"
 import ManageUser from "../component/ManageUser"
 import UserDetail from "../views/UserDetail"
+import Event from "../component/Event"
+import ManageUserForUser from "../component/ManageUserForUser"
+import ManagePageForUser from "../views/ManagePageForUser"
 
 const Stack = createNativeStackNavigator()
 
@@ -155,6 +158,15 @@ const GroupStack = () => {
         }}
       />
       <Stack.Screen
+        name="ManagePageForUser"
+        component={ManagePageForUser}
+        options={{
+          headerShown: true,
+          headerTitle: "Quản lý nhóm", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
         name="Browser"
         component={Browserss}
         options={{
@@ -164,8 +176,26 @@ const GroupStack = () => {
         }}
       />
       <Stack.Screen
+        name="Event"
+        component={Event}
+        options={{
+          headerShown: true,
+          headerTitle: "Sự kiện", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
         name="ManageUser"
         component={ManageUser}
+        options={{
+          headerShown: true,
+          headerTitle: "Người đã tham gia nhóm", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="ManageUserForUser"
+        component={ManageUserForUser}
         options={{
           headerShown: true,
           headerTitle: "Người đã tham gia nhóm", // Đặt tiêu đề bạn muốn hiển thị

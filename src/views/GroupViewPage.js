@@ -439,13 +439,18 @@ const GroupViewPage = ({ route, navigation }) => {
                 </View>
               ) : (
                 <View style={styles.btnContainer}>
-                  <TouchableOpacity style={styles.btnUser}>
+                  <TouchableOpacity
+                    style={styles.btnUser}
+                    onPress={() =>
+                      navigation.navigate("ManagePageForUser", { groupId: groupId })
+                    }
+                  >
                     <MaterialCommunityIcons
                       name="account-group"
                       size={24}
                       color="black"
                     />
-                    <Text style={styles.text8}>Đã tham gia nhóm</Text>
+                    <Text style={styles.text8}>Chi tiết nhóm</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
                     style={styles.btnLeave}

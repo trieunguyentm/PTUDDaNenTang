@@ -19,7 +19,7 @@ import { FontAwesome } from "@expo/vector-icons"
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
-const ManagePage = ({ route, navigation }) => {
+const ManagePageForUser = ({ route, navigation }) => {
 
   const { groupId } = route.params
 
@@ -67,49 +67,7 @@ const ManagePage = ({ route, navigation }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.contentContainer}>
           <View style={styles.browsContainer}>
-            <Text style={styles.textTitle}>Cần xét duyệt</Text>
-            <View style={styles.detailContainer}>
-              <TouchableOpacity
-                style={styles.containerDetail}
-                onPress={() => navigation.navigate("Browser")}
-              >
-                <MaterialCommunityIcons
-                  name="account-arrow-right"
-                  size={34}
-                  color="black"
-                />
-                <View style={styles.infomationContainer}>
-                  <View>
-                    <Text style={styles.titleInfo}>Yêu cầu làm thành viên</Text>
-                    <Text style={styles.numInfo}>
-                      {data?.length} mục mới hôm nay
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={styles.num}>{data?.length}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.detailContainer}>
-              <TouchableOpacity
-                style={styles.containerDetail}
-                onPress={() => navigation.navigate("Browser")}
-              >
-                <MaterialIcons name="post-add" size={38} color="black" />
-                <View style={styles.infomationContainer}>
-                  <View>
-                    <Text style={styles.titleInfo}>Bài viết muốn đăng tải</Text>
-                    <Text style={styles.numInfo}>
-                      {data?.length} mục mới hôm nay
-                    </Text>
-                  </View>
-                  <View>
-                    <Text style={styles.num}>{data?.length}</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
+            <Text style={styles.textTitle}>Các thông tin</Text>
             <View style={styles.detailContainer}>
               <TouchableOpacity
                 style={styles.containerDetail}
@@ -138,30 +96,13 @@ const ManagePage = ({ route, navigation }) => {
               <TouchableOpacity
                 style={styles.containerDetail}
                 onPress={() =>
-                  navigation.navigate("UpdateGroup", { groupId: groupId })
-                }
-              >
-                <Ionicons name="ios-settings" size={38} color="black" />
-                <View style={styles.infomationContainer}>
-                  <View>
-                    <Text style={styles.titleInfo}>Cài đặt nhóm</Text>
-                    <Text style={styles.numInfo}>Thay đổi thông tin nhóm</Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.detailContainer}>
-              <TouchableOpacity
-                style={styles.containerDetail}
-                onPress={() =>
-                  navigation.navigate("ManageUser", { groupId: groupId })
+                  navigation.navigate("ManageUserForUser", { groupId: groupId })
                 }
               >
                 <FontAwesome name="users" size={38} color="black" />
                 <View style={styles.infomationContainer}>
                   <View>
                     <Text style={styles.titleInfo}>Người đã tham gia nhóm</Text>
-                    <Text style={styles.numInfo}>Quản lý người dùng</Text>
                   </View>
                 </View>
               </TouchableOpacity>
@@ -232,4 +173,4 @@ const styles = StyleSheet.create({
   },
 })
 
-export default ManagePage
+export default ManagePageForUser
