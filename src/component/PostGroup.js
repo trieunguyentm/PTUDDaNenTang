@@ -54,7 +54,7 @@ const PostGroup = (data) => {
               {data.route ? (
                 <>
                   <Text style={styles.nameUser}>
-                    {group.name}
+                    {group?.name}
                   </Text>
                   <Text style={styles.text1}>
                     {user?.displayName ? user?.displayName : user?.username}

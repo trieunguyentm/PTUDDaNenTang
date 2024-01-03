@@ -90,7 +90,7 @@ const Event = ({ route, navigation }) => {
       {refreshing && <ActivityIndicator size={"large"} color={"black"} />}
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.contentContainer}>
-          {member?.map((item, index) => (
+          {member?.length != 0 ? member?.map((item, index) => (
             <View style={styles.dataContainer} key={index}>
               <Image
                 source={{ uri: `${item?.images[0]}` }}
@@ -101,7 +101,7 @@ const Event = ({ route, navigation }) => {
                 <Text style={styles.text2}>{item?.createdBy}</Text>
               </View>
             </View>
-          ))}
+          )) : <Text style={{textAlign:"center",fontSize:22, fontWeight:"bold", marginTop: 10,}}>Không có sự kiện nào</Text>}
         </View>
       </SafeAreaView>
     </View>

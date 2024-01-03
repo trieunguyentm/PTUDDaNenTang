@@ -136,19 +136,25 @@ const Feed = () => {
               style={{ height: screenHeight * 0.2 }}
               showsVerticalScrollIndicator={false}
             >
-              {groupManage?.map((item, index) => (
-                <TouchableOpacity
-                  key={index}
-                  style={modalStyle.optionsContainer}
-                  onPress={() => addBookmark(item?.id)}
-                >
-                  <Image
-                    source={{ uri: `${item?.urlAvatar}` }}
-                    style={modalStyle.img}
-                  />
-                  <Text style={modalStyle.groupname}>{item?.name}</Text>
-                </TouchableOpacity>
-              ))}
+              {groupManage.length != 0 ? (
+                groupManage?.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={modalStyle.optionsContainer}
+                    onPress={() => addBookmark(item?.id)}
+                  >
+                    <Image
+                      source={{ uri: `${item?.urlAvatar}` }}
+                      style={modalStyle.img}
+                    />
+                    <Text style={modalStyle.groupname}>{item?.name}</Text>
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <Text style={modalStyle.modalTitle1}>
+                  Bạn không sở hữu nhóm nào
+                </Text>
+              )}
             </ScrollView>
             <Pressable style={modalStyle.cancel} onPress={closeModal}>
               <Text style={modalStyle.modalTop}>Cancel</Text>
@@ -292,6 +298,15 @@ const modalStyle = StyleSheet.create({
     borderBottomColor: "#E9E8EB",
     borderBottomWidth: 3,
     width: "100%",
+  },
+  modalTitle1: {
+    alignSelf: "center",
+    textAlign: "center",
+    paddingBottom: screenHeight * 0.02,
+    fontSize: 16,
+    fontWeight: "bold",
+    width: "100%",
+    marginTop : 10,
   },
   modalTop: {
     alignSelf: "center",
