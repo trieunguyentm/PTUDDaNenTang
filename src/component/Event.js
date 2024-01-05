@@ -10,6 +10,7 @@ import {
   RefreshControl,
   ActivityIndicator,
   Image,
+  ScrollView,
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import Toast from "react-native-toast-message"
@@ -21,7 +22,6 @@ const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const Event = ({ route, navigation }) => {
-  const request = useSelector((state) => state.group.requestJoinGroup)
 
   const [member, setMember] = useState()
 
@@ -40,8 +40,6 @@ const Event = ({ route, navigation }) => {
     }
     getMember()
   }, [])
-
-  console.log(member)
 
   const [refreshing, setRefreshing] = React.useState(false)
 
@@ -89,7 +87,7 @@ const Event = ({ route, navigation }) => {
       <StatusBar barStyle="light-content" />
       {refreshing && <ActivityIndicator size={"large"} color={"black"} />}
       <SafeAreaView style={{ flex: 1 }}>
-        <View style={styles.contentContainer}>
+        <ScrollView style={styles.contentContainer}>
           {member?.length != 0 ? member?.map((item, index) => (
             <View style={styles.dataContainer} key={index}>
               <Image
@@ -102,7 +100,7 @@ const Event = ({ route, navigation }) => {
               </View>
             </View>
           )) : <Text style={{textAlign:"center",fontSize:22, fontWeight:"bold", marginTop: 10,}}>Không có sự kiện nào</Text>}
-        </View>
+        </ScrollView>
       </SafeAreaView>
     </View>
   )

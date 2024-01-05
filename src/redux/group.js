@@ -6,6 +6,7 @@ const groupSlide = createSlice({
     groupAll: [],
     GroupsHasJoin: [],
     groupManage: [],
+    file : [],
     requestJoinGroup: null,
     requestJoinGroupByUser: null,
     postGroup: null,
@@ -94,7 +95,12 @@ const groupSlide = createSlice({
         1,
       )
     },
-
+    getFile : (state,action) => {
+      state.file = action.payload
+    },
+    addFile : (state,action)=>{
+      state.file.push(action.payload)
+    },
     reset: (state) => {
       ;(state.groupAll = []),
         (state.GroupsHasJoin = []),
@@ -122,6 +128,8 @@ export const {
   addRequestByUser,
   deleteRequestByUser,
   deleteGroup,
+  addFile,
+  getFile,
 } = groupSlide.actions
 
 export default groupSlide.reducer

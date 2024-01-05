@@ -1,5 +1,4 @@
 import React from "react"
-import { Button } from "react-native"
 import { createNativeStackNavigator } from "@react-navigation/native-stack"
 import TabNavigation from "./TabNavigation"
 import SuccessRegister from "../views/SuccessRegister"
@@ -26,6 +25,7 @@ import UserDetail from "../views/UserDetail"
 import Event from "../component/Event"
 import ManageUserForUser from "../component/ManageUserForUser"
 import ManagePageForUser from "../views/ManagePageForUser"
+import File from "../component/File"
 
 const Stack = createNativeStackNavigator()
 
@@ -181,6 +181,15 @@ const GroupStack = () => {
         options={{
           headerShown: true,
           headerTitle: "Sự kiện", // Đặt tiêu đề bạn muốn hiển thị
+          headerTitleAlign: "center",
+        }}
+      />
+      <Stack.Screen
+        name="File"
+        component={File}
+        options={{
+          headerShown: true,
+          headerTitle: "File", // Đặt tiêu đề bạn muốn hiển thị
           headerTitleAlign: "center",
         }}
       />

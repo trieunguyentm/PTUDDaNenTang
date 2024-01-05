@@ -11,21 +11,24 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { userRequest } from "../api/requestMethod"
 import { useDispatch, useSelector } from 'react-redux';
-import { getRequestJoinGroup } from "../redux/group";
+import { getFile, getRequestJoinGroup } from "../redux/group";
 import { Ionicons } from "@expo/vector-icons"
 import { MaterialIcons } from "@expo/vector-icons"
 import { FontAwesome } from "@expo/vector-icons" 
-
+import { AntDesign } from "@expo/vector-icons"
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
 const ManagePage = ({ route, navigation }) => {
+  
 
   const { groupId } = route.params
 
   const [data,setData] = useState()
 
   const dispatch = useDispatch()
+
+  const [file, setFile] = useState()
 
   useEffect(() => {
     const getAllRequest = async ()=>{
@@ -59,6 +62,22 @@ const ManagePage = ({ route, navigation }) => {
       }
       getMember()
     }, [])
+
+    useEffect(() => {
+      const getFiles= async () => {
+        try {
+          const res = await userRequest.get(
+            `organization/getReportByOrganization/${groupId}`,
+          )
+          setFile(res.data.data)
+          dispatch(getFile(res.data.data))
+        } catch (error) {
+          console.log(error)
+        }
+      }
+      getFiles()
+    },[])
+
 
 
   return (
@@ -127,6 +146,25 @@ const ManagePage = ({ route, navigation }) => {
                   </View>
                   <View>
                     <Text style={styles.num}>{member?.length}</Text>
+                  </View>
+                </View>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.detailContainer}>
+              <TouchableOpacity
+                style={styles.containerDetail}
+                onPress={() =>
+                  navigation.navigate("File", { groupId: groupId })
+                }
+              >
+                <AntDesign name="file1" size={38} color="black" />
+                <View style={styles.infomationContainer}>
+                  <View>
+                    <Text style={styles.titleInfo}>File báo cáo, kết quả</Text>
+                    <Text style={styles.numInfo}>{file?.length} file</Text>
+                  </View>
+                  <View>
+                    <Text style={styles.num}>{file?.length}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
