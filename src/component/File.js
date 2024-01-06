@@ -14,15 +14,12 @@ import {
   Linking,
 } from "react-native"
 import { AntDesign } from "@expo/vector-icons"
-import { FontAwesome } from "@expo/vector-icons"
 import React, { useState, useRef } from "react"
-import { useNavigation } from "@react-navigation/native"
 import * as DocumentPicker from "expo-document-picker"
 import Toast from "react-native-toast-message"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { userRequest } from "../api/requestMethod"
-import * as FileSystem from "expo-file-system"
-import moment from "moment"
+import { addFile } from "../redux/group"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -36,12 +33,12 @@ const File = ({ route, navigation }) => {
 
   const [loadingSignIn, setLoadingSignIn] = React.useState(false)
 
+  const dispatch = useDispatch()
+
   const handleDeleteFile = () => {
     setSelectFile()
     setTitleReport()
   }
-
-
 
   const groupId = route.params.groupId
 
@@ -120,14 +117,16 @@ const File = ({ route, navigation }) => {
           },
         },
       )
-      console.log(response.data)
+      console.log(response.data.data)
       setLoadingSignIn(false)
       if (response?.data && response?.data.code === 0) {
         Toast.show({
           type: "success",
-          text1: "Chỉnh sửa ảnh đại diện thành công",
+          text1: "Thêm file thành công",
         })
       }
+      dispatch(addFile(response.data.data))
+      setModalView(false)
       setSelectFile(null)
     } catch (error) {
       if (error.response?.data && error.response?.data.code === 3) {
@@ -138,6 +137,12 @@ const File = ({ route, navigation }) => {
         })
       }
       if (error.response?.data && error.response.data?.code === 4) {
+        Toast.show({
+          type: "error",
+          text1: "Lỗi sever ",
+          text2: "Vui lòng thử lại ",
+        })
+      } else {
         Toast.show({
           type: "error",
           text1: "Lỗi sever ",
@@ -170,11 +175,14 @@ const File = ({ route, navigation }) => {
           <ScrollView style={styles.contentContainer}>
             {listFile?.length != 0 ? (
               listFile?.map((item, index) => {
-                console.log(item.createdAt)
-                const date = new Date(parseInt(item.createdAt,10))
+                const date = new Date(parseInt(item.createdAt, 10))
                 const dateString = date.toLocaleDateString()
                 return (
-                  <TouchableOpacity style={styles.dataContainer} key={index} onPress={()=> Linking.openURL(item?.urlFile[0])}>
+                  <TouchableOpacity
+                    style={styles.dataContainer}
+                    key={index}
+                    onPress={() => Linking.openURL(item?.urlFile[0])}
+                  >
                     <AntDesign name="file1" size={48} color="black" />
                     <View style={styles.textCon}>
                       <Text style={styles.text11}>{item?.titleReport}</Text>
@@ -422,10 +430,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   text33: {
+    position: "absolute",
     fontSize: 20,
     fontWeight: "bold",
-    alignSelf : "flex-end",
-    marginLeft: 0.25*screenWidth,
+    alignSelf: "flex-end",
+    right: 0,
+    bottom: 5,
   },
 })
 
