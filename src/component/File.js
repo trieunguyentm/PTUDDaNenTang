@@ -71,11 +71,21 @@ const File = ({ route, navigation }) => {
         type: "application/*", // Chỉ định kiểu tệp bạn muốn chọn
         copyToCacheDirectory: false, // Optional - true nếu bạn muốn sao chép tệp đến thư mục bộ nhớ đệm
       })
-      Toast.show({
-        type: "success",
-        text1: "Chọn file thành công",
-      })
-      setSelectFile(res)
+      if (res.canceled) {
+        setModalView(false)
+        setSelectFile(null)
+        Toast.show({
+          type: "info",
+          text1: "Chọn file không thành công",
+        })
+        return
+      } else {
+        Toast.show({
+          type: "success",
+          text1: "Chọn file thành công",
+        })
+        setSelectFile(res)
+      }
     } catch (err) {
       Toast.show({
         type: "error",
