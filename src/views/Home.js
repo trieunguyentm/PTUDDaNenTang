@@ -1,5 +1,5 @@
 import React from 'react';
-import {  View, StyleSheet, StatusBar, SafeAreaView, Text } from "react-native"
+import {  View, StyleSheet, StatusBar, SafeAreaView, Text, Image } from "react-native"
 import { Dimensions } from "react-native"
 import HomeTopTab from '../component/homeComponent/HomeTopTab';
 
@@ -9,18 +9,22 @@ const Home = () => {
     return (
       <View style={styles.container}>
         <StatusBar barStyle="light-content" />
-          <SafeAreaView style={{ flex: 1 }}>
-            <View style={styles.contentContainer}>
-              <View style={styles.headerContainer}>
-                <Text style={styles.titleHeader}>Tên app</Text>
-              </View>
-              <View style={{flex:1}}>
-                <HomeTopTab/>
-              </View>
-              
+        <SafeAreaView style={{ flex: 1 }}>
+          <View style={styles.contentContainer}>
+            <View style={styles.headerContainer}>
+              <Image
+                style={styles.titleImg}
+                source={{
+                  uri: "https://www.profiledep.com/Uploads/images/logo-la-cay.jpg",
+                }}
+              />
+              <Text style={styles.titleHeader}>Chung tay</Text>
             </View>
-          </SafeAreaView>
-          
+            <View style={{ flex: 1 }}>
+              <HomeTopTab />
+            </View>
+          </View>
+        </SafeAreaView>
       </View>
     )
 }
@@ -35,12 +39,12 @@ const styles = StyleSheet.create({
   contentContainer: {
     flex: 1,
     overflow: "scroll",
+    backgroundColor : "white"
    
   },
   headerContainer: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     height: 0.07 * screenHeight,
     marginHorizontal: 0.025 * screenWidth,
@@ -48,6 +52,11 @@ const styles = StyleSheet.create({
   titleHeader: {
     fontSize: 34,
     fontWeight: "bold",
+    color: "green",
+  },
+  titleImg:{
+    width : 0.15*screenWidth,
+    height : 0.1*screenHeight,
   },
   btnHeaderContainer: {
     display: "flex",
