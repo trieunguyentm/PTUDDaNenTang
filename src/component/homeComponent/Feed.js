@@ -104,6 +104,26 @@ const Feed = () => {
     }
     getGroup()
   }, [])
+    const [refreshings, setRefreshings] = React.useState(false)
+
+    const onRefreshs = React.useCallback(() => {
+      setRefreshings(true)
+     const getGroup = async () => {
+       try {
+         const res = await userRequest.get(
+           "/organization/getOrganizationByCreator",
+         )
+         setGroupManage(res.data.data)
+         console.log(res.data.data)
+         dispatch(getManage(res.data.data))
+         setRefreshings(false)
+       } catch (error) {
+        setRefreshings(false)
+         console.log(error.response)
+       }
+     }
+     getGroup()
+    }, [])
 
   useEffect(() => {
     const getData = async () => {
@@ -132,6 +152,9 @@ const Feed = () => {
             <ScrollView
               style={{ height: screenHeight * 0.2 }}
               showsVerticalScrollIndicator={false}
+              refreshControl={
+                <RefreshControl refreshing={refreshings} onRefresh={onRefreshs} />
+              }
             >
               {groupManage.length != 0 ? (
                 groupManage?.map((item, index) => (
@@ -191,8 +214,8 @@ const Feed = () => {
             />
           </View>
           <View style={styles.Spacer} />
-          {request?.map((data) => (
-            <View>
+          {request?.map((data, index) => (
+            <View key={index}>
               <Post key={data.id} Event={data} id={data.id} />
               <View style={styles.Navigator}>
                 <FontAwesome.Button
