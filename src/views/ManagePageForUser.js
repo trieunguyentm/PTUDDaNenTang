@@ -11,7 +11,7 @@ import {
 import { MaterialCommunityIcons } from "@expo/vector-icons"
 import { userRequest } from "../api/requestMethod"
 import { useDispatch, useSelector } from 'react-redux';
-import { getRequestJoinGroup } from "../redux/group";
+import { getFile, getRequestJoinGroup } from "../redux/group";
 import { Ionicons } from "@expo/vector-icons"
 import { MaterialIcons } from "@expo/vector-icons"
 import { FontAwesome } from "@expo/vector-icons" 
@@ -71,6 +71,7 @@ const ManagePageForUser = ({ route, navigation }) => {
                 `organization/getReportByOrganization/${groupId}`,
               )
               setFile(res.data.data)
+              console.log(res.data.data)
               dispatch(getFile(res.data.data))
             } catch (error) {
               console.log(error)

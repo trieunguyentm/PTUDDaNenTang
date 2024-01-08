@@ -78,7 +78,6 @@ export default function CreatePost({navigation,route}){
                 }
                 setFile(null)
                 setLoadingSignIn(false)
-                navigation.navigate('News')
             } catch(error) {
                 console.log(error)
                 setLoadingSignIn(false)
@@ -97,7 +96,6 @@ export default function CreatePost({navigation,route}){
                         text1:'Upload thành công'
                     })
                 }
-                navigation.navigate('News')
                 setLoadingSignIn(false)
             } catch (error) {
                 console.log(error)

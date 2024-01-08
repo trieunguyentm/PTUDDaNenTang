@@ -48,9 +48,6 @@ const Feed = () => {
   const createPost = () => {
     navigation.navigate("Posting")
   }
-  const userPosts = () => {
-    navigation.navigate("Your help request")
-  }
   const mark = (id) => {
     setHelpId(id)
     setModalVisible(true)
@@ -172,7 +169,7 @@ const Feed = () => {
           <View style={styles.Spacer} />
 
           <View style={styles.PostCreator}>
-            <TouchableOpacity onPress={userPosts}>
+            <TouchableOpacity>
               <View>
                 <Image
                   style={styles.userAvatar}
