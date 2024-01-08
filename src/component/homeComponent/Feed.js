@@ -104,26 +104,26 @@ const Feed = () => {
     }
     getGroup()
   }, [])
-    const [refreshings, setRefreshings] = React.useState(false)
+  const [refreshings, setRefreshings] = React.useState(false)
 
-    const onRefreshs = React.useCallback(() => {
-      setRefreshings(true)
-     const getGroup = async () => {
-       try {
-         const res = await userRequest.get(
-           "/organization/getOrganizationByCreator",
-         )
-         setGroupManage(res.data.data)
-         console.log(res.data.data)
-         dispatch(getManage(res.data.data))
-         setRefreshings(false)
-       } catch (error) {
+  const onRefreshs = React.useCallback(() => {
+    setRefreshings(true)
+    const getGroup = async () => {
+      try {
+        const res = await userRequest.get(
+          "/organization/getOrganizationByCreator",
+        )
+        setGroupManage(res.data.data)
+        console.log(res.data.data)
+        dispatch(getManage(res.data.data))
         setRefreshings(false)
-         console.log(error.response)
-       }
-     }
-     getGroup()
-    }, [])
+      } catch (error) {
+        setRefreshings(false)
+        console.log(error.response)
+      }
+    }
+    getGroup()
+  }, [])
 
   useEffect(() => {
     const getData = async () => {
@@ -153,7 +153,10 @@ const Feed = () => {
               style={{ height: screenHeight * 0.2 }}
               showsVerticalScrollIndicator={false}
               refreshControl={
-                <RefreshControl refreshing={refreshings} onRefresh={onRefreshs} />
+                <RefreshControl
+                  refreshing={refreshings}
+                  onRefresh={onRefreshs}
+                />
               }
             >
               {groupManage.length != 0 ? (
@@ -201,17 +204,17 @@ const Feed = () => {
               </View>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={createPost}>
+            <TouchableOpacity onPress={createPost} style={{flexDirection: "row", alignItems: "center"}}>
               <View style={styles.TextContainer}>
-                <Text>Tìm kiếm sự trợ giúp</Text>
+                <Text>Tạo yêu cầu hỗ trợ</Text>
               </View>
+              <MaterialIcons
+                style={styles.addPostIcon}
+                name="post-add"
+                size={50}
+                color="black"
+              />
             </TouchableOpacity>
-            <MaterialIcons
-              style={styles.addPostIcon}
-              name="post-add"
-              size={50}
-              color="black"
-            />
           </View>
           <View style={styles.Spacer} />
           {request?.map((data, index) => (
@@ -251,7 +254,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   userAvatar: {
-    resizeMode: "center",
+    // resizeMode: "center",
     width: screenHeight * 0.07,
     height: screenHeight * 0.07,
     borderRadius: screenHeight * 0.035,
@@ -265,7 +268,8 @@ const styles = StyleSheet.create({
     borderRadius: screenWidth * 0.45,
     borderWidth: 1,
     borderColor: "#000000",
-    marginLeft: screenWidth * 0.05,
+    marginLeft: screenWidth * 0.03,
+    marginRight: screenWidth * 0.03,
     justifyContent: "center",
     alignItems: "center",
   },
@@ -326,7 +330,7 @@ const modalStyle = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
     width: "100%",
-    marginTop : 10,
+    marginTop: 10,
   },
   modalTop: {
     alignSelf: "center",

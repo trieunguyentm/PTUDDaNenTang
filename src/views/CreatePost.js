@@ -135,7 +135,7 @@ export default function CreatePost({navigation,route}){
                   numberOfLines={2}
                   accessibilityLabelledBy="title"
                   style={styles.inputTitle}
-                  placeholder="Title"
+                  placeholder="Mô tả tiêu đề"
                   onChangeText={setTitle}
                 />
               </TouchableWithoutFeedback>
@@ -146,7 +146,7 @@ export default function CreatePost({navigation,route}){
                   numberOfLines={3}
                   accessibilityLabelledBy="description"
                   style={styles.input}
-                  placeholder="Description"
+                  placeholder="Mô tả yêu cầu hỗ trợ của bạn"
                   onChangeText={setDescription}
                 />
               </TouchableWithoutFeedback>
@@ -234,11 +234,12 @@ const styles = StyleSheet.create({
     },
     bodyContainer: {},
     input: {
-      fontSize: 24,
+      fontSize: 18,
       textAlignVertical: "top",
       marginTop: 10,
       marginHorizontal: 0.025 * screenWidth,
-      height : "auto"
+      height : "auto",
+      // fontWeight: "bold"
     },
     inputTitle: {
         fontSize: 24,
@@ -262,6 +263,7 @@ const styles = StyleSheet.create({
       justifyContent: "center",
       marginHorizontal: 0.025 * screenWidth,
       marginBottom : 10,
+      marginTop: 30,
     },
     text2: {
       fontSize: 18,

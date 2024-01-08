@@ -88,7 +88,7 @@ const ProfileDetail = () => {
                     ? `${user.urlAvatar}`
                     : "https://icons.veryicon.com/png/o/internet--web/prejudice/user-128.pngz",
                 }}
-                resizeMode="contain"
+                // resizeMode="contain"
               />
             </View>
             <View style={styles.detailContainer}>
