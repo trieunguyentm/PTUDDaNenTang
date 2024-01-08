@@ -242,7 +242,6 @@ const styles = StyleSheet.create({
     },
     inputTitle: {
         fontSize: 24,
-        fontStyle:'italic',
         fontWeight:'bold',
         textAlignVertical: "top",
         marginTop: 10,

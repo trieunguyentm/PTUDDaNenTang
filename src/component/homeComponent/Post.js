@@ -107,7 +107,6 @@ const styles = StyleSheet.create({
     },
     title : {
         fontSize:24,
-        fontStyle:'italic',
         fontWeight:'bold',
         paddingLeft:screenWidth*0.025,
     },

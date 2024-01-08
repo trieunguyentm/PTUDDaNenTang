@@ -112,7 +112,7 @@ const ManagePageForUser = ({ route, navigation }) => {
               <TouchableOpacity
                 style={styles.containerDetail}
                 onPress={() =>
-                  navigation.navigate("Event", { groupId: groupId })
+                  navigation.navigate("File", { groupId: groupId })
                 }
               >
                 <AntDesign name="file1" size={38} color="black" />
