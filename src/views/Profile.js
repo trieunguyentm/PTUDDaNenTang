@@ -11,7 +11,7 @@ import {
   Dimensions,
   ActivityIndicator,
 } from "react-native"
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import * as ImagePicker from "expo-image-picker"
 import { Feather } from "@expo/vector-icons"
 import { FontAwesome5 } from "@expo/vector-icons"
@@ -115,6 +115,19 @@ export default function Profile({ navigation }) {
       setLoadingSignIn(false)
     }
   }
+  useEffect(() => {
+    const getPoint = async () => {
+      try {
+        const res = await userRequest.get(
+          `user/getTotalPoint/${route.params.name}`,
+        )
+        setPoint(res.data.point)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPoint()
+  }, [])
 
   const handleLogOut = () => {
     // Hàm để xóa toàn bộ dữ liệu từ AsyncStorage

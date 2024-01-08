@@ -24,7 +24,7 @@ import { userRequest } from "../api/requestMethod"
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
-const UserDetail = ({route}) => {
+const UserDetail = ({ route }) => {
   const user = useSelector((state) => state.user?.currentUser)
   const [openDropDown, setOpenDropDown] = React.useState(false)
   const [displayName, setDisplayName] = React.useState(user.displayName)
@@ -37,23 +37,35 @@ const UserDetail = ({route}) => {
   const [support, setSupport] = useState()
   const [change, setChange] = useState(false)
   const [userDetail, setUserDetail] = useState()
-
-
+  const [point, setPoint] = useState()
 
   useEffect(() => {
-
-    const getUserB = async ()=>{
-        try {
-            const res = await userRequest.get("/user/"+route.params.name)
-            console.log(res.data.user)
-            setUserDetail(res.data.user)
-        } catch (error) {
-            console.log(error)
-        }
+    const getUserB = async () => {
+      try {
+        const res = await userRequest.get("/user/" + route.params.name)
+        console.log(res.data.user)
+        setUserDetail(res.data.user)
+      } catch (error) {
+        console.log(error)
+      }
     }
     getUserB()
-  },[])
+  }, [])
+  useEffect(() => {
+    const getPoint = async () => {
+      try {
+        const res = await userRequest.get(
+          `user/getTotalPoint/${route.params.name}`,
+        )
+        setPoint(res.data.point)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPoint()
+  }, [])
 
+  console.log(point)
 
   return (
     <View style={styles.container}>
@@ -80,6 +92,9 @@ const UserDetail = ({route}) => {
                   : userDetail?.username}
               </Text>
               <Text style={styles.textEmail}>{userDetail?.gmail}</Text>
+              <Text style={styles.textEmail}>
+                Điểm : {point ? point : null}
+              </Text>
             </View>
           </View>
           <View style={styles.contentDetail}>
@@ -240,8 +255,8 @@ const styles = StyleSheet.create({
   },
   container1: {
     backgroundColor: "#FFFFFF	",
-    paddingBottom : 10,
-    marginBottom : 100
+    paddingBottom: 10,
+    marginBottom: 100,
   },
   contentContainer1: {
     paddingLeft: 0.05 * screenWidth,
@@ -295,7 +310,6 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginRight: 0.02 * screenWidth,
   },
-
 })
 
 export default UserDetail

@@ -15,7 +15,7 @@ import { deleteRequest } from "../redux/group"
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
 
-const Browserss = () => {
+const Browserss = ({ navigation }) => {
   const request = useSelector((state) => state.group.requestJoinGroup)
 
   const dispatch = useDispatch()
@@ -75,9 +75,16 @@ const Browserss = () => {
       <StatusBar barStyle="light-content" />
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.contentContainer}>
-          {request?.map((item,index) => (
+          {request?.map((item, index) => (
             <View style={styles.dataContainer} key={index}>
-              <Text style={styles.text2}>{item.username}</Text>
+              <Text
+                style={styles.text2}
+                onPress={() =>
+                  navigation.navigate("UserDetail", { name: item.username })
+                }
+              >
+                {item.username}
+              </Text>
               <TouchableOpacity
                 style={styles.btnAccept}
                 onPress={() => handleAccept(item.id)}
@@ -127,7 +134,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     width: 0.3 * screenWidth,
-    marginRight : 5,
+    marginRight: 5,
   },
   btnDecline: {
     backgroundColor: "#E8E9EB",
@@ -137,7 +144,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    width: 0.3* screenWidth,
+    width: 0.3 * screenWidth,
   },
   text: {
     fontSize: 18,

@@ -13,6 +13,7 @@ import ProfileProperties from "../component/ProfileProperties"
 import ProfilePassword from "../component/ProfilePassword"
 import { Ionicons } from "@expo/vector-icons" // Import Ionicons or any other icon library
 import { useSelector } from "react-redux"
+import { userRequest } from "../api/requestMethod"
 
 const screenWidth = Dimensions.get("window").width
 const screenHeight = Dimensions.get("window").height
@@ -57,6 +58,21 @@ const ProfileDetail = () => {
     { key: "changePassword", title: "Password" },
   ])
 
+  const [point, setPoint] = React.useState()
+
+  React.useEffect(() => {
+    const getPoint = async () => {
+      try {
+        const res = await userRequest.get(`user/getTotalPoint/${user.username}`)
+        setPoint(res.data.point)
+        console.log(res.data.point)
+      } catch (error) {
+        console.log(error)
+      }
+    }
+    getPoint()
+  }, [])
+
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -80,6 +96,7 @@ const ProfileDetail = () => {
                 {user.displayName ? user.displayName : user.username}
               </Text>
               <Text style={styles.textEmail}>{user.gmail}</Text>
+              <Text style={styles.textEmail}>Điểm : {point}</Text>
             </View>
           </View>
           <View style={styles.contentDetail}>

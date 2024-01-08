@@ -8,7 +8,7 @@ import {
   Text,
   TouchableOpacity,
   RefreshControl,
-  ActivityIndicator 
+  ActivityIndicator,
 } from "react-native"
 import { useDispatch, useSelector } from "react-redux"
 import Toast from "react-native-toast-message"
@@ -24,8 +24,9 @@ const ManageUserForUser = ({ route, navigation }) => {
 
   const [member, setMember] = useState()
 
-  const groupId = route.params.groupId
+  const [dataPoint, setDataPoint] = useState({})
 
+  const groupId = route.params.groupId
 
   useEffect(() => {
     const getMember = async () => {
@@ -34,6 +35,7 @@ const ManageUserForUser = ({ route, navigation }) => {
           `organization/getUserInOrganization/${groupId}`,
         )
         setMember(res.data.data)
+        setDataPoint(res.data.dataPoint)
       } catch (error) {
         console.log(error)
       }
@@ -61,7 +63,6 @@ const ManageUserForUser = ({ route, navigation }) => {
     getMember()
   }, [])
 
-
   return (
     <View style={styles.container}>
       <StatusBar barStyle="light-content" />
@@ -69,11 +70,24 @@ const ManageUserForUser = ({ route, navigation }) => {
       <SafeAreaView style={{ flex: 1 }}>
         <View style={styles.contentContainer}>
           {member?.map((item, index) => (
-            <View style={styles.dataContainer} key={index}>
-              <Text style={styles.text2}>{item}</Text>
-              <TouchableOpacity style={styles.btnAccept} onPress={()=> navigation.navigate("UserDetail",{name : item}) }>
-                <Text style={styles.text1}>Chi tiết</Text>
-              </TouchableOpacity>
+            <View key={index}>
+              <View style={styles.dataContainer1}>
+                <Text style={styles.text2}>{item}</Text>
+                <TouchableOpacity
+                  style={styles.btnAccept}
+                  onPress={() =>
+                    navigation.navigate("UserDetail", { name: item })
+                  }
+                >
+                  <Text style={styles.text1}>Chi tiết</Text>
+                </TouchableOpacity>
+              </View>
+              <View style={styles.dataContainer}>
+                <Text style={styles.text2}>Điểm</Text>
+                <Text style={dataPoint[item] ? styles.text3 : styles.text4}>
+                  {dataPoint[item]}
+                </Text>
+              </View>
             </View>
           ))}
         </View>
@@ -101,6 +115,15 @@ const styles = StyleSheet.create({
     marginTop: 0.05 * screenWidth,
     borderBottomWidth: 0.5,
     borderColor: "gray",
+  },
+  dataContainer1: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginLeft: 0.05 * screenWidth,
+    marginRight: 0.05 * screenWidth,
+    marginTop: 0.05 * screenWidth,
   },
   btnAccept: {
     backgroundColor: "#eef4fb",
@@ -132,10 +155,23 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#327fd2",
   },
+
   text2: {
     fontSize: 18,
     fontWeight: "bold",
     width: "30%",
+  },
+  text3: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#327fd2",
+    marginRight: 10,
+  },
+  text4: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "red",
+    marginRight: 10,
   },
 })
 
